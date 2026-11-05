@@ -1,0 +1,19 @@
+{
+  "product": "general",
+  "branch": "general",
+  "label": "教师工作空间",
+  "version": "1.1.1",
+  "published_at": "2026-11-05T22:47:17+08:00",
+  "file": "general-setup-1.1.1.exe",
+  "url": "https://raw.githubusercontent.com/InkStain258/teaching-workspace-releases/general/general-setup-1.1.1.exe",
+  "size": 30259561,
+  "sha256": "acd7fc15510c51386679831e26b8fec0caa0b9789a9f68adb60ec598c2ffce6d",
+  "notes": [
+    "新增纸本外观：米黄纸底、横格纸纹、装订线，卡片改哑光纸面",
+    "更新日志渲染重做：保留 Markdown，加粗/行内代码/链接恢复正常",
+    "设置 → 更新里新增「打开官网」",
+    "更新改为下载校验后自动打开安装程序"
+  ],
+  "min_version": "",
+  "silent_args": "/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /CLOSEAPPLICATIONS"
+}
