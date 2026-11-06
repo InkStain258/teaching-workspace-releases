@@ -297,7 +297,7 @@
   <section id="download">
     <div class="sec-head rv">
       <h2>下载</h2>
-      <p>Windows 10/11 桌面版。安装程序会装到你自己选的目录，数据在安装目录下的 <code>data/</code>。<span class="line-tag" id="line"><i></i><b>检测线路…</b></span></p>
+      <p>Windows 10/11 桌面版。安装程序会装到你自己选的目录，数据在安装目录下的 <code>data/</code>。国内加速只是把安装包放在一条国内线路上，页面本身只有这一个。<span class="line-tag" id="line"><i></i><b>检测线路…</b></span></p>
     </div>
     <div class="dl">
       <div class="card yuwen rv">
@@ -376,7 +376,7 @@
   "use strict";
   var RAW = "https://raw.githubusercontent.com/InkStain258/teaching-workspace-releases/";
   var MIRROR = "https://xingtong.inkstain.top/static/teaching/";
-  var IS_MIRROR = location.hostname === "xingtong.inkstain.top" || location.pathname.indexOf("/static/teaching/") === 0;
+  // 官网只在 GitHub Pages 上；xingtong 那边只放安装包与宣传片这类静态数据，不做站点入口
   var MIRROR_OK = null;      // null=检测中 true/false
   var MAN = {};              // 各通道清单
 
@@ -387,9 +387,7 @@
   }
 
   function load(ch){
-    var order = IS_MIRROR
-      ? [MIRROR + "dl/latest-" + ch + ".json", RAW + ch + "/latest.json"]
-      : [RAW + ch + "/latest.json"];
+    var order = [RAW + ch + "/latest.json"];
     return new Promise(function(resolve, reject){
       (function next(i, err){
         if(i >= order.length) return reject(err || new Error("no source"));
@@ -427,12 +425,11 @@
     var ok = MIRROR_OK === true, bad = MIRROR_OK === false;
     tag.className = "line-tag" + (ok ? " ok" : bad ? " bad" : "");
     tag.querySelector("b").textContent = ok
-      ? (IS_MIRROR ? "镜像站 · 国内加速" : "已切到国内加速线路")
+      ? "已切到国内加速线路"
       : bad ? "镜像不可用 · 走 GitHub 直连" : "检测线路…";
   }
 
   function probe(){
-    if(IS_MIRROR){ MIRROR_OK = true; paintLine(); applyLinks(); return; }
     var g = overtime(3000);
     fetch(MIRROR + "dl/latest-yuwen.json?t=" + Date.now(), {cache:"no-store", signal:g.signal})
       .then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); })
