@@ -192,6 +192,20 @@
     *{animation:none!important;transition:none!important}
     .rv{opacity:1;transform:none}
   }
+
+  /* —— 宣传片 —— */
+  .film{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:#07090c;
+    box-shadow:0 40px 90px -50px rgba(0,0,0,.95), inset 0 1px 0 rgba(255,255,255,.05)}
+  .film video{display:block;width:100%;aspect-ratio:16/9;background:#000;outline:none}
+  .film-bar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+    padding:12px 16px;border-top:1px solid var(--line);font-size:13px;color:var(--text-3)}
+  .film-bar a{color:var(--paper);text-decoration:none;border-bottom:1px solid rgba(244,240,232,.28)}
+  .film-bar a:hover{border-color:var(--paper)}
+  .line-tag{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--text-3);
+    border:1px solid var(--line);border-radius:999px;padding:4px 11px;margin-left:10px;vertical-align:2px}
+  .line-tag i{width:6px;height:6px;border-radius:50%;background:var(--text-3);display:inline-block}
+  .line-tag.ok i{background:#4ea87a;box-shadow:0 0 10px rgba(78,168,122,.8)}
+  .line-tag.bad i{background:#b4543f}
 </style>
 </head>
 <body>
@@ -207,6 +221,7 @@
     <nav class="links">
       <a href="#features">功能</a>
       <a href="#download">下载</a>
+      <a href="#film">宣传片</a>
       <a href="#changes">更新</a>
       <a href="https://github.com/InkStain258/teaching-workspace-releases" target="_blank" rel="noreferrer">分发仓库</a>
     </nav>
@@ -261,10 +276,28 @@
     </div>
   </section>
 
+  <section id="film">
+    <div class="sec-head rv">
+      <h2>宣传片</h2>
+      <p>2 分 50 秒看完两套工作空间：单元导入、备课中心、组卷台、学情讲评与论文。</p>
+    </div>
+    <div class="film rv">
+      <video id="promo" controls preload="metadata" playsinline
+             poster="https://xingtong.inkstain.top/teaching/media/poster.jpg">
+        <source src="https://xingtong.inkstain.top/teaching/media/promo.mp4" type="video/mp4">
+        浏览器不支持内嵌播放，<a href="https://xingtong.inkstain.top/teaching/media/promo.mp4">点此下载观看</a>。
+      </video>
+      <div class="film-bar">
+        <span>1080p · H.264 · 105.8 MB · 无解说字幕文件</span>
+        <a href="https://xingtong.inkstain.top/teaching/media/promo.mp4" download>下载到本地</a>
+      </div>
+    </div>
+  </section>
+
   <section id="download">
     <div class="sec-head rv">
       <h2>下载</h2>
-      <p>Windows 10/11 桌面版。安装程序会装到你自己选的目录，数据在安装目录下的 <code>data/</code>。</p>
+      <p>Windows 10/11 桌面版。安装程序会装到你自己选的目录，数据在安装目录下的 <code>data/</code>。<span class="line-tag" id="line"><i></i><b>检测线路…</b></span></p>
     </div>
     <div class="dl">
       <div class="card yuwen rv">
@@ -284,6 +317,7 @@
         </div>
         <div class="dlrow">
           <a class="dlbtn" id="dl-yuwen" href="https://github.com/InkStain258/teaching-workspace-releases/raw/yuwen/yuwen-setup-5.1.1.exe">下载安装程序</a>
+          <a class="ghost" id="mir-yuwen" href="https://xingtong.inkstain.top/teaching/dl/yuwen-setup-5.1.1.exe">国内加速下载</a>
           <a class="ghost" href="https://github.com/InkStain258/teaching-workspace-releases/blob/yuwen/latest.json" target="_blank" rel="noreferrer">版本清单</a>
         </div>
       </div>
@@ -304,6 +338,7 @@
         </div>
         <div class="dlrow">
           <a class="dlbtn" id="dl-general" href="https://github.com/InkStain258/teaching-workspace-releases/raw/general/general-setup-1.1.1.exe">下载安装程序</a>
+          <a class="ghost" id="mir-general" href="https://xingtong.inkstain.top/teaching/dl/general-setup-1.1.1.exe">国内加速下载</a>
           <a class="ghost" href="https://github.com/InkStain258/teaching-workspace-releases/blob/general/latest.json" target="_blank" rel="noreferrer">版本清单</a>
         </div>
       </div>
@@ -340,6 +375,73 @@
 (function(){
   "use strict";
   var RAW = "https://raw.githubusercontent.com/InkStain258/teaching-workspace-releases/";
+  var MIRROR = "https://xingtong.inkstain.top/teaching/";
+  var IS_MIRROR = location.hostname === "xingtong.inkstain.top" || location.pathname.indexOf("/teaching/") === 0;
+  var MIRROR_OK = null;      // null=检测中 true/false
+  var MAN = {};              // 各通道清单
+
+  function overtime(ms){
+    var c = (window.AbortController ? new AbortController() : null);
+    var t = setTimeout(function(){ if(c) c.abort(); }, ms);
+    return {signal: c ? c.signal : undefined, done: function(){ clearTimeout(t); }};
+  }
+
+  function load(ch){
+    var order = IS_MIRROR
+      ? [MIRROR + "dl/latest-" + ch + ".json", RAW + ch + "/latest.json"]
+      : [RAW + ch + "/latest.json"];
+    return new Promise(function(resolve, reject){
+      (function next(i, err){
+        if(i >= order.length) return reject(err || new Error("no source"));
+        var g = overtime(6000);
+        fetch(order[i] + "?t=" + Date.now(), {cache:"no-store", signal:g.signal})
+          .then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); })
+          .then(function(j){ g.done(); resolve(j); })
+          .catch(function(e){ g.done(); next(i+1, e); });
+      })(0);
+    });
+  }
+
+  function urlOf(ch, m){
+    if(MIRROR_OK === false) return m.url;
+    return MIRROR + "dl/" + ch + "-setup-" + m.version + ".exe";
+  }
+
+  function applyLinks(){
+    ["yuwen","general"].forEach(function(ch){
+      var m = MAN[ch]; if(!m) return;
+      var a = document.getElementById("dl-"+ch);
+      if(a){ a.href = urlOf(ch, m); a.dataset.mirror = (MIRROR_OK===false ? "0" : "1"); }
+      var mir = document.getElementById("mir-"+ch);
+      if(mir){
+        mir.href = MIRROR + "dl/" + ch + "-setup-" + m.version + ".exe";
+        mir.style.opacity = MIRROR_OK === false ? ".45" : "1";
+        mir.title = MIRROR_OK === false ? "镜像暂不可用" : "国内加速线路";
+      }
+    });
+  }
+
+  function paintLine(){
+    var tag = document.getElementById("line");
+    if(!tag) return;
+    var ok = MIRROR_OK === true, bad = MIRROR_OK === false;
+    tag.className = "line-tag" + (ok ? " ok" : bad ? " bad" : "");
+    tag.querySelector("b").textContent = ok
+      ? (IS_MIRROR ? "镜像站 · 国内加速" : "已切到国内加速线路")
+      : bad ? "镜像不可用 · 走 GitHub 直连" : "检测线路…";
+  }
+
+  function probe(){
+    if(IS_MIRROR){ MIRROR_OK = true; paintLine(); applyLinks(); return; }
+    var g = overtime(3000);
+    fetch(MIRROR + "dl/latest-yuwen.json?t=" + Date.now(), {cache:"no-store", signal:g.signal})
+      .then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); })
+      .then(function(){ g.done(); MIRROR_OK = true; })
+      .catch(function(){ g.done(); MIRROR_OK = false; })
+      .then(function(){ paintLine(); applyLinks(); });
+  }
+
+  probe();
 
   function fmt(n){ n = Number(n)||0; return n>=1048576 ? (n/1048576).toFixed(1)+" MB" : Math.round(n/1024)+" KB"; }
   function date(s){ return (s||"").slice(0,10); }
@@ -354,8 +456,8 @@
     if(v) v.textContent = m.version;
     if(s) s.textContent = fmt(m.size);
     if(d) d.textContent = date(m.published_at);
-    var a = document.getElementById("dl-"+ch);
-    if(a && m.url) a.href = m.url;
+    MAN[ch] = m;
+    applyLinks();
     var st = document.getElementById("st-"+ch);
     if(st) st.textContent = m.version;
     var notes = document.getElementById("notes-"+ch);
