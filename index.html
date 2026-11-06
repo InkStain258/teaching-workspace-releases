@@ -283,13 +283,13 @@
     </div>
     <div class="film rv">
       <video id="promo" controls preload="metadata" playsinline
-             poster="https://xingtong.inkstain.top/teaching/media/poster.jpg">
-        <source src="https://xingtong.inkstain.top/teaching/media/promo.mp4" type="video/mp4">
-        浏览器不支持内嵌播放，<a href="https://xingtong.inkstain.top/teaching/media/promo.mp4">点此下载观看</a>。
+             poster="https://xingtong.inkstain.top/static/teaching/media/poster.jpg">
+        <source src="https://xingtong.inkstain.top/static/teaching/media/promo.mp4" type="video/mp4">
+        浏览器不支持内嵌播放，<a href="https://xingtong.inkstain.top/static/teaching/media/promo.mp4">点此下载观看</a>。
       </video>
       <div class="film-bar">
         <span>1080p · H.264 · 105.8 MB · 无解说字幕文件</span>
-        <a href="https://xingtong.inkstain.top/teaching/media/promo.mp4" download>下载到本地</a>
+        <a href="https://xingtong.inkstain.top/static/teaching/media/promo.mp4" download>下载到本地</a>
       </div>
     </div>
   </section>
@@ -317,7 +317,7 @@
         </div>
         <div class="dlrow">
           <a class="dlbtn" id="dl-yuwen" href="https://github.com/InkStain258/teaching-workspace-releases/raw/yuwen/yuwen-setup-5.1.1.exe">下载安装程序</a>
-          <a class="ghost" id="mir-yuwen" href="https://xingtong.inkstain.top/teaching/dl/yuwen-setup-5.1.1.exe">国内加速下载</a>
+          <a class="ghost" id="mir-yuwen" href="https://xingtong.inkstain.top/static/teaching/dl/yuwen-setup-5.1.1.exe">国内加速下载</a>
           <a class="ghost" href="https://github.com/InkStain258/teaching-workspace-releases/blob/yuwen/latest.json" target="_blank" rel="noreferrer">版本清单</a>
         </div>
       </div>
@@ -338,7 +338,7 @@
         </div>
         <div class="dlrow">
           <a class="dlbtn" id="dl-general" href="https://github.com/InkStain258/teaching-workspace-releases/raw/general/general-setup-1.1.1.exe">下载安装程序</a>
-          <a class="ghost" id="mir-general" href="https://xingtong.inkstain.top/teaching/dl/general-setup-1.1.1.exe">国内加速下载</a>
+          <a class="ghost" id="mir-general" href="https://xingtong.inkstain.top/static/teaching/dl/general-setup-1.1.1.exe">国内加速下载</a>
           <a class="ghost" href="https://github.com/InkStain258/teaching-workspace-releases/blob/general/latest.json" target="_blank" rel="noreferrer">版本清单</a>
         </div>
       </div>
@@ -375,8 +375,8 @@
 (function(){
   "use strict";
   var RAW = "https://raw.githubusercontent.com/InkStain258/teaching-workspace-releases/";
-  var MIRROR = "https://xingtong.inkstain.top/teaching/";
-  var IS_MIRROR = location.hostname === "xingtong.inkstain.top" || location.pathname.indexOf("/teaching/") === 0;
+  var MIRROR = "https://xingtong.inkstain.top/static/teaching/";
+  var IS_MIRROR = location.hostname === "xingtong.inkstain.top" || location.pathname.indexOf("/static/teaching/") === 0;
   var MIRROR_OK = null;      // null=检测中 true/false
   var MAN = {};              // 各通道清单
 
