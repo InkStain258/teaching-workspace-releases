@@ -411,6 +411,18 @@
 
   // hero 短片：默认静音播放，按钮只切声音，不提供下载
   var vid = document.getElementById("promo"), snd = document.getElementById("snd");
+  if(vid){
+    // 有些环境会拦住自动播放，这里补一次 play，并在可见时才播、离开首屏就停
+    var kick = function(){ var pr = vid.play(); if(pr && pr.catch) pr.catch(function(){}); };
+    kick();
+    window.addEventListener("pointerdown", kick, {once:true});
+    document.addEventListener("visibilitychange", function(){ if(!document.hidden) kick(); });
+    if("IntersectionObserver" in window){
+      new IntersectionObserver(function(es){
+        es.forEach(function(e){ if(e.isIntersecting) kick(); else vid.pause(); });
+      }, {threshold:.25}).observe(vid);
+    }
+  }
   if(vid && snd){
     snd.addEventListener("click", function(){
       vid.muted = !vid.muted;
