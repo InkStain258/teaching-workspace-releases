@@ -431,7 +431,7 @@
 
   function probe(){
     // 跨域探活：对方没开 CORS，fetch 读不到响应；用一张图的 onload/onerror 判断线路是否可达
-    var done = false, img = new Image(), t = setTimeout(function(){ if(!done){ done = true; MIRROR_OK = false; paintLine(); applyLinks(); } }, 3000);
+    var done = false, img = new Image(), t = setTimeout(function(){ if(!done){ done = true; MIRROR_OK = false; paintLine(); applyLinks(); } }, 6000);
     img.onload = function(){ if(done) return; done = true; clearTimeout(t); MIRROR_OK = true; paintLine(); applyLinks(); };
     img.onerror = function(){ if(done) return; done = true; clearTimeout(t); MIRROR_OK = false; paintLine(); applyLinks(); };
     img.src = MIRROR + "media/poster.jpg?t=" + Date.now();
