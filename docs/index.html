@@ -429,11 +429,17 @@
       : bad ? "镜像不可用 · 走 GitHub 直连" : "检测线路…";
   }
 
-  function probe(){
-    // 跨域探活：对方没开 CORS，fetch 读不到响应；用一张图的 onload/onerror 判断线路是否可达
-    var done = false, img = new Image(), t = setTimeout(function(){ if(!done){ done = true; MIRROR_OK = false; paintLine(); applyLinks(); } }, 6000);
-    img.onload = function(){ if(done) return; done = true; clearTimeout(t); MIRROR_OK = true; paintLine(); applyLinks(); };
-    img.onerror = function(){ if(done) return; done = true; clearTimeout(t); MIRROR_OK = false; paintLine(); applyLinks(); };
+  function probe(tries){
+    tries = tries || 0;
+    var done = false, img = new Image(), t = setTimeout(fin.bind(null, false), 6000);
+    function fin(ok){
+      if(done) return; done = true; clearTimeout(t);
+      if(ok){ MIRROR_OK = true; paintLine(); applyLinks(); return; }
+      if(tries < 2){ setTimeout(function(){ probe(tries+1); }, 4000); return; }   // 首次握手慢时再试两次
+      MIRROR_OK = false; paintLine(); applyLinks();
+    }
+    img.onload = function(){ fin(true); };
+    img.onerror = function(){ fin(false); };
     img.src = MIRROR + "media/poster.jpg?t=" + Date.now();
   }
 
