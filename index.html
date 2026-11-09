@@ -204,6 +204,133 @@ footer{border-top:1px solid var(--line);padding:40px 0 56px;color:var(--text-3);
   .fig,.fig.wide{grid-column:span 1}
   .still.one,.still.two{display:none}
 }
+
+/* ——— 酷炫层：体积光、描边流光、3D 倾斜、滚动叙事 ——— */
+.hud{position:fixed;inset:0;z-index:35;pointer-events:none}
+.progress{position:absolute;top:0;left:0;right:0;height:2px;background:var(--line-2)}
+.progress i{display:block;height:100%;width:100%;transform:scaleX(0);transform-origin:left;
+  background:linear-gradient(90deg,var(--blue),var(--brand-lit),var(--gold));box-shadow:0 0 16px rgba(221,110,112,.75)}
+.scan{position:absolute;inset:0;opacity:.14;mix-blend-mode:screen;
+  background:repeating-linear-gradient(to bottom,transparent 0 3px,rgba(255,255,255,.045) 3px 4px);
+  animation:scanmove 11s linear infinite}
+@keyframes scanmove{to{transform:translateY(4px)}}
+.orb{position:absolute;border-radius:50%;filter:blur(95px);mix-blend-mode:screen;opacity:.20}
+.orb1{width:560px;height:560px;top:-210px;right:-130px;background:var(--blue);animation:drift1 24s ease-in-out infinite}
+.orb2{width:480px;height:480px;bottom:-190px;left:-140px;background:var(--brand);animation:drift2 29s ease-in-out infinite}
+@keyframes drift1{50%{transform:translate(-130px,150px) scale(1.16)}}
+@keyframes drift2{50%{transform:translate(150px,-130px) scale(1.14)}}
+.cursor{position:absolute;left:0;top:0;width:340px;height:340px;margin:-170px 0 0 -170px;border-radius:50%;
+  background:radial-gradient(circle,rgba(122,169,223,.15),transparent 68%);opacity:0;transition:opacity .4s var(--ease)}
+.cursor.on{opacity:1}
+.chapters{position:absolute;right:24px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:18px;pointer-events:auto}
+.chapters a{display:flex;align-items:center;gap:10px;font-size:11.5px;color:var(--text-3);transition:color .3s var(--ease)}
+.chapters a i{display:block;width:18px;height:1px;background:var(--line);transition:width .4s var(--ease),background .4s var(--ease)}
+.chapters a span{opacity:0;transform:translateX(6px);transition:opacity .35s var(--ease),transform .35s var(--ease)}
+.chapters a:hover span,.chapters a.on span{opacity:1;transform:none}
+.chapters a.on{color:var(--text)}
+.chapters a.on i{width:34px;background:linear-gradient(90deg,var(--brand-lit),var(--blue))}
+
+/* 标题：逐字立体升起 + 斜光扫过 */
+h1{position:relative}
+.h1line{display:block;white-space:nowrap}
+.h1ch{display:inline-block;opacity:0;transform:translateY(.55em) rotateX(-65deg);transform-origin:50% 100%;
+  animation:chIn .85s var(--ease) forwards;animation-delay:calc(.14s + var(--i)*46ms)}
+.h1ch.glow{color:var(--brand-lit);text-shadow:0 0 46px rgba(221,110,112,.5)}
+@keyframes chIn{to{opacity:1;transform:none}}
+h1::after{content:"";position:absolute;inset:-12% -8%;pointer-events:none;mix-blend-mode:screen;
+  background:linear-gradient(100deg,transparent 42%,rgba(255,255,255,.13) 50%,transparent 58%);
+  transform:translateX(-120%);animation:shine 6.5s 1.6s ease-in-out infinite}
+@keyframes shine{0%,62%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+
+/* 首屏窗口：旋转描边光 + 鼠标 3D 倾斜 */
+@property --ang{syntax:'<angle>';initial-value:0deg;inherits:false}
+.stage .screen{transform:perspective(1100px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
+  transition:transform .4s var(--ease);border-color:rgba(255,255,255,.16);
+  box-shadow:0 60px 110px -60px rgba(0,0,0,.95),0 0 70px -34px rgba(77,134,198,.5)}
+.stage .screen::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;pointer-events:none;
+  background:conic-gradient(from var(--ang,0deg),transparent 0 58%,var(--blue-lit) 71%,transparent 84%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
+  mask-composite:exclude;opacity:.75;animation:spin 8s linear infinite}
+@keyframes spin{to{--ang:360deg}}
+
+/* 按钮流光 */
+.btn.primary,.dlbtn{position:relative;overflow:hidden}
+.btn.primary::after,.dlbtn::after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:44%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.38),transparent);
+  transform:skewX(-20deg);animation:btnShine 4.6s var(--ease) infinite}
+@keyframes btnShine{0%,52%{left:-60%}100%{left:135%}}
+
+/* 能力行：光泽扫过 + 编号发光 */
+.row{position:relative;overflow:hidden}
+.row::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.055),transparent);
+  transform:translateX(-100%);transition:transform .8s var(--ease)}
+.row:hover::after{transform:translateX(100%)}
+.row .no{transition:color .3s var(--ease),text-shadow .3s var(--ease)}
+.row:hover .no{color:var(--brand-lit);text-shadow:0 0 24px rgba(221,110,112,.7)}
+.row .txt b{transition:transform .4s var(--ease)}
+.row:hover .txt b{transform:translateX(5px)}
+
+/* 实拍：遮罩横扫揭示 + 聚光 + 3D 倾斜 */
+.fig{position:relative;--mx:50%;--my:50%}
+.fig .ph{position:relative}
+.fig .ph::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(90deg,var(--ink-2) 0%,rgba(16,21,28,.86) 35%,transparent 82%);
+  transform:translateX(0);transition:transform 1.15s var(--ease)}
+.fig.in .ph::after{transform:translateX(101%)}
+.fig::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(320px circle at var(--mx) var(--my),rgba(122,169,223,.14),transparent 66%);
+  opacity:0;transition:opacity .35s var(--ease)}
+.fig:hover::after{opacity:1}
+.fig:hover{transform:translateY(-6px) perspective(1000px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
+  border-color:rgba(255,255,255,.24)}
+
+/* 下载卡：鼠标聚光 + 3D 倾斜 */
+.card,.fig{transition:opacity .8s var(--ease),transform .35s var(--ease),border-color .35s var(--ease)}
+.card{--mx:50%;--my:0%}
+.card::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(400px circle at var(--mx) var(--my),rgba(255,255,255,.10),transparent 62%);
+  opacity:0;transition:opacity .35s var(--ease)}
+.card:hover::after{opacity:1}
+.card:hover{transform:translateY(-6px) perspective(1000px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
+  border-color:rgba(255,255,255,.22)}
+
+/* 纸本插页：墨晕、逐行浮现、朱印落款 */
+.claim{isolation:isolate}
+.claim::after{content:"";position:absolute;z-index:-1;width:660px;height:660px;right:-170px;top:-220px;border-radius:50%;
+  background:radial-gradient(circle,rgba(192,75,79,.16),transparent 66%);filter:blur(22px);
+  animation:drift2 27s ease-in-out infinite}
+.claim blockquote span{opacity:0;transform:translateY(16px);animation:quoteIn 1s var(--ease) forwards}
+.claim blockquote span:nth-child(2){animation-delay:.24s}
+@keyframes quoteIn{to{opacity:1;transform:none}}
+.claim .small{display:inline-block;border:1px solid rgba(164,58,60,.45);border-radius:3px;padding:8px 15px;
+  color:var(--brand);letter-spacing:.16em;box-shadow:0 0 0 3px rgba(192,75,79,.05)}
+
+/* 收尾：描边流光大字 */
+.outro{position:relative;padding:110px 0 132px;text-align:center;border-top:1px solid var(--line);overflow:hidden}
+.outro::before{content:"";position:absolute;left:50%;top:50%;width:960px;height:320px;transform:translate(-50%,-50%);
+  background:radial-gradient(ellipse,rgba(77,134,198,.15),transparent 70%);filter:blur(34px);pointer-events:none}
+.outro .big{position:relative;font-family:var(--serif);font-size:clamp(52px,10.4vw,158px);font-weight:600;line-height:1.12;
+  white-space:nowrap;color:var(--text);-webkit-text-stroke:1px rgba(236,233,226,.42);-webkit-text-fill-color:transparent;
+  background:linear-gradient(90deg,var(--blue-lit),var(--paper) 42%,var(--brand-lit) 70%,var(--blue-lit));
+  background-size:220% 100%;-webkit-background-clip:text;background-clip:text;
+  animation:flow 9s ease-in-out infinite}
+@keyframes flow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.outro .sub{position:relative;font-size:13.5px;color:var(--text-3);margin-top:26px}
+
+@media(max-width:980px){
+  .chapters,.cursor{display:none}
+  .outro .big{white-space:normal}
+}
+@media(prefers-reduced-motion:reduce){
+  .progress i{transform:scaleX(1)}
+  .scan,.orb,.cursor,.chapters{display:none}
+  .h1ch,.claim blockquote span{opacity:1;transform:none;animation:none}
+  h1::after,.btn.primary::after,.dlbtn::after,.stage .screen::before,.outro .big{animation:none}
+  h1::after,.btn.primary::after,.dlbtn::after,.stage .screen::before{display:none}
+  .fig .ph::after{display:none}
+}
+
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .beam{animation:none;display:none}
@@ -213,6 +340,19 @@ footer{border-top:1px solid var(--line);padding:40px 0 56px;color:var(--text-3);
 </style>
 </head>
 <body>
+<div class="hud">
+  <div class="progress"><i></i></div>
+  <div class="scan"></div>
+  <div class="orb orb1"></div><div class="orb orb2"></div>
+  <div class="cursor"></div>
+  <div class="chapters">
+    <a href="#claim" data-sec="claim"><i></i><span>主张</span></a>
+    <a href="#abilities" data-sec="abilities"><i></i><span>能力</span></a>
+    <a href="#reels" data-sec="reels"><i></i><span>实录</span></a>
+    <a href="#download" data-sec="download"><i></i><span>下载</span></a>
+  </div>
+</div>
+
 <div class="bg"><div class="beam"></div></div>
 
 <header>
@@ -232,7 +372,7 @@ footer{border-top:1px solid var(--line);padding:40px 0 56px;color:var(--text-3);
   <section class="hero wrap">
     <div>
       <p class="hero-note">Agent 时代</p>
-      <h1>让数字化<br>回归<em>教学本真</em></h1>
+      <h1 id="hero-h1">让数字化<br>回归<em>教学本真</em></h1>
       <p class="hero-lede">我们期盼的是问题的解决，而不是工具的堆砌。备课、命题、讲评收在一处；数据只存本机，断网照常上课。</p>
       <div class="cta">
         <a class="btn primary" href="#download">下载桌面版 <span class="sz" id="hero-size">·</span></a>
@@ -320,6 +460,13 @@ footer{border-top:1px solid var(--line);padding:40px 0 56px;color:var(--text-3);
           <a class="ghost" href="https://github.com/InkStain258/teaching-workspace-releases/blob/general/latest.json" target="_blank" rel="noreferrer">版本清单</a>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section class="outro">
+    <div class="wrap">
+      <div class="big">让数字化回归教学本真</div>
+      <div class="sub">我们期盼的是问题的解决，而不是工具的堆砌</div>
     </div>
   </section>
 </main>
@@ -462,6 +609,73 @@ footer{border-top:1px solid var(--line);padding:40px 0 56px;color:var(--text-3);
       vid.muted = !vid.muted;
       if(!vid.muted){ var pr = vid.play(); if(pr && pr.catch) pr.catch(function(){}); }
       snd.classList.toggle("on", !vid.muted);
+    });
+  }
+
+
+  /* ——— 酷炫层：逐字标题、滚动进度、聚光、3D 倾斜、章节刻度 ——— */
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function chars(txt, glow, base){
+    var out = "", i = base;
+    for(var k=0;k<txt.length;k++){
+      out += '<span class="h1ch' + (glow ? ' glow' : '') + '" style="--i:' + (i++) + '">' + txt[k] + '</span>';
+    }
+    return [out, i];
+  }
+  var hh = document.getElementById("hero-h1");
+  if(hh && !reduce){
+    var a = chars("让数字化", false, 0), b = chars("回归", false, a[1]), c = chars("教学本真", true, b[1]);
+    hh.innerHTML = '<span class="h1line">' + a[0] + '</span><span class="h1line">' + b[0] + c[0] + '</span>';
+    setTimeout(function(){
+      hh.querySelectorAll(".h1ch").forEach(function(n){ n.style.opacity = "1"; n.style.transform = "none"; });
+    }, 2600);
+  }
+
+  var bar = document.querySelector(".progress i");
+  var big = document.querySelector(".outro .big");
+  function onScroll(){
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    var p = h > 0 ? Math.min(1, window.scrollY / h) : 0;
+    if(bar) bar.style.transform = reduce ? "scaleX(1)" : "scaleX(" + p + ")";
+    if(!reduce && big){
+      var r = big.getBoundingClientRect();
+      var v = (window.innerHeight/2 - (r.top + r.height/2)) / window.innerHeight;
+      big.style.transform = "translateY(" + (v*16).toFixed(1) + "px)";
+    }
+  }
+  window.addEventListener("scroll", onScroll, {passive:true});
+  onScroll();
+
+  if(window.matchMedia("(pointer:fine)").matches && !reduce){
+    var cursor = document.querySelector(".cursor");
+    window.addEventListener("pointermove", function(e){
+      if(cursor){ cursor.style.transform = "translate3d(" + e.clientX + "px," + e.clientY + "px,0)"; cursor.classList.add("on"); }
+    }, {passive:true});
+    document.addEventListener("pointerleave", function(){ if(cursor) cursor.classList.remove("on"); });
+
+    document.querySelectorAll(".card,.fig,.stage .screen").forEach(function(el){
+      el.addEventListener("pointermove", function(e){
+        var r = el.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+        el.style.setProperty("--mx", x + "px");
+        el.style.setProperty("--my", y + "px");
+        el.style.setProperty("--ry", ((x/r.width - .5) * 6).toFixed(2) + "deg");
+        el.style.setProperty("--rx", (-(y/r.height - .5) * 4).toFixed(2) + "deg");
+      }, {passive:true});
+      el.addEventListener("pointerleave", function(){
+        el.style.setProperty("--rx", "0deg"); el.style.setProperty("--ry", "0deg");
+      });
+    });
+  }
+
+  var clinks = Array.prototype.slice.call(document.querySelectorAll(".chapters a"));
+  if("IntersectionObserver" in window && clinks.length){
+    var so = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting) clinks.forEach(function(l){ l.classList.toggle("on", l.getAttribute("data-sec") === e.target.id); });
+      });
+    }, {rootMargin:"-42% 0px -50% 0px"});
+    ["claim","abilities","reels","download"].forEach(function(id){
+      var n = document.getElementById(id); if(n) so.observe(n);
     });
   }
 
