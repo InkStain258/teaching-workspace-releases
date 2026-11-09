@@ -379,6 +379,26 @@ h1::after{content:"";position:absolute;inset:-12% -8%;pointer-events:none;mix-bl
   .outro .big.two .l{opacity:1;transform:none;animation:none}
 }
 
+
+/* 能力分组 */
+.grp{display:flex;align-items:baseline;gap:16px;padding:40px 8px 14px;border-bottom:1px solid var(--line)}
+.grp .gn{font-family:var(--serif);font-size:21px;color:var(--brand-lit);min-width:40px}
+.grp .gt{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.grp .gt b{font-family:var(--serif);font-size:21px;font-weight:600}
+.grp .gt span{font-size:13px;color:var(--text-3)}
+.grp .gline{flex:1;height:1px;min-width:28px;background:linear-gradient(90deg,var(--line),transparent)}
+.row{align-items:start}
+.row .txt span{line-height:1.72;max-width:58em;margin-top:7px}
+.row .thumb{margin-top:3px}
+.thumb.ghost{display:grid;place-items:center;
+  background:radial-gradient(circle at 30% 24%,rgba(122,169,223,.18),transparent 62%),
+             repeating-linear-gradient(45deg,rgba(255,255,255,.025) 0 6px,transparent 6px 12px),var(--ink-2)}
+.thumb.ghost span{font-family:var(--serif);font-size:15px;letter-spacing:.22em;color:var(--text-3)}
+@media(max-width:980px){
+  .grp{padding-top:28px}
+  .thumb.ghost{display:none}
+}
+
 </style>
 </head>
 <body>
@@ -453,8 +473,8 @@ h1::after{content:"";position:absolute;inset:-12% -8%;pointer-events:none;mix-bl
 
   <section class="sec wrap" id="abilities">
     <div class="sec-head rv">
-      <h2>能力<small>按一节课的顺序，而不是按功能菜单</small></h2>
-      <p>从备课到成题，从讲评到纸面。每一条都是实际跑得通的步骤，不需要先写一段提示词。</p>
+      <h2>能力<small>按教师手上的活儿分组，每条说清放进去什么、得到什么</small></h2>
+      <p>下面不是演示解说词，是照着两版程序实际做出来的功能逐条写的：备课、出题、讲评，加上会自己沉淀的经验、能长的插件和不出本机的数据。语文版特有的地方单独点出，没点的两版都有。</p>
     </div>
     <div class="rows" id="rows"></div>
   </section>
@@ -532,29 +552,94 @@ h1::after{content:"";position:absolute;inset:-12% -8%;pointer-events:none;mix-bl
   var MIRROR = "https://xingtong.inkstain.top/static/teaching/";
   var MIRROR_OK = null, MAN = {};
 
-  /* —— 能力清单：文案取自影片画面字幕 —— */
-  var ROWS = [
-    ["描述卷面结构，直接从真题库成题", "卷面 → 结构 → 成题，一次走完", "f12.jpg"],
-    ["依篇目检索，题目附考点与出处", "篇目、考点、出处可回溯", "f22.jpg"],
-    ["记录经验：同类纠正满两次，生成修订提案", "经验沉淀成修订提案", "f32.jpg"],
-    ["目录即结构，单元一次成型", "单元目录即教学结构", "f42.jpg"],
-    ["题干里的公式，按数学排版", "公式按数学排版导出", "f52.jpg"],
-    ["动效与模糊分级关闭", "界面动效可逐级关闭", "f62.jpg"],
-    ["五册篇目与教参原文入库", "篇目、教参原文同库", "f92.jpg"],
-    ["卷面结构自定，分值自动配平", "分值自动配平，不改题干", "f102.jpg"],
-    ["默对升一级，默错回第一天", "间隔复习按记忆表现调整", "f122.jpg"],
-    ["按到期顺序出队", "到期先出队，不靠手动挑", "f132.jpg"],
-    ["题号、分值、考点与出处，与卷面一致", "导出卷与屏幕一致", "f142.jpg"]
+  /* —— 能力清单：按开发记录归纳，不取影片字幕（字幕是配图案例） —— */
+  var GROUPS = [
+    {n:"Ⅰ", t:"备课", d:"从材料到一节课", items:[
+      ["一次导入，五类落点",
+       "Word、PDF、图片或整段文本放进素材库，按课时、试卷习题、记忆卡、导学案、素材五类拆开；结构化试卷 JSON 直接成形，不消耗 AI。每道题标「原文可查／推断／缺失」与页码，确认之后才入库。",
+       "f12.jpg"],
+      ["目录即单元结构",
+       "按目录粘贴一册教材，单元、课时、教学内容一次成形。导学案走预学→探究→当堂检测→作业四段，公式由 KaTeX 渲染，导出的 Word 里是原生公式对象而不是一串 LaTeX。语文版另有整本书阅读周任务与写作四维批改单。",
+       "f42.jpg"],
+      ["一周的课摆在一处",
+       "校历自己填开学日与行课日，自动算教学周；课表支持多班与单双周，日程可设提前提醒。日程连课表一起导出 ICS，单双周写进 RRULE，能直接进手机日历。",
+       "f62.jpg"]
+    ]},
+    {n:"Ⅱ", t:"出题", d:"题目找得到，卷面配得平", items:[
+      ["检索能回到出处",
+       "按篇目、考点、题型检索，倒排索引先缩候选、再滚动续页。每题附考点与来源链接；来源页面没给答案就写「未收录」，不编。题库为空时直接给导入入口，不显示一串空数字。",
+       "f92.jpg"],
+      ["卷面结构自己定",
+       "板块名与分值逐行填，程序按表凑分并自动配平，不改题干。语文按现代文／古诗文／语言文字运用／写作四段，通用按 13 个学科各带一套模板，都能增删行、改分值、恢复默认。",
+       "f102.jpg"],
+      ["待确认队列可核对",
+       "抽出的内容先停在待确认：勾选、改落点类型、按答案区整段补答案。点「对照原文」按题号定位并高亮题干，对不上就直说没找到；删除所选只移队列记录，原始文件不动。",
+       "f32.jpg"]
+    ]},
+    {n:"Ⅲ", t:"讲评", d:"错在哪，就讲哪", items:[
+      ["录一次考试，看出薄弱",
+       "选卷、班级、参考人数、日期，逐题填错人数；算出平均得分、得分率、全对题与待讲题，薄弱考点按得分率排前六。只录了部分题时满分按已录题合计，不会出现「150 分只拿 7 分」这种误导。",
+       "f52.jpg"],
+      ["讲评提纲与投影",
+       "跳过全对题，按错率排出题干／答案／考点提纲，可复制、可导出 Word；投影模式全屏逐题，空格翻下一题、Esc 退出。题干里的公式随导出一起按数学排版。",
+       "f142.jpg"]
+    ]},
+    {n:"Ⅳ", t:"越用越贴合", d:"经验自进化 · 程序会变的只有一处，其余都归你", items:[
+      ["教学经验自己沉淀成规范",
+       "同一处纠正记满两次，程序才提议把它写进教学规范；你可以忽略，也可以回滚。规范在界面里始终是一份能改、能恢复默认、能看历史版本的文本——没有看不见的开关，也不用每次重新交代一遍要求。",
+       "f122.jpg"],
+      ["到期条目自动排在前面",
+       "记忆卡（语文版还有背诵篇目）按 0／1／3／7 天排下次复习，答对升一级、答错回第一天；页头直接给今天到期与已熟数量，不用手动挑今天练哪几张。",
+       "f132.jpg"]
+    ]},
+    {n:"Ⅴ", t:"底座", d:"插件能长，数据不出门", items:[
+      ["一个 JS 文件就能加功能",
+       "插件 = 一个 JS 文件 + manifest，能注册侧栏与页面、读题库与记忆卡、弹提示、调 AI；只能拿宿主给的接口，不能读文件、不能执行命令，加载失败只禁用自己，不拖垮启动。对外附《插件开发指南》与最小示例，照着做半小时能跑通。",
+       null],
+      ["离线、本机、可带走",
+       "AI 接口可选，不配也能导入、出题、导出；Key 只存本机，不写进任何文件。工程包导出自动剔除凭据，导入前自动备份、可一键回滚；检查更新先校验 SHA256 才打开安装程序。外观动效可逐级关闭，低配机省帧。",
+       null]
+    ]}
   ];
-  var rows = document.getElementById("rows"), html = "";
-  /* ROWS 是本文件里的静态常量，不含外部数据；清单正文一律用 textContent 写入 */
-  ROWS.forEach(function(r, i){
-    var n = ("0" + (i + 1)).slice(-2);
-    html += '<div class="row rv"><span class="no">' + n + '</span><div class="txt"><b>' + r[0] +
-            '</b><span>' + r[1] + '</span></div><div class="thumb"><img src="assets/' + r[2] +
-            '" alt="' + r[0] + '" loading="lazy"></div></div>';
+  var rows = document.getElementById("rows"), seq = 0;
+  /* GROUPS 是本文件里的静态常量，不含外部数据；正文一律用 textContent 写入 */
+  function el(tag, cls, text){
+    var n = document.createElement(tag);
+    if(cls) n.className = cls;
+    if(text != null) n.textContent = text;
+    return n;
+  }
+  GROUPS.forEach(function(g){
+    var h = el("div", "grp rv");
+    h.appendChild(el("span", "gn", g.n));
+    var gt = el("div", "gt");
+    gt.appendChild(el("b", null, g.t));
+    gt.appendChild(el("span", null, g.d));
+    h.appendChild(gt);
+    h.appendChild(el("i", "gline"));
+    rows.appendChild(h);
+    g.items.forEach(function(it){
+      seq++;
+      var row = el("div", "row rv");
+      row.appendChild(el("span", "no", ("0" + seq).slice(-2)));
+      var txt = el("div", "txt");
+      txt.appendChild(el("b", null, it[0]));
+      txt.appendChild(el("span", null, it[1]));
+      row.appendChild(txt);
+      var th = el("div", "thumb" + (it[2] ? "" : " ghost"));
+      if(it[2]){
+        var img = document.createElement("img");
+        img.src = "assets/" + it[2];
+        img.alt = "";
+        img.loading = "lazy";
+        th.appendChild(img);
+      } else {
+        th.appendChild(el("span", null, seq === 11 ? "PLUGIN" : "LOCAL"));
+      }
+      row.appendChild(th);
+      rows.appendChild(row);
+    });
   });
-  rows.innerHTML = html;
 
   function fmt(n){ n = Number(n)||0; return n>=1048576 ? (n/1048576).toFixed(1)+" MB" : Math.round(n/1024)+" KB"; }
   function date(s){ return (s||"").slice(0,10); }
