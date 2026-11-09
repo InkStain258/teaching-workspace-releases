@@ -362,9 +362,13 @@ h1::after{content:"";position:absolute;inset:-12% -8%;pointer-events:none;mix-bl
 .prodline span{border:1px solid var(--line);border-radius:999px;padding:4px 13px;background:rgba(255,255,255,.025)}
 .brand-en{font-family:var(--serif);font-size:19px;font-weight:600;letter-spacing:.03em;color:var(--text)}
 .brand-cn{font-size:12.5px;color:var(--text-3)}
-.outro .big.two{font-size:clamp(32px,4.8vw,70px);white-space:normal;line-height:1.46}
-.outro .big.two .l{display:block;opacity:0;transform:translateY(22px);animation:quoteIn 1s var(--ease) forwards}
-.outro .big.two .l:nth-child(2){animation-delay:.26s}
+.outro .big.two{font-size:clamp(32px,4.8vw,70px);white-space:normal;line-height:1.46;
+  background:none;-webkit-background-clip:border-box;background-clip:border-box;-webkit-text-fill-color:var(--text)}
+.outro .big.two .l{display:block;opacity:0;transform:translateY(22px);
+  background:linear-gradient(90deg,var(--blue-lit),var(--paper) 45%,var(--brand-lit) 75%,var(--blue-lit));
+  background-size:220% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  animation:quoteIn 1s var(--ease) forwards, flow 9s ease-in-out infinite}
+.outro .big.two .l:nth-child(2){animation-delay:.26s,.26s}
 .outro .sig{margin-top:34px;font-size:14px;color:var(--text-2);letter-spacing:.1em}
 .btn,.dlbtn{--bx:0px;--by:0px}
 .btn:hover{transform:translate(var(--bx),var(--by)) translateY(-2px)}
