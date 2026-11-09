@@ -399,6 +399,10 @@ h1::after{content:"";position:absolute;inset:-12% -8%;pointer-events:none;mix-bl
   .thumb.ghost{display:none}
 }
 
+/* 两处导语移除后，标题独占一行，不留空列 */
+#abilities .sec-head,#download .sec-head{grid-template-columns:1fr;gap:0;margin-bottom:30px}
+#abilities .sec-head h2 small,#download .sec-head h2 small{margin-top:14px}
+
 </style>
 </head>
 <body>
@@ -474,7 +478,6 @@ h1::after{content:"";position:absolute;inset:-12% -8%;pointer-events:none;mix-bl
   <section class="sec wrap" id="abilities">
     <div class="sec-head rv">
       <h2>能力<small>按教师手上的活儿分组，每条说清放进去什么、得到什么</small></h2>
-      <p>下面不是演示解说词，是照着两版程序实际做出来的功能逐条写的：备课、出题、讲评，加上会自己沉淀的经验、能长的插件和不出本机的数据。语文版特有的地方单独点出，没点的两版都有。</p>
     </div>
     <div class="rows" id="rows"></div>
   </section>
@@ -496,7 +499,6 @@ h1::after{content:"";position:absolute;inset:-12% -8%;pointer-events:none;mix-bl
   <section class="sec wrap" id="download">
     <div class="sec-head rv">
       <h2>下载<span class="line-tag" id="line"><i></i><b>检测线路…</b></span><small>Windows 10/11 桌面版 · 装到你自己选的目录</small></h2>
-      <p>数据在安装目录下的 data/ 里，升级时原地保留。国内加速只是把安装包放在一条国内线路上，页面本身只有这一个。</p>
     </div>
     <div class="dl">
       <div class="card yuwen rv">
