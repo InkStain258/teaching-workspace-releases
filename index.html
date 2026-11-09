@@ -403,6 +403,10 @@ h1::after{content:"";position:absolute;inset:-12% -8%;pointer-events:none;mix-bl
 #abilities .sec-head,#download .sec-head{grid-template-columns:1fr;gap:0;margin-bottom:30px}
 #abilities .sec-head h2 small,#download .sec-head h2 small{margin-top:14px}
 
+/* 主张区第二列正文移除后改单列，避免右半幅空着 */
+#claim .below{grid-template-columns:1fr;gap:0}
+#claim .below p{max-width:44em}
+
 </style>
 </head>
 <body>
@@ -469,7 +473,6 @@ h1::after{content:"";position:absolute;inset:-12% -8%;pointer-events:none;mix-bl
       <blockquote><span>教育的本质，意味着一棵树摇动另一棵树</span><span>一朵云推动另一朵云；一个灵魂唤醒另一个灵魂</span></blockquote>
       <div class="below">
         <p><strong>我们想做的，是用简单化、模块化、高自定义的产品，让教学回到师生本真，尊重每一位老师的课堂。</strong>不把备课拆进十几个窗口，也不替老师决定一节课该怎么上。</p>
-        <p>两套产品共用一份引擎：语文版按高中语文的课文与默写铺，通用版按学段无关的单元与记忆铺。所有内容留在自己的电脑里，导入、出题、导出都不经过云端。</p>
       </div>
       <p class="small">测试版开放 · 与一线教师同行 · 让智慧涌现</p>
     </div>
