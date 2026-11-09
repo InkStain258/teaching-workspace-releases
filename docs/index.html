@@ -1,243 +1,250 @@
-<!DOCTYPE html>
-<html lang="zh-CN" data-theme="ink">
+<!doctype html>
+<html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>教学工作空间 · 一份引擎，两套产品</title>
-<meta name="description" content="高中语文工作空间与教师工作空间：单元结构导入、备课、题库组卷、学情讲评、离线本地运行。">
+<meta name="description" content="教学工作空间：高中语文工作空间与教师工作空间。本地优先，离线可用，一份引擎两套产品。">
+<title>教学工作空间 · 让数字化回归教学本真</title>
 <style>
-  :root{
-    --ink:#0d1014; --ink-2:#141a21; --ink-3:#1c242e;
-    --paper:#f4f0e8; --paper-2:#e8e1d4;
-    --text:#eef1f4; --text-2:#b9c2cc; --text-3:#7f8b98;
-    --brand:#c95055; --brand-2:#e0686d;
-    --blue:#4d86c6;
-    --line:rgba(255,255,255,.10); --line-2:rgba(255,255,255,.06);
-    --radius:18px;
-    --ease:cubic-bezier(.22,.72,.28,1);
-    --sans:"HarmonyOS Sans SC","PingFang SC","Microsoft YaHei UI",system-ui,sans-serif;
-    --serif:"Songti SC","Noto Serif CJK SC","Source Han Serif SC",SimSun,serif;
-  }
-  *{box-sizing:border-box}
-  html,body{margin:0;background:var(--ink);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased}
-  body{overflow-x:hidden;line-height:1.7}
-  a{color:inherit;text-decoration:none}
-  ::selection{background:color-mix(in srgb,var(--brand) 45%,transparent)}
+/* design: 编辑式暗调 · 纸本插页 · 真实产品画面 · 一份引擎两套产品 */
+:root{
+  --ink:#0a0d12; --ink-2:#10151c; --ink-3:#161c25; --ink-soft:#1c232d;
+  --paper:#f2eee4; --paper-2:#e7e0d2; --paper-ink:#241f1a; --paper-ink-2:#5b544b;
+  --text:#ece9e2; --text-2:#b3b1aa; --text-3:#7c807d;
+  --brand:#c04b4f; --brand-lit:#dd6e70; --blue:#4d86c6; --blue-lit:#7aa9df; --gold:#c5a46b;
+  --line:rgba(255,255,255,.10); --line-2:rgba(255,255,255,.055); --line-dark:rgba(36,31,26,.16);
+  --radius:14px; --radius-lg:20px;
+  --ease:cubic-bezier(.22,.72,.28,1);
+  --sans:"HarmonyOS Sans SC","PingFang SC","Microsoft YaHei UI",system-ui,sans-serif;
+  --serif:"Songti SC","Noto Serif CJK SC","Source Han Serif SC",SimSun,serif;
+  --wrap:1200px;
+}
+*{box-sizing:border-box}
+html,body{overflow-x:clip}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--ink);color:var(--text);font-family:var(--sans);font-size:17px;line-height:1.75;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--blue-lit);outline-offset:4px}
+.wrap{width:min(var(--wrap),calc(100% - 56px));margin-inline:auto}
+#claim,#abilities,#reels,#download{scroll-margin-top:90px}
+.serif{font-family:var(--serif)}
+.rule{height:1px;background:var(--line);border:0;margin:0}
 
-  /* ---------- 背景：极光 + 纸纹 + 网格 ---------- */
-  .bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-  .bg::before{content:"";position:absolute;inset:0;
-    background:
-      radial-gradient(60% 50% at 18% 12%,rgba(201,80,85,.22),transparent 62%),
-      radial-gradient(46% 40% at 82% 8%,rgba(77,134,198,.20),transparent 62%),
-      radial-gradient(60% 50% at 60% 88%,rgba(120,90,160,.14),transparent 65%);
-    filter:blur(6px)}
-  .bg::after{content:"";position:absolute;inset:0;opacity:.35;
-    background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),
-                     linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
-    background-size:64px 64px;
-    mask-image:radial-gradient(70% 60% at 50% 30%,#000 30%,transparent 100%)}
-  .orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5;mix-blend-mode:screen}
-  .orb.a{width:520px;height:520px;left:-120px;top:-80px;background:radial-gradient(circle,#c95055,transparent 65%);animation:drift 22s var(--ease) infinite alternate}
-  .orb.b{width:460px;height:460px;right:-100px;top:120px;background:radial-gradient(circle,#4d86c6,transparent 65%);animation:drift 26s var(--ease) infinite alternate-reverse}
-  .orb.c{width:380px;height:380px;left:38%;bottom:-140px;background:radial-gradient(circle,#8b6bb0,transparent 66%);animation:drift 30s var(--ease) infinite alternate}
-  @keyframes drift{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(46px,-38px,0) scale(1.12)}}
-  .grain{position:absolute;inset:0;opacity:.5;mix-blend-mode:overlay;
-    background-image:radial-gradient(rgba(255,255,255,.10) .6px,transparent .6px);background-size:3px 3px}
+/* 背景：极光、斜光、细网格、颗粒 */
+.bg{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;background:
+  radial-gradient(120% 80% at 82% -10%,rgba(77,134,198,.13),transparent 60%),
+  radial-gradient(90% 70% at -10% 20%,rgba(192,75,79,.10),transparent 62%),
+  var(--ink)}
+.bg::before{content:"";position:absolute;inset:0;opacity:.30;
+  background-image:linear-gradient(var(--line-2) 1px,transparent 1px),linear-gradient(90deg,var(--line-2) 1px,transparent 1px);
+  background-size:72px 72px;mask-image:linear-gradient(to bottom,#000,transparent 78%)}
+.bg::after{content:"";position:absolute;inset:0;opacity:.17;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E")}
+.beam{position:absolute;top:-30%;left:-40%;width:52%;height:180%;transform:rotate(22deg);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.055),transparent);filter:blur(22px);
+  animation:sweep 19s var(--ease) infinite}
+@keyframes sweep{0%{transform:translateX(-30%) rotate(22deg)}50%{transform:translateX(260%) rotate(22deg)}100%{transform:translateX(-30%) rotate(22deg)}}
 
-  /* 跟随鼠标的光 */
-  .spot{position:fixed;width:520px;height:520px;border-radius:50%;pointer-events:none;z-index:1;
-    background:radial-gradient(circle,rgba(255,255,255,.07),transparent 62%);
-    transform:translate(-50%,-50%);transition:opacity .4s;opacity:0}
+/* 顶栏 */
+header{position:sticky;top:0;z-index:40;background:rgba(10,13,18,.72);backdrop-filter:blur(18px);border-bottom:1px solid var(--line-2)}
+.nav{height:72px;display:flex;align-items:center;gap:36px}
+.brand{display:flex;align-items:center;gap:11px;font-size:15px;letter-spacing:.02em;white-space:nowrap}
+.marks{display:flex;gap:3px}
+.marks i{width:24px;height:24px;border-radius:7px;display:grid;place-items:center;font-family:var(--serif);font-style:normal;font-size:15px;color:#fff}
+.marks .j{background:var(--blue)}.marks .y{background:var(--brand)}
+.links{display:flex;gap:28px;margin-left:auto;font-size:14px;color:var(--text-2)}
+.links a{position:relative;padding:6px 0;transition:color .25s var(--ease)}
+.links a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--brand-lit);transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease)}
+.links a:hover{color:var(--text)}.links a:hover::after{transform:scaleX(1)}
+.nav-ver{font-size:12.5px;color:var(--text-3);border:1px solid var(--line);border-radius:999px;padding:4px 12px;white-space:nowrap}
 
-  /* ---------- 布局 ---------- */
-  .wrap{position:relative;z-index:2;max-width:1180px;margin:0 auto;padding:0 28px}
+/* 首屏 */
+.hero{padding:96px 0 84px;display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,1fr);gap:64px;align-items:center}
+.hero-note{font-size:14px;color:var(--blue-lit);letter-spacing:.18em;margin:0 0 30px}
+h1{font-family:var(--serif);font-weight:600;font-size:clamp(52px,7.1vw,100px);line-height:1.13;letter-spacing:.005em;margin:0 0 28px;overflow-wrap:break-word;min-width:0}
+h1 em{font-style:normal;color:var(--brand-lit)}
+.hero-lede{font-size:clamp(16px,1.5vw,19px);color:var(--text-2);max-width:34em;margin:0 0 34px;text-wrap:pretty}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:10px;min-height:50px;padding:0 24px;border-radius:12px;font-size:15px;font-weight:600;
+  border:1px solid var(--line);transition:transform .3s var(--ease),background .3s var(--ease),border-color .3s var(--ease)}
+.btn:hover{transform:translateY(-2px)}
+.btn.primary{background:linear-gradient(160deg,var(--brand-lit),var(--brand));border-color:rgba(255,255,255,.18);color:#fff;
+  box-shadow:0 20px 40px -24px rgba(192,75,79,.95)}
+.btn.primary:hover{background:linear-gradient(160deg,#e57e80,var(--brand))}
+.btn.ghost{background:rgba(255,255,255,.035);color:var(--text)}
+.btn.ghost:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.22)}
+.btn .sz{font-size:12.5px;font-weight:400;opacity:.8}
+.hero-facts{display:flex;gap:26px;margin-top:44px;padding-top:22px;border-top:1px solid var(--line);font-size:13.5px;color:var(--text-3)}
+.hero-facts span{position:relative}
+.hero-facts span+span::before{content:"";position:absolute;left:-13px;top:50%;width:1px;height:12px;transform:translateY(-50%);background:var(--line)}
 
-  header{position:sticky;top:0;z-index:20;backdrop-filter:blur(14px);
-    background:linear-gradient(180deg,rgba(13,16,20,.82),rgba(13,16,20,.45));
-    border-bottom:1px solid var(--line-2)}
-  .nav{display:flex;align-items:center;gap:26px;height:66px}
-  .logo{display:flex;align-items:center;gap:11px;font-weight:600;letter-spacing:.04em}
-  .logo i{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-style:normal;
-    background:linear-gradient(160deg,#c95055,#7f2124);font-family:var(--serif);font-size:17px;color:#fff}
-  .nav .links{display:flex;gap:22px;margin-left:auto;font-size:14px;color:var(--text-2)}
-  .nav .links a{padding:6px 2px;border-bottom:1px solid transparent;transition:.25s var(--ease)}
-  .nav .links a:hover{color:var(--text);border-bottom-color:var(--brand)}
+/* 首屏右侧：真实片段 + 叠层实拍 */
+.stage{position:relative;min-width:0}
+.stage .screen{position:relative;border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;background:#05070a;
+  box-shadow:0 60px 110px -60px rgba(0,0,0,.95),0 0 0 1px rgba(255,255,255,.03) inset}
+.stage .bar{height:38px;display:flex;align-items:center;gap:6px;padding:0 15px;border-bottom:1px solid var(--line-2);background:rgba(255,255,255,.035)}
+.stage .bar i{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.20)}
+.stage .bar span{margin-left:auto;font-size:11.5px;color:var(--text-3)}
+.stage video{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;background:#05070a}
+.stage .screen::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(115deg,transparent 42%,rgba(255,255,255,.06) 50%,transparent 58%)}
+.still{position:absolute;border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 30px 60px -34px #000;background:var(--ink-2)}
+.still img{width:100%;height:100%;object-fit:cover;opacity:.82}
+.still.one{width:38%;right:-7%;top:-9%;z-index:-1;transform:rotate(2.5deg)}
+.still.two{width:33%;left:-9%;bottom:-11%;z-index:-1;transform:rotate(-2.5deg)}
+.sndbtn{position:absolute;right:14px;bottom:14px;width:32px;height:32px;display:grid;place-items:center;border-radius:50%;
+  border:1px solid rgba(255,255,255,.20);background:rgba(8,11,15,.65);color:#fff;backdrop-filter:blur(8px);
+  transition:transform .25s var(--ease),background .25s var(--ease)}
+.sndbtn:hover{transform:scale(1.08);background:rgba(8,11,15,.85)}
+.sndbtn .x1{display:block}.sndbtn .w1,.sndbtn .w2{opacity:.25}
+.sndbtn.on .x1{display:none}.sndbtn.on .w1,.sndbtn.on .w2{opacity:1}
 
-  /* ---------- Hero ---------- */
-  .hero{padding:104px 0 76px;display:grid;grid-template-columns:1.08fr .92fr;gap:56px;align-items:center}
-  .kicker{display:inline-flex;align-items:center;gap:9px;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;
-    color:var(--text-2);border:1px solid var(--line);border-radius:999px;padding:6px 14px;background:rgba(255,255,255,.03)}
-  .kicker b{width:6px;height:6px;border-radius:50%;background:var(--brand);box-shadow:0 0 12px var(--brand)}
-  h1{font-family:var(--serif);font-size:clamp(38px,5vw,62px);line-height:1.14;margin:22px 0 18px;letter-spacing:.01em;font-weight:600}
-  h1 em{font-style:normal;color:transparent;background:linear-gradient(100deg,#f0c9a0,#e0686d 46%,#7fa8d6);
-    -webkit-background-clip:text;background-clip:text}
-  .lede{font-size:17px;color:var(--text-2);max-width:33em}
-  .cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:32px}
-  .btn{position:relative;display:inline-flex;align-items:center;gap:10px;height:50px;padding:0 24px;border-radius:13px;
-    font-size:15px;font-weight:600;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--text);
-    transition:transform .25s var(--ease),box-shadow .3s var(--ease),background .25s;overflow:hidden}
-  .btn:hover{transform:translateY(-2px);background:rgba(255,255,255,.09);box-shadow:0 18px 36px -20px rgba(0,0,0,.9)}
-  .btn.primary{background:linear-gradient(160deg,#d3565b,#8c2226);border-color:rgba(255,255,255,.18);
-    box-shadow:0 20px 40px -22px rgba(201,80,85,.9),inset 0 1px 0 rgba(255,255,255,.22)}
-  .btn.primary::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.35),transparent 70%);
-    transform:translateX(-120%);transition:transform .7s var(--ease)}
-  .btn.primary:hover::after{transform:translateX(120%)}
-  .btn .sz{font-size:12px;font-weight:500;color:rgba(255,255,255,.72)}
+/* 主张：纸本插页 */
+.claim{background:var(--paper);color:var(--paper-ink);padding:96px 0 104px;position:relative;overflow:hidden}
+.claim::before{content:"";position:absolute;inset:0;opacity:.5;
+  background:repeating-linear-gradient(to bottom,transparent 0 27px,rgba(36,31,26,.055) 27px 28px)}
+.claim .wrap{position:relative}
+.claim .k{font-size:13.5px;color:var(--paper-ink-2);margin:0 0 38px}
+.claim blockquote{margin:0;font-family:var(--serif);font-size:clamp(30px,4.2vw,58px);line-height:1.55;font-weight:600;letter-spacing:.01em;max-width:22em}
+.claim blockquote span{display:block}
+.claim .below{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.85fr);gap:60px;margin-top:56px;padding-top:30px;border-top:1px solid var(--line-dark)}
+.claim .below p{margin:0;font-size:17px;line-height:2;color:var(--paper-ink-2);max-width:30em}
+.claim .below strong{color:var(--paper-ink);font-weight:600}
+.claim .small{font-size:13.5px;color:var(--paper-ink-2);margin-top:26px}
 
-  /* 右侧：产品剪影 */
-  .shot{position:relative;height:340px;border-radius:22px;border:1px solid var(--line);
-    background:linear-gradient(165deg,rgba(255,255,255,.09),rgba(255,255,255,.02));
-    box-shadow:0 40px 90px -50px #000,inset 0 1px 0 rgba(255,255,255,.16);overflow:hidden;
-    transform:perspective(1200px) rotateY(-7deg) rotateX(3deg);transition:transform .6s var(--ease)}
-  .shot:hover{transform:perspective(1200px) rotateY(-2deg) rotateX(1deg) translateY(-4px)}
-  .shot .bar{height:34px;display:flex;align-items:center;gap:6px;padding:0 13px;border-bottom:1px solid var(--line-2);background:rgba(255,255,255,.03)}
-  .shot .bar i{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.18)}
-  .shot .body{padding:18px;display:grid;gap:12px}
-  .sk{height:12px;border-radius:6px;background:linear-gradient(90deg,rgba(255,255,255,.14),rgba(255,255,255,.05));
-    animation:pulse 3.4s ease-in-out infinite}
-  .sk.w60{width:60%}.sk.w40{width:40%}.sk.w80{width:80%}
-  .sk.card{height:76px;border-radius:14px;border:1px solid var(--line-2);background:linear-gradient(150deg,rgba(255,255,255,.08),rgba(255,255,255,.02))}
-  @keyframes pulse{0%,100%{opacity:.65}50%{opacity:1}}
+/* 通用区块标题 */
+.sec{padding:100px 0}
+.sec-head{display:grid;grid-template-columns:minmax(0,.42fr) minmax(0,1fr);gap:48px;margin-bottom:52px}
+.sec-head h2{font-family:var(--serif);font-size:clamp(34px,4vw,54px);font-weight:600;margin:0;line-height:1.25}
+.sec-head h2 small{display:block;font-family:var(--sans);font-size:13px;font-weight:400;color:var(--text-3);margin-top:16px;letter-spacing:.04em}
+.sec-head p{margin:0;color:var(--text-2);font-size:16.5px;max-width:32em;align-self:end;text-wrap:pretty}
 
-  /* ---------- 数据条 ---------- */
-  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:8px 0 84px}
-  .stat{border:1px solid var(--line-2);border-radius:15px;padding:18px 20px;background:rgba(255,255,255,.03)}
-  .stat b{display:block;font-family:var(--serif);font-size:28px;letter-spacing:.02em}
-  .stat span{font-size:12.5px;color:var(--text-3)}
+/* 能力清单 */
+.rows{border-top:1px solid var(--line)}
+.row{display:grid;grid-template-columns:64px minmax(0,1fr) 168px;gap:24px;align-items:center;
+  padding:20px 8px;border-bottom:1px solid var(--line);transition:background .3s var(--ease),padding .3s var(--ease)}
+.row:hover{background:rgba(255,255,255,.035)}
+.row .no{font-family:var(--serif);font-size:20px;color:var(--text-3)}
+.row .txt b{display:block;font-weight:600;font-size:18px;letter-spacing:.01em}
+.row .txt span{display:block;font-size:13.5px;color:var(--text-3);margin-top:3px}
+.row .thumb{aspect-ratio:16/9;border:1px solid var(--line);border-radius:9px;overflow:hidden;background:var(--ink-2)}
+.row .thumb img{width:100%;height:100%;object-fit:cover;opacity:.78;filter:saturate(.85);transition:transform .5s var(--ease),opacity .4s var(--ease)}
+.row:hover .thumb img{transform:scale(1.06);opacity:1;filter:saturate(1)}
 
-  /* ---------- 通用区块 ---------- */
-  section{padding:76px 0}
-  .sec-head{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:34px;flex-wrap:wrap}
-  h2{font-family:var(--serif);font-size:clamp(26px,3vw,38px);margin:0;font-weight:600;letter-spacing:.01em}
-  .sec-head p{margin:0;color:var(--text-3);font-size:14.5px;max-width:34em}
+/* 实拍 */
+.reels{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:18px}
+.fig{grid-column:span 2;margin:0;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--ink-2)}
+.fig.wide{grid-column:span 3}
+.fig .ph{aspect-ratio:16/9;overflow:hidden}
+.fig .ph img{width:100%;height:100%;object-fit:cover;opacity:.9;transition:transform .7s var(--ease),opacity .5s var(--ease)}
+.fig:hover .ph img{transform:scale(1.04);opacity:1}
+.fig figcaption{padding:14px 16px 16px;border-top:1px solid var(--line-2);font-size:14px;color:var(--text-2)}
+.fig figcaption b{color:var(--text);font-weight:600;margin-right:9px}
 
-  .features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-  .feat{position:relative;border:1px solid var(--line-2);border-radius:var(--radius);padding:24px 22px;
-    background:linear-gradient(170deg,rgba(255,255,255,.055),rgba(255,255,255,.015));
-    transition:transform .35s var(--ease),border-color .35s,box-shadow .35s;overflow:hidden}
-  .feat::after{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;opacity:0;
-    background:linear-gradient(140deg,rgba(201,80,85,.6),transparent 40%,rgba(77,134,198,.5));
-    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
-    transition:opacity .35s}
-  .feat:hover{transform:translateY(-4px);box-shadow:0 26px 50px -34px #000}
-  .feat:hover::after{opacity:1}
-  .feat h3{margin:14px 0 8px;font-size:16.5px;font-weight:600;letter-spacing:.01em}
-  .feat p{margin:0;font-size:13.8px;color:var(--text-2)}
-  .ico{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-size:18px;
-    background:linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,.04));border:1px solid var(--line)}
+/* 下载 */
+.dl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.card{position:relative;border:1px solid var(--line);border-radius:var(--radius-lg);padding:30px;overflow:hidden;background:linear-gradient(165deg,rgba(255,255,255,.055),rgba(255,255,255,.012))}
+.card::before{content:"";position:absolute;top:-120px;right:-90px;width:320px;height:320px;border-radius:50%;filter:blur(60px);opacity:.20;pointer-events:none}
+.card.yuwen::before{background:var(--brand)}.card.general::before{background:var(--blue)}
+.card .top{display:flex;align-items:center;gap:14px;margin-bottom:22px}
+.card .top i{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-family:var(--serif);font-style:normal;font-size:22px;color:#fff}
+.card.yuwen .top i{background:var(--brand)}.card.general .top i{background:var(--blue)}
+.card .top .tag{font-size:13px;color:var(--text-3)}
+.card h3{font-family:var(--serif);font-size:28px;font-weight:600;margin:0 0 8px}
+.card .sub{font-size:14.5px;color:var(--text-2);margin:0 0 22px;min-height:3.2em}
+.notes{list-style:none;margin:0 0 24px;padding:0;font-size:14px;color:var(--text-2)}
+.notes li{padding:7px 0 7px 18px;position:relative;border-bottom:1px solid var(--line-2)}
+.notes li::before{content:"";position:absolute;left:2px;top:16px;width:5px;height:1px;background:var(--text-3)}
+.meta{display:flex;gap:22px;flex-wrap:wrap;font-size:13px;color:var(--text-3);padding:16px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:22px}
+.meta b{color:var(--text);font-weight:600;margin-left:5px}
+.dlrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.dlbtn{display:inline-flex;align-items:center;min-height:46px;padding:0 20px;border-radius:11px;font-weight:600;font-size:14.5px;
+  background:linear-gradient(160deg,var(--brand-lit),var(--brand));border:1px solid rgba(255,255,255,.16);color:#fff;
+  box-shadow:0 16px 30px -22px rgba(192,75,79,.9);transition:transform .3s var(--ease)}
+.card.general .dlbtn{background:linear-gradient(160deg,var(--blue-lit),var(--blue));box-shadow:0 16px 30px -22px rgba(77,134,198,.9)}
+.dlbtn:hover{transform:translateY(-2px)}
+.ghost{display:inline-flex;align-items:center;min-height:46px;padding:0 16px;border:1px solid var(--line);border-radius:11px;font-size:13.5px;color:var(--text-2);
+  transition:transform .3s var(--ease),border-color .3s var(--ease),color .3s var(--ease)}
+.ghost:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.25);color:var(--text)}
+.line-tag{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--text-3);border:1px solid var(--line);border-radius:999px;padding:4px 12px;margin-left:10px;vertical-align:2px}
+.line-tag i{width:6px;height:6px;border-radius:50%;background:var(--text-3);display:inline-block}
+.line-tag.ok i{background:var(--blue-lit)}.line-tag.bad i{background:var(--brand-lit)}
 
-  /* ---------- 下载 ---------- */
-  .dl{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-  .card{position:relative;border:1px solid var(--line);border-radius:22px;padding:26px;
-    background:linear-gradient(165deg,rgba(255,255,255,.075),rgba(255,255,255,.02));overflow:hidden}
-  .card .glow{position:absolute;width:320px;height:320px;border-radius:50%;filter:blur(60px);opacity:.32;pointer-events:none;
-    right:-90px;top:-120px}
-  .card.yuwen .glow{background:radial-gradient(circle,#c95055,transparent 66%)}
-  .card.general .glow{background:radial-gradient(circle,#2f6fd0,transparent 66%)}
-  .tag{display:inline-flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.08em;color:var(--text-2);
-    border:1px solid var(--line);border-radius:999px;padding:5px 12px;background:rgba(255,255,255,.04)}
-  .card h3{font-family:var(--serif);font-size:25px;margin:16px 0 6px;font-weight:600}
-  .card .sub{font-size:13.5px;color:var(--text-3);margin-bottom:18px}
-  .meta{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--text-3);margin:14px 0 20px;
-    border-top:1px dashed var(--line-2);padding-top:14px}
-  .meta b{color:var(--text-2);font-weight:500}
-  .notes{margin:0 0 20px;padding:0;list-style:none;display:grid;gap:7px}
-  .notes li{position:relative;padding-left:16px;font-size:13px;color:var(--text-2)}
-  .notes li::before{content:"";position:absolute;left:2px;top:.62em;width:5px;height:5px;border-radius:50%;
-    background:var(--brand);opacity:.65}
-  .card.general .notes li::before{background:var(--blue)}
-  .dlrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-  .dlbtn{display:inline-flex;align-items:center;gap:9px;height:46px;padding:0 20px;border-radius:12px;font-weight:600;font-size:14.5px;
-    background:linear-gradient(160deg,#d3565b,#8c2226);border:1px solid rgba(255,255,255,.16);color:#fff;
-    box-shadow:0 16px 30px -20px rgba(201,80,85,.9);transition:transform .25s var(--ease)}
-  .card.general .dlbtn{background:linear-gradient(160deg,#3f7fd8,#1f4a7f);box-shadow:0 16px 30px -20px rgba(47,111,208,.9)}
-  .dlbtn:hover{transform:translateY(-2px)}
-  .ghost{display:inline-flex;align-items:center;gap:7px;height:46px;padding:0 16px;border-radius:12px;font-size:13.5px;
-    color:var(--text-2);border:1px solid var(--line);background:rgba(255,255,255,.03);transition:.25s}
-  .ghost:hover{color:var(--text);background:rgba(255,255,255,.08)}
+footer{border-top:1px solid var(--line);padding:40px 0 56px;color:var(--text-3);font-size:13.5px}
+.foot{display:flex;gap:28px;flex-wrap:wrap;align-items:center}
+.foot a:hover{color:var(--text)}
+.foot .brand{color:var(--text)}
 
-  /* ---------- 更新说明 ---------- */
-  .timeline{display:grid;gap:14px;margin-top:8px}
-  .tl{display:grid;grid-template-columns:120px 1fr;gap:22px;border-top:1px solid var(--line-2);padding-top:16px}
-  .tl .v{font-family:var(--serif);font-size:19px}
-  .tl .v span{display:block;font-family:var(--sans);font-size:12px;color:var(--text-3);margin-top:4px}
-  .tl ul{margin:0;padding-left:0;list-style:none;display:grid;gap:8px}
-  .tl li{position:relative;padding-left:17px;font-size:13.8px;color:var(--text-2)}
-  .tl li::before{content:"";position:absolute;left:2px;top:.62em;width:5px;height:5px;border-radius:50%;background:var(--brand);opacity:.6}
+/* 入场 */
+.rv{opacity:0;transform:translateY(18px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.rv.in{opacity:1;transform:none}
 
-  /* ---------- 页脚 ---------- */
-  footer{border-top:1px solid var(--line-2);padding:34px 0 48px;color:var(--text-3);font-size:13px}
-  footer .row{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
-  footer a{border-bottom:1px solid transparent}
-  footer a:hover{color:var(--text);border-bottom-color:var(--brand)}
-
-  /* ---------- 揭示动画 ---------- */
-  .rv{opacity:0;transform:translateY(22px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
-  .rv.in{opacity:1;transform:none}
-
-  @media (max-width:960px){
-    .hero{grid-template-columns:1fr;padding-top:72px}
-    .shot{height:280px;transform:none}
-    .features{grid-template-columns:1fr 1fr}
-    .dl{grid-template-columns:1fr}
-    .stats{grid-template-columns:1fr 1fr}
-  }
-  @media (max-width:620px){
-    .features{grid-template-columns:1fr}
-    .nav .links{display:none}
-    .tl{grid-template-columns:1fr;gap:8px}
-  }
-  @media (prefers-reduced-motion:reduce){
-    *{animation:none!important;transition:none!important}
-    .rv{opacity:1;transform:none}
-  }
-
-  /* —— hero 里的短片 —— */
-  .shot .screen{position:relative;height:calc(100% - 34px);overflow:hidden;border-radius:0 0 21px 21px;background:#06080b}
-  .shot .screen video{display:block;width:100%;height:100%;object-fit:cover}
-  .shot .bar-t{margin-left:auto;font-size:11px;color:var(--text-3);letter-spacing:.06em}
-  .sndbtn{position:absolute;right:12px;bottom:12px;width:30px;height:30px;display:grid;place-items:center;
-    border-radius:50%;border:1px solid rgba(255,255,255,.18);background:rgba(10,13,17,.62);color:#fff;
-    backdrop-filter:blur(8px);cursor:pointer;transition:transform .2s var(--ease),background .2s}
-  .sndbtn:hover{transform:scale(1.06);background:rgba(10,13,17,.8)}
-  .sndbtn .x1{display:block}.sndbtn .w1,.sndbtn .w2{opacity:.25}
-  .sndbtn.on .x1{display:none}.sndbtn.on .w1,.sndbtn.on .w2{opacity:1}
+@media(max-width:980px){
+  .hero{grid-template-columns:1fr;gap:56px;padding:64px 0 72px}
+  .stage{max-width:680px}
+  .sec-head{grid-template-columns:1fr;gap:18px}
+  .claim .below{grid-template-columns:1fr;gap:24px}
+  .row{grid-template-columns:44px minmax(0,1fr);gap:16px}
+  .row .thumb{display:none}
+  .reels{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .fig,.fig.wide{grid-column:span 1}
+  .dl{grid-template-columns:1fr}
+  .card .sub{min-height:0}
+}
+@media(max-width:640px){
+  .wrap{width:min(var(--wrap),calc(100% - 36px))}
+  .links{display:none}
+  .hero-note{margin-bottom:18px}
+  .hero-facts{flex-wrap:wrap;gap:12px 20px}
+  .sec{padding:72px 0}
+  .claim{padding:72px 0}
+  .reels{grid-template-columns:1fr}
+  .fig,.fig.wide{grid-column:span 1}
+  .still.one,.still.two{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .beam{animation:none;display:none}
+  .rv{opacity:1;transform:none;transition:none}
+  *{transition-duration:.01ms !important;animation-duration:.01ms !important}
+}
 </style>
 </head>
 <body>
-<div class="bg">
-  <div class="orb a"></div><div class="orb b"></div><div class="orb c"></div>
-  <div class="grain"></div>
-</div>
-<div class="spot" id="spot"></div>
+<div class="bg"><div class="beam"></div></div>
 
 <header>
   <div class="wrap nav">
-    <div class="logo"><i>教</i>教学工作空间</div>
+    <div class="brand"><span class="marks"><i class="j">教</i><i class="y">语</i></span>教学工作空间</div>
     <nav class="links">
-      <a href="#features">功能</a>
+      <a href="#claim">主张</a>
+      <a href="#abilities">能力</a>
+      <a href="#reels">课堂实录</a>
       <a href="#download">下载</a>
-      <a href="#changes">更新</a>
-      <a href="https://github.com/InkStain258/teaching-workspace-releases" target="_blank" rel="noreferrer">分发仓库</a>
     </nav>
+    <span class="nav-ver" id="nav-ver">版本读取中</span>
   </div>
 </header>
 
-<main class="wrap">
-  <section class="hero">
+<main>
+  <section class="hero wrap">
     <div>
-      <span class="kicker"><b></b>本地优先 · 离线可用 · 一份引擎两套产品</span>
-      <h1>把备课、命题、讲评<br>收进<em>一张纸</em>里</h1>
-      <p class="lede">单元结构导入后，教材、教参、导学案、题库与组卷都在同一处；数据只存本机，断网照常上课。语文版按高中语文的课文与默写铺，通用版按学段无关的单元与记忆铺。</p>
+      <p class="hero-note">Agent 时代</p>
+      <h1>让数字化<br>回归<em>教学本真</em></h1>
+      <p class="hero-lede">我们期盼的是问题的解决，而不是工具的堆砌。备课、命题、讲评收在一处；数据只存本机，断网照常上课。</p>
       <div class="cta">
         <a class="btn primary" href="#download">下载桌面版 <span class="sz" id="hero-size">·</span></a>
-        <a class="btn" href="#features">看看能做什么</a>
+        <a class="btn ghost" href="#abilities">看能力清单</a>
       </div>
+      <div class="hero-facts"><span>本地优先</span><span>离线可用</span><span>一份引擎两套产品</span></div>
     </div>
-    <div class="shot">
-      <div class="bar"><i></i><i></i><i></i><span class="bar-t">教学工作空间</span></div>
+    <div class="stage">
+      <div class="still one"><img src="assets/f42.jpg" alt="单元结构导入画面"></div>
+      <div class="still two"><img src="assets/f102.jpg" alt="卷面结构画面"></div>
       <div class="screen">
+        <div class="bar"><i></i><i></i><i></i><span>教学工作空间</span></div>
         <video id="promo" autoplay muted loop playsinline preload="metadata"
                disablepictureinpicture controlslist="nodownload noplaybackrate noremoteplayback"
                oncontextmenu="return false"
@@ -249,52 +256,52 @@
     </div>
   </section>
 
-  <div class="stats rv">
-    <div class="stat"><b id="st-yuwen">5.1.1</b><span>高中语文工作空间</span></div>
-    <div class="stat"><b id="st-general">1.1.1</b><span>教师工作空间</span></div>
-    <div class="stat"><b>2</b><span>桌面版产品线</span></div>
-    <div class="stat"><b>0</b><span>云端上传（数据不出本机）</span></div>
-  </div>
-
-  <section id="features">
-    <div class="sec-head rv">
-      <h2>一条流水线，从单元到讲评</h2>
-      <p>不是把功能堆在一起：导入的单元结构会一路带着教材、教参、任务与题目走，任何一页都能回到出处。</p>
-    </div>
-    <div class="features">
-      <div class="feat rv"><div class="ico"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="6" rx="1.5"/><rect x="3" y="14" width="18" height="6" rx="1.5"/></svg></div><h3>单元结构导入</h3><p>粘一份结构化文本或 JSON，自动拆成单元、课文/教学内容、任务与目标；不消耗 AI 额度。</p></div>
-      <div class="feat rv"><div class="ico"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4l10-10a2.8 2.8 0 0 0-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/></svg></div><h3>备课中心</h3><p>教参编写意图、内容解读、教学建议并排看；写教案时引用原文不跑题。</p></div>
-      <div class="feat rv"><div class="ico"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="2.5"/><path d="M3.5 9h17M3.5 15h17M9 3.5v17M15 3.5v17"/></svg></div><h3>题库与组卷</h3><p>按篇目、题型、难度筛题，组卷篮随取随放，导出试卷与答案，页边距与字号可控。</p></div>
-      <div class="feat rv"><div class="ico"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.4"/><path d="M12 3.6v16.8"/><path d="M12 8.4a3.6 3.6 0 0 1 0 7.2"/></svg></div><h3>学情与讲评</h3><p>录入得分即出得分率与薄弱点，讲评课按错题排优先级，不必再翻表格。</p></div>
-      <div class="feat rv"><div class="ico"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 4v10l-7 4-7-4V7z"/><path d="M12 8.5l3 1.7v4L12 16l-3-1.8v-4z"/></svg></div><h3>记忆与复习</h3><p>名句默写、实词、常识按 0/1/3/7 天排队；闪卡与记忆模块共用一份数据。</p></div>
-      <div class="feat rv"><div class="ico"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6.5A2.5 2.5 0 1 0 6.5 9H9V6.5zM15 17.5A2.5 2.5 0 1 0 17.5 15H15v2.5zM9 17.5A2.5 2.5 0 1 1 6.5 15H9v2.5zM15 6.5A2.5 2.5 0 1 1 17.5 9H15V6.5z"/><path d="M9 9h6v6H9z"/></svg></div><h3>插件与脚本</h3><p>插件只拿宿主 API，不给系统权限；自己写的脚本可以读题库、加页面。</p></div>
-      <div class="feat rv"><div class="ico"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15.5A2.5 2.5 0 0 1 17.5 21H4z"/><path d="M4 17.5A2.5 2.5 0 0 0 6.5 20H20"/><path d="M8 7h8M8 11h5"/></svg></div><h3>三种外观</h3><p>浅色、纸本、深色。纸本是横格纸 + 装订线的哑光样式，适合长时间读写。</p></div>
-      <div class="feat rv"><div class="ico"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4.5V10h-5.4"/><path d="M12 8.5v7M9 15.5h6"/></svg></div><h3>软件内更新</h3><p>读公开清单、下载安装包、校验 SHA256 后静默升级，数据原地保留。</p></div>
-      <div class="feat rv"><div class="ico"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="6" rx="1.6"/><rect x="3" y="14" width="18" height="5" rx="1.6"/><path d="M7 8h.01M7 16.5h.01"/></svg></div><h3>离线优先</h3><p>桌面版把前端全部打进 exe，运行不依赖服务器；局域网也不影响上课。</p></div>
+  <section class="claim" id="claim">
+    <div class="wrap">
+      <p class="k">写在前面</p>
+      <blockquote><span>教育的本质，意味着一棵树摇动另一棵树</span><span>一朵云推动另一朵云；一个灵魂唤醒另一个灵魂</span></blockquote>
+      <div class="below">
+        <p><strong>我们想做的，是用简单化、模块化、高自定义的产品，让教学回到师生本真，尊重每一位老师的课堂。</strong>不把备课拆进十几个窗口，也不替老师决定一节课该怎么上。</p>
+        <p>两套产品共用一份引擎：语文版按高中语文的课文与默写铺，通用版按学段无关的单元与记忆铺。所有内容留在自己的电脑里，导入、出题、导出都不经过云端。</p>
+      </div>
+      <p class="small">测试版开放 · 与一线教师同行 · 让智慧涌现</p>
     </div>
   </section>
 
-  <section id="download">
+  <section class="sec wrap" id="abilities">
     <div class="sec-head rv">
-      <h2>下载</h2>
-      <p>Windows 10/11 桌面版。安装程序会装到你自己选的目录，数据在安装目录下的 <code>data/</code>。国内加速只是把安装包放在一条国内线路上，页面本身只有这一个。<span class="line-tag" id="line"><i></i><b>检测线路…</b></span></p>
+      <h2>能力<small>按一节课的顺序，而不是按功能菜单</small></h2>
+      <p>从卷面到成题，从单元到复习，从屏幕到纸面。下面每一条都是实际跑得通的步骤。</p>
+    </div>
+    <div class="rows" id="rows"></div>
+  </section>
+
+  <section class="sec wrap" id="reels" style="padding-top:20px">
+    <div class="sec-head rv">
+      <h2>课堂实录<small>画面来自两套产品的真实操作</small></h2>
+      <p>不是示意图。界面、数据、排版都取自实际使用中的工作空间。</p>
+    </div>
+    <div class="reels">
+      <figure class="fig wide rv"><div class="ph"><img src="assets/f12.jpg" alt="卷面结构成题"></div><figcaption><b>01</b>描述卷面结构，直接从真题库成题</figcaption></figure>
+      <figure class="fig wide rv"><div class="ph"><img src="assets/f52.jpg" alt="公式按数学排版"></div><figcaption><b>02</b>题干里的公式，按数学排版</figcaption></figure>
+      <figure class="fig rv"><div class="ph"><img src="assets/f92.jpg" alt="篇目与教参原文入库"></div><figcaption><b>03</b>五册篇目与教参原文入库</figcaption></figure>
+      <figure class="fig rv"><div class="ph"><img src="assets/f122.jpg" alt="间隔复习"></div><figcaption><b>04</b>默对升一级，默错回第一天</figcaption></figure>
+      <figure class="fig rv"><div class="ph"><img src="assets/f142.jpg" alt="导出卷面"></div><figcaption><b>05</b>29 题 · 79 分 · 共 25 页</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="sec wrap" id="download">
+    <div class="sec-head rv">
+      <h2>下载<span class="line-tag" id="line"><i></i><b>检测线路…</b></span><small>Windows 10/11 桌面版 · 装到你自己选的目录</small></h2>
+      <p>数据在安装目录下的 data/ 里，升级时原地保留。国内加速只是把安装包放在一条国内线路上，页面本身只有这一个。</p>
     </div>
     <div class="dl">
       <div class="card yuwen rv">
-        <div class="glow"></div>
-        <span class="tag">高中语文 · 5.x</span>
+        <div class="top"><i>语</i><span class="tag">高中语文 · 5.x</span></div>
         <h3>高中语文工作空间</h3>
-        <div class="sub">课文、默写、文言、作文与整本书阅读，按高中语文的节奏排。</div>
-        <ul class="notes">
-          <li>单元结构导入 + 备课中心 + 教参对照</li>
-          <li>题库 / 组卷台 / 专项训练 / 学情讲评</li>
-          <li>名句默写并入间隔复习</li>
-        </ul>
-        <div class="meta">
-          <span>版本 <b id="v-yuwen">读取中…</b></span>
-          <span>体积 <b id="s-yuwen">—</b></span>
-          <span>更新 <b id="d-yuwen">—</b></span>
-        </div>
+        <p class="sub">五册篇目、教参原文、默写与整本书阅读，按高中语文的节奏排。</p>
+        <ul class="notes" id="notes-yuwen"></ul>
+        <div class="meta"><span>版本 <b id="v-yuwen">读取中…</b></span><span>体积 <b id="s-yuwen">—</b></span><span>更新 <b id="d-yuwen">—</b></span></div>
         <div class="dlrow">
           <a class="dlbtn" id="dl-yuwen" href="https://github.com/InkStain258/teaching-workspace-releases/raw/yuwen/yuwen-setup-5.1.1.exe">下载安装程序</a>
           <a class="ghost" id="mir-yuwen" href="https://xingtong.inkstain.top/static/teaching/dl/yuwen-setup-5.1.1.exe">国内加速下载</a>
@@ -302,20 +309,11 @@
         </div>
       </div>
       <div class="card general rv">
-        <div class="glow"></div>
-        <span class="tag">全科通用 · 1.x</span>
+        <div class="top"><i>教</i><span class="tag">全科通用 · 1.x</span></div>
         <h3>教师工作空间</h3>
-        <div class="sub">不绑定学科与学段：单元、教学内容、题库、记忆模块都按通用词铺。</div>
-        <ul class="notes">
-          <li>单元结构导入 + 备课与导学案</li>
-          <li>题库 / 组卷 / 专项 / 学情</li>
-          <li>记忆模块与校历、素材库</li>
-        </ul>
-        <div class="meta">
-          <span>版本 <b id="v-general">读取中…</b></span>
-          <span>体积 <b id="s-general">—</b></span>
-          <span>更新 <b id="d-general">—</b></span>
-        </div>
+        <p class="sub">不绑定学科与学段：单元、教学内容、题库、记忆模块都按通用词铺。</p>
+        <ul class="notes" id="notes-general"></ul>
+        <div class="meta"><span>版本 <b id="v-general">读取中…</b></span><span>体积 <b id="s-general">—</b></span><span>更新 <b id="d-general">—</b></span></div>
         <div class="dlrow">
           <a class="dlbtn" id="dl-general" href="https://github.com/InkStain258/teaching-workspace-releases/raw/general/general-setup-1.1.1.exe">下载安装程序</a>
           <a class="ghost" id="mir-general" href="https://xingtong.inkstain.top/static/teaching/dl/general-setup-1.1.1.exe">国内加速下载</a>
@@ -324,30 +322,14 @@
       </div>
     </div>
   </section>
-
-  <section id="changes">
-    <div class="sec-head rv">
-      <h2>最近的更新</h2>
-      <p>完整记录在程序里：设置 → 数据与外观 → 查看更新日志。</p>
-    </div>
-    <div class="timeline">
-      <div class="tl rv"><div class="v">v5.1.1<span>2026-11-05</span></div>
-        <ul id="notes-yuwen"><li>更新日志改用块结构渲染，加粗、行内代码与列表都能正常显示</li><li>新增纸本外观</li><li>修复分发通道推送偶发断连</li></ul></div>
-      <div class="tl rv"><div class="v">v5.1.0<span>2026-11-05</span></div>
-        <ul><li>软件内更新：检查、下载、校验、静默安装、自动重开</li><li>组卷篮抽屉加遮罩与更实底板</li></ul></div>
-      <div class="tl rv"><div class="v">v1.1.1<span>2026-11-05</span></div>
-        <ul><li>同步更新通道与纸本外观</li><li>更新日志渲染修复</li></ul></div>
-    </div>
-  </section>
 </main>
 
 <footer>
-  <div class="wrap row">
-    <div>教学工作空间 · 本地优先的备课与命题工作台</div>
-    <div>
-      <a href="https://github.com/InkStain258/teaching-workspace-releases" target="_blank" rel="noreferrer">分发仓库</a>
-      　·　<a href="#download">下载</a>　·　<a href="#features">功能</a>
-    </div>
+  <div class="wrap foot">
+    <span class="brand">教学工作空间</span>
+    <span>本地优先 · 离线可用 · 数据不出本机</span>
+    <a href="https://github.com/InkStain258/teaching-workspace-releases" target="_blank" rel="noreferrer">分发仓库</a>
+    <span style="margin-left:auto">让数字化回归教学本真</span>
   </div>
 </footer>
 
@@ -356,40 +338,56 @@
   "use strict";
   var RAW = "https://raw.githubusercontent.com/InkStain258/teaching-workspace-releases/";
   var MIRROR = "https://xingtong.inkstain.top/static/teaching/";
-  // 官网只在 GitHub Pages 上；xingtong 那边只放安装包与宣传片这类静态数据，不做站点入口
-  var MIRROR_OK = null;      // null=检测中 true/false
-  var MAN = {};              // 各通道清单
+  var MIRROR_OK = null, MAN = {};
 
+  /* —— 能力清单：文案取自宣传片画面字幕 —— */
+  var ROWS = [
+    ["描述卷面结构，直接从真题库成题", "卷面 → 结构 → 成题，一次走完", "f12.jpg"],
+    ["依篇目检索，题目附考点与出处", "篇目、考点、出处可回溯", "f22.jpg"],
+    ["记录经验：同类纠正满两次，生成修订提案", "经验沉淀成修订提案", "f32.jpg"],
+    ["目录即结构，单元一次成型", "单元目录即教学结构", "f42.jpg"],
+    ["题干里的公式，按数学排版", "公式按数学排版导出", "f52.jpg"],
+    ["动效与模糊分级关闭", "界面动效可逐级关闭", "f62.jpg"],
+    ["五册篇目与教参原文入库", "篇目、教参原文同库", "f92.jpg"],
+    ["卷面结构自定，分值自动配平", "分值自动配平，不改题干", "f102.jpg"],
+    ["默对升一级，默错回第一天", "间隔复习按记忆表现调整", "f122.jpg"],
+    ["按到期顺序出队", "到期先出队，不靠手动挑", "f132.jpg"],
+    ["题号、分值、考点与出处，与卷面一致", "导出卷与屏幕一致", "f142.jpg"]
+  ];
+  var rows = document.getElementById("rows"), html = "";
+  /* ROWS 是本文件里的静态常量，不含外部数据；清单正文一律用 textContent 写入 */
+  ROWS.forEach(function(r, i){
+    var n = ("0" + (i + 1)).slice(-2);
+    html += '<div class="row rv"><span class="no">' + n + '</span><div class="txt"><b>' + r[0] +
+            '</b><span>' + r[1] + '</span></div><div class="thumb"><img src="assets/' + r[2] +
+            '" alt="' + r[0] + '" loading="lazy"></div></div>';
+  });
+  rows.innerHTML = html;
+
+  function fmt(n){ n = Number(n)||0; return n>=1048576 ? (n/1048576).toFixed(1)+" MB" : Math.round(n/1024)+" KB"; }
+  function date(s){ return (s||"").slice(0,10); }
   function overtime(ms){
     var c = (window.AbortController ? new AbortController() : null);
     var t = setTimeout(function(){ if(c) c.abort(); }, ms);
     return {signal: c ? c.signal : undefined, done: function(){ clearTimeout(t); }};
   }
-
   function load(ch){
-    var order = [RAW + ch + "/latest.json"];
     return new Promise(function(resolve, reject){
-      (function next(i, err){
-        if(i >= order.length) return reject(err || new Error("no source"));
-        var g = overtime(6000);
-        fetch(order[i] + "?t=" + Date.now(), {cache:"no-store", signal:g.signal})
-          .then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); })
-          .then(function(j){ g.done(); resolve(j); })
-          .catch(function(e){ g.done(); next(i+1, e); });
-      })(0);
+      var g = overtime(7000);
+      fetch(RAW + ch + "/latest.json?t=" + Date.now(), {cache:"no-store", signal:g.signal})
+        .then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); })
+        .then(function(j){ g.done(); resolve(j); })
+        .catch(function(e){ g.done(); reject(e); });
     });
   }
-
   function urlOf(ch, m){
-    if(MIRROR_OK === false) return m.url;
-    return MIRROR + "dl/" + ch + "-setup-" + m.version + ".exe";
+    return MIRROR_OK === false ? m.url : MIRROR + "dl/" + ch + "-setup-" + m.version + ".exe";
   }
-
   function applyLinks(){
     ["yuwen","general"].forEach(function(ch){
       var m = MAN[ch]; if(!m) return;
       var a = document.getElementById("dl-"+ch);
-      if(a){ a.href = urlOf(ch, m); a.dataset.mirror = (MIRROR_OK===false ? "0" : "1"); }
+      if(a){ a.href = urlOf(ch, m); }
       var mir = document.getElementById("mir-"+ch);
       if(mir){
         mir.href = MIRROR + "dl/" + ch + "-setup-" + m.version + ".exe";
@@ -398,21 +396,57 @@
       }
     });
   }
-
   function paintLine(){
-    var tag = document.getElementById("line");
-    if(!tag) return;
+    var tag = document.getElementById("line"); if(!tag) return;
     var ok = MIRROR_OK === true, bad = MIRROR_OK === false;
     tag.className = "line-tag" + (ok ? " ok" : bad ? " bad" : "");
-    tag.querySelector("b").textContent = ok
-      ? "已切到国内加速线路"
-      : bad ? "镜像不可用 · 走 GitHub 直连" : "检测线路…";
+    tag.querySelector("b").textContent = ok ? "已切到国内加速线路" : bad ? "镜像不可用 · 走 GitHub 直连" : "检测线路…";
   }
+  function paint(ch, m){
+    var v = document.getElementById("v-"+ch), s = document.getElementById("s-"+ch), d = document.getElementById("d-"+ch);
+    if(v) v.textContent = m.version;
+    if(s) s.textContent = fmt(m.size);
+    if(d) d.textContent = date(m.published_at);
+    var notes = document.getElementById("notes-"+ch);
+    if(notes && Array.isArray(m.notes) && m.notes.length){
+      notes.innerHTML = "";
+      m.notes.slice(0,4).forEach(function(t){
+        var li = document.createElement("li");
+        li.textContent = String(t).replace(/[*`]/g,"").slice(0,90);
+        notes.appendChild(li);
+      });
+    }
+    MAN[ch] = m; applyLinks();
+    if(ch === "yuwen"){
+      var hs = document.getElementById("hero-size");
+      if(hs) hs.textContent = "v" + m.version + " · " + fmt(m.size);
+      var nv = document.getElementById("nav-ver");
+      if(nv) nv.textContent = "语文 v" + m.version;
+    }
+  }
+  ["yuwen","general"].forEach(function(ch){
+    load(ch).then(function(m){ paint(ch,m); }).catch(function(){ /* 清单拿不到就保留静态文案 */ });
+  });
 
-  // hero 短片：默认静音播放，按钮只切声音，不提供下载
+  /* 跨域探活：对方没开 CORS，用图片 onload/onerror 判断线路 */
+  function probe(tries){
+    tries = tries || 0;
+    var done = false, img = new Image(), t = setTimeout(fin.bind(null,false), 6000);
+    function fin(ok){
+      if(done) return; done = true; clearTimeout(t);
+      if(ok){ MIRROR_OK = true; paintLine(); applyLinks(); return; }
+      if(tries < 2){ setTimeout(function(){ probe(tries+1); }, 4000); return; }
+      MIRROR_OK = false; paintLine(); applyLinks();
+    }
+    img.onload = function(){ fin(true); };
+    img.onerror = function(){ fin(false); };
+    img.src = MIRROR + "media/poster.jpg?t=" + Date.now();
+  }
+  probe();
+
+  /* 首屏片段：静音循环，只给声音开关，不给下载 */
   var vid = document.getElementById("promo"), snd = document.getElementById("snd");
   if(vid){
-    // 有些环境会拦住自动播放，这里补一次 play，并在可见时才播、离开首屏就停
     var kick = function(){ var pr = vid.play(); if(pr && pr.catch) pr.catch(function(){}); };
     kick();
     window.addEventListener("pointerdown", kick, {once:true});
@@ -431,93 +465,16 @@
     });
   }
 
-  function probe(tries){
-    tries = tries || 0;
-    var done = false, img = new Image(), t = setTimeout(fin.bind(null, false), 6000);
-    function fin(ok){
-      if(done) return; done = true; clearTimeout(t);
-      if(ok){ MIRROR_OK = true; paintLine(); applyLinks(); return; }
-      if(tries < 2){ setTimeout(function(){ probe(tries+1); }, 4000); return; }   // 首次握手慢时再试两次
-      MIRROR_OK = false; paintLine(); applyLinks();
-    }
-    img.onload = function(){ fin(true); };
-    img.onerror = function(){ fin(false); };
-    img.src = MIRROR + "media/poster.jpg?t=" + Date.now();
-  }
-
-  probe();
-
-  function fmt(n){ n = Number(n)||0; return n>=1048576 ? (n/1048576).toFixed(1)+" MB" : Math.round(n/1024)+" KB"; }
-  function date(s){ return (s||"").slice(0,10); }
-
-  function load(ch){
-    return fetch(RAW + ch + "/latest.json?t=" + Date.now(), {cache:"no-store"})
-      .then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); });
-  }
-
-  function paint(ch, m){
-    var v = document.getElementById("v-"+ch), s = document.getElementById("s-"+ch), d = document.getElementById("d-"+ch);
-    if(v) v.textContent = m.version;
-    if(s) s.textContent = fmt(m.size);
-    if(d) d.textContent = date(m.published_at);
-    MAN[ch] = m;
-    applyLinks();
-    var st = document.getElementById("st-"+ch);
-    if(st) st.textContent = m.version;
-    var notes = document.getElementById("notes-"+ch);
-    if(notes && Array.isArray(m.notes) && m.notes.length){
-      notes.innerHTML = "";
-      m.notes.slice(0,4).forEach(function(t){
-        var li = document.createElement("li");
-        li.textContent = String(t).replace(/[*`]/g,"").slice(0,90);
-        notes.appendChild(li);
-      });
-    }
-    if(ch === "yuwen"){
-      var hs = document.getElementById("hero-size");
-      if(hs) hs.textContent = "v" + m.version + " · " + fmt(m.size);
-    }
-  }
-
-  ["yuwen","general"].forEach(function(ch){
-    load(ch).then(function(m){ paint(ch,m); }).catch(function(){ /* 清单拿不到就保留静态文案 */ });
-  });
-
-  // 鼠标光斑
-  var spot = document.getElementById("spot");
-  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if(spot && !reduce){
-    window.addEventListener("pointermove", function(e){
-      spot.style.opacity = "1";
-      spot.style.left = e.clientX + "px";
-      spot.style.top = e.clientY + "px";
-    }, {passive:true});
-    window.addEventListener("pointerleave", function(){ spot.style.opacity = "0"; });
-  }
-
-  // 滚动揭示
+  /* 入场揭示 */
   var items = document.querySelectorAll(".rv");
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if(!("IntersectionObserver" in window) || reduce){
     items.forEach(function(n){ n.classList.add("in"); });
   } else {
     var io = new IntersectionObserver(function(es){
-      es.forEach(function(en){
-        if(en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target); }
-      });
-    }, {rootMargin:"0px 0px -12% 0px", threshold:.12});
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } });
+    }, {rootMargin:"0px 0px -8% 0px", threshold:.08});
     items.forEach(function(n){ io.observe(n); });
-  }
-
-  // 卡片跟随鼠标的微倾斜
-  if(!reduce){
-    document.querySelectorAll(".card").forEach(function(card){
-      card.addEventListener("pointermove", function(e){
-        var r = card.getBoundingClientRect();
-        var x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
-        card.style.transform = "perspective(900px) rotateY(" + (x*3).toFixed(2) + "deg) rotateX(" + (-y*3).toFixed(2) + "deg)";
-      });
-      card.addEventListener("pointerleave", function(){ card.style.transform = ""; });
-    });
   }
 })();
 </script>
