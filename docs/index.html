@@ -631,7 +631,6 @@ h1::after{content:"";position:absolute;inset:-12% -8%;pointer-events:none;mix-bl
         var img = document.createElement("img");
         img.src = "assets/" + it[2];
         img.alt = "";
-        img.loading = "lazy";
         th.appendChild(img);
       } else {
         th.appendChild(el("span", null, seq === 11 ? "PLUGIN" : "LOCAL"));
