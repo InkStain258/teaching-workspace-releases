@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="教学工作空间：高中语文工作空间与教师工作空间。本地优先，离线可用，一份引擎两套产品。">
-<title>教学工作空间 · 让数字化回归教学本真</title>
+<title>Recita · 教学工作空间</title>
 <style>
 /* design: 编辑式暗调 · 纸本插页 · 真实产品画面 · 一份引擎两套产品 */
 :root{
@@ -337,6 +337,44 @@ h1::after{content:"";position:absolute;inset:-12% -8%;pointer-events:none;mix-bl
   .rv{opacity:1;transform:none;transition:none}
   *{transition-duration:.01ms !important;animation-duration:.01ms !important}
 }
+
+/* ——— 第二层酷炫：粒子场、旋转描边、磁吸、准星、拖尾 ——— */
+.bg canvas.field{position:absolute;inset:0;width:100%;height:100%;opacity:.6}
+.side-sign{position:fixed;left:18px;top:50%;transform:translateY(-50%);writing-mode:vertical-rl;
+  font-size:10.5px;letter-spacing:.34em;color:var(--text-3);z-index:34;pointer-events:none;
+  display:flex;align-items:center;gap:14px}
+.side-sign::before{content:"";width:1px;height:58px;background:linear-gradient(transparent,var(--blue-lit),transparent)}
+.corner{position:absolute;width:13px;height:13px;opacity:.45}
+.corner::before,.corner::after{content:"";position:absolute;background:var(--text-3)}
+.corner::before{width:100%;height:1px;top:50%}
+.corner::after{height:100%;width:1px;left:50%}
+.c1{left:20px;top:92px}.c2{right:20px;top:92px}.c3{left:20px;bottom:20px}.c4{right:20px;bottom:20px}
+.trail{position:absolute;width:7px;height:7px;border-radius:50%;margin:-3.5px 0 0 -3.5px;
+  background:var(--brand-lit);box-shadow:0 0 14px rgba(221,110,112,.85);opacity:0;transition:opacity .4s var(--ease)}
+.trail.on{opacity:.5}
+.chapters .pct{font-size:11px;color:var(--text-3);letter-spacing:.08em;margin-top:10px;text-align:right}
+.edge{position:absolute;inset:-1px;border-radius:inherit;padding:1px;pointer-events:none;
+  background:conic-gradient(from var(--ang,0deg),transparent 0 61%,var(--brand-lit) 73%,transparent 85%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
+  mask-composite:exclude;opacity:.65;animation:spin 9s linear infinite}
+.card.general .edge{background:conic-gradient(from var(--ang,0deg),transparent 0 61%,var(--blue-lit) 73%,transparent 85%)}
+.prodline{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;font-size:13px;color:var(--text-2)}
+.prodline span{border:1px solid var(--line);border-radius:999px;padding:4px 13px;background:rgba(255,255,255,.025)}
+.brand-en{font-family:var(--serif);font-size:19px;font-weight:600;letter-spacing:.03em;color:var(--text)}
+.brand-cn{font-size:12.5px;color:var(--text-3)}
+.outro .big.two{font-size:clamp(32px,4.8vw,70px);white-space:normal;line-height:1.46}
+.outro .big.two .l{display:block;opacity:0;transform:translateY(22px);animation:quoteIn 1s var(--ease) forwards}
+.outro .big.two .l:nth-child(2){animation-delay:.26s}
+.outro .sig{margin-top:34px;font-size:14px;color:var(--text-2);letter-spacing:.1em}
+.btn,.dlbtn{--bx:0px;--by:0px}
+.btn:hover{transform:translate(var(--bx),var(--by)) translateY(-2px)}
+.dlbtn:hover{transform:translate(var(--bx),var(--by)) translateY(-2px)}
+@media(max-width:980px){.side-sign,.corner,.trail{display:none}}
+@media(prefers-reduced-motion:reduce){
+  .bg canvas.field,.trail,.side-sign,.corner,.edge{display:none}
+  .outro .big.two .l{opacity:1;transform:none;animation:none}
+}
+
 </style>
 </head>
 <body>
@@ -357,7 +395,7 @@ h1::after{content:"";position:absolute;inset:-12% -8%;pointer-events:none;mix-bl
 
 <header>
   <div class="wrap nav">
-    <div class="brand"><span class="marks"><i class="j">教</i><i class="y">语</i></span>教学工作空间</div>
+    <div class="brand"><span class="marks"><i class="j">教</i><i class="y">语</i></span><span class="brand-en">Recita</span><span class="brand-cn">教学工作空间</span></div>
     <nav class="links">
       <a href="#claim">主张</a>
       <a href="#abilities">能力</a>
@@ -373,11 +411,12 @@ h1::after{content:"";position:absolute;inset:-12% -8%;pointer-events:none;mix-bl
     <div>
       <p class="hero-note">Agent 时代</p>
       <h1 id="hero-h1">让数字化<br>回归<em>教学本真</em></h1>
-      <p class="hero-lede">我们期盼的是问题的解决，而不是工具的堆砌。备课、命题、讲评收在一处；数据只存本机，断网照常上课。</p>
+      <p class="hero-lede">备课、命题、讲评收在一处；数据只存本机，断网照常上课。语文版按课文与默写铺，通用版按单元与记忆铺。</p>
       <div class="cta">
         <a class="btn primary" href="#download">下载桌面版 <span class="sz" id="hero-size">·</span></a>
         <a class="btn ghost" href="#abilities">看能力清单</a>
       </div>
+      <div class="prodline"><span>高中语文工作空间</span><span>教师工作空间</span></div>
       <div class="hero-facts"><span>本地优先</span><span>离线可用</span><span>一份引擎两套产品</span></div>
     </div>
     <div class="stage">
@@ -465,18 +504,19 @@ h1::after{content:"";position:absolute;inset:-12% -8%;pointer-events:none;mix-bl
 
   <section class="outro">
     <div class="wrap">
-      <div class="big">让数字化回归教学本真</div>
-      <div class="sub">我们期盼的是问题的解决，而不是工具的堆砌</div>
+      <div class="big two"><span class="l">我们期盼的是问题的解决</span><span class="l">而不是工具的堆砌</span></div>
+      <div class="sig">Recita · 高中语文工作空间 · 教师工作空间</div>
     </div>
   </section>
 </main>
 
 <footer>
   <div class="wrap foot">
-    <span class="brand">教学工作空间</span>
-    <span>本地优先 · 离线可用 · 数据不出本机</span>
+    <span class="brand">Recita · 教学工作空间</span>
+    <span>高中语文工作空间</span>
+    <span>教师工作空间</span>
     <a href="https://github.com/InkStain258/teaching-workspace-releases" target="_blank" rel="noreferrer">分发仓库</a>
-    <span style="margin-left:auto">让数字化回归教学本真</span>
+    <span style="margin-left:auto">本地优先 · 离线可用 · 数据不出本机</span>
   </div>
 </footer>
 
@@ -487,7 +527,7 @@ h1::after{content:"";position:absolute;inset:-12% -8%;pointer-events:none;mix-bl
   var MIRROR = "https://xingtong.inkstain.top/static/teaching/";
   var MIRROR_OK = null, MAN = {};
 
-  /* —— 能力清单：文案取自宣传片画面字幕 —— */
+  /* —— 能力清单：文案取自影片画面字幕 —— */
   var ROWS = [
     ["描述卷面结构，直接从真题库成题", "卷面 → 结构 → 成题，一次走完", "f12.jpg"],
     ["依篇目检索，题目附考点与出处", "篇目、考点、出处可回溯", "f22.jpg"],
@@ -678,6 +718,116 @@ h1::after{content:"";position:absolute;inset:-12% -8%;pointer-events:none;mix-bl
       var n = document.getElementById(id); if(n) so.observe(n);
     });
   }
+
+
+  /* ——— 第二层酷炫：粒子场、描边、磁吸、拖尾、进度数字 ——— */
+  var hud = document.querySelector(".hud");
+  var bgel = document.querySelector(".bg");
+  var field = document.createElement("canvas");
+  field.className = "field";
+  if(bgel) bgel.insertBefore(field, bgel.firstChild);
+
+  if(!reduce && field.getContext){
+    var ctx = field.getContext("2d"), pts = [], W = 0, H = 0, mx = -999, my = -999;
+    function sizeField(){
+      var d = Math.min(window.devicePixelRatio || 1, 1.5);
+      W = window.innerWidth; H = window.innerHeight;
+      field.width = W * d; field.height = H * d;
+      ctx.setTransform(d, 0, 0, d, 0, 0);
+    }
+    sizeField();
+    window.addEventListener("resize", sizeField, {passive:true});
+    for(var i=0;i<64;i++){
+      pts.push({x:Math.random()*W, y:Math.random()*H,
+                vx:(Math.random()-.5)*.18, vy:(Math.random()-.5)*.18, r:Math.random()*1.3+.6});
+    }
+    window.addEventListener("pointermove", function(e){ mx = e.clientX; my = e.clientY; }, {passive:true});
+    (function tick(){
+      ctx.clearRect(0,0,W,H);
+      for(var a=0;a<pts.length;a++){
+        var q = pts[a];
+        q.x += q.vx; q.y += q.vy;
+        if(q.x<0||q.x>W) q.vx *= -1;
+        if(q.y<0||q.y>H) q.vy *= -1;
+        var dx = mx-q.x, dy = my-q.y, d2 = dx*dx+dy*dy;
+        if(d2>1 && d2<18000){
+          var f = (18000-d2)/18000*.55, L = Math.sqrt(d2);
+          q.x -= dx/L*f; q.y -= dy/L*f;
+        }
+        for(var b=a+1;b<pts.length;b++){
+          var z = pts[b], ex = q.x-z.x, ey = q.y-z.y, dd = ex*ex+ey*ey;
+          if(dd<15000){
+            ctx.strokeStyle = "rgba(122,169,223," + (.11*(1-dd/15000)).toFixed(3) + ")";
+            ctx.lineWidth = .6;
+            ctx.beginPath(); ctx.moveTo(q.x,q.y); ctx.lineTo(z.x,z.y); ctx.stroke();
+          }
+        }
+        ctx.fillStyle = a%7===0 ? "rgba(221,110,112,.55)" : "rgba(150,186,228,.5)";
+        ctx.beginPath(); ctx.arc(q.x,q.y,q.r,0,6.2832); ctx.fill();
+      }
+      requestAnimationFrame(tick);
+    })();
+  }
+
+  /* 装饰层：准星、竖排签名、拖尾、进度数字、卡片旋转描边 */
+  if(hud){
+    ["c1","c2","c3","c4"].forEach(function(c){
+      var n = document.createElement("div"); n.className = "corner " + c; hud.appendChild(n);
+    });
+    var sign = document.createElement("div");
+    sign.className = "side-sign";
+    sign.textContent = "RECITA / TEACHING WORKSPACE";
+    hud.appendChild(sign);
+    var pct = document.createElement("div");
+    pct.className = "pct"; pct.textContent = "00%";
+    var ch = hud.querySelector(".chapters"); if(ch) ch.appendChild(pct);
+  }
+  document.querySelectorAll(".card").forEach(function(c){
+    var e = document.createElement("i"); e.className = "edge"; c.appendChild(e);
+  });
+
+  if(!reduce && window.matchMedia("(pointer:fine)").matches){
+    var trails = [];
+    if(hud){
+      for(var t=0;t<3;t++){
+        var n = document.createElement("div"); n.className = "trail"; hud.appendChild(n);
+        trails.push({el:n, x:0, y:0});
+      }
+    }
+    var px = 0, py = 0;
+    window.addEventListener("pointermove", function(e){
+      px = e.clientX; py = e.clientY;
+      trails.forEach(function(o){ o.el.classList.add("on"); });
+    }, {passive:true});
+    (function follow(){
+      var cx = px, cy = py;
+      trails.forEach(function(o, k){
+        o.x += (cx-o.x)*(.24-k*.06); o.y += (cy-o.y)*(.24-k*.06);
+        o.el.style.transform = "translate3d(" + o.x.toFixed(1) + "px," + o.y.toFixed(1) + "px,0) scale(" + (1-k*.22).toFixed(2) + ")";
+        cx = o.x; cy = o.y;
+      });
+      requestAnimationFrame(follow);
+    })();
+
+    document.querySelectorAll(".btn,.dlbtn").forEach(function(el){
+      el.addEventListener("pointermove", function(e){
+        var r = el.getBoundingClientRect();
+        el.style.setProperty("--bx", ((e.clientX-r.left)/r.width-.5)*10 + "px");
+        el.style.setProperty("--by", ((e.clientY-r.top)/r.height-.5)*6 + "px");
+      }, {passive:true});
+      el.addEventListener("pointerleave", function(){
+        el.style.setProperty("--bx","0px"); el.style.setProperty("--by","0px");
+      });
+    });
+  }
+
+  var pctEl = document.querySelector(".chapters .pct");
+  window.addEventListener("scroll", function(){
+    if(!pctEl) return;
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    var v = h>0 ? Math.min(100, Math.round(window.scrollY/h*100)) : 0;
+    pctEl.textContent = (v<10?"0":"") + v + "%";
+  }, {passive:true});
 
   /* 入场揭示 */
   var items = document.querySelectorAll(".rv");
