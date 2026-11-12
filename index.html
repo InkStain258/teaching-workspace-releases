@@ -175,6 +175,17 @@ h1 em{font-style:normal;color:var(--brand-lit)}
 .line-tag.ok i{background:var(--blue-lit)}.line-tag.bad i{background:var(--brand-lit)}
 
 /* MCP */
+.mcp-head{margin-bottom:44px}
+.mcp-title{display:flex;align-items:baseline;gap:22px;flex-wrap:wrap;margin-bottom:26px}
+.mcp-title h2{font-family:var(--serif);font-size:clamp(34px,4vw,54px);font-weight:600;margin:0;line-height:1.2}
+.mcp-title .sub{font-size:13px;color:var(--text-3);letter-spacing:.04em}
+.mcp-lede{font-size:clamp(16.5px,1.55vw,19px);line-height:1.9;color:var(--text-2);margin:0;max-width:60em;text-wrap:pretty;word-break:keep-all}
+.mcp-lede b{color:var(--text);font-weight:600}
+.mcp-chips{display:flex;flex-wrap:wrap;gap:8px;margin:24px 0 0;padding:0;list-style:none}
+.mcp-chips li{font-size:12.5px;color:var(--text-2);border:1px solid var(--line);border-radius:999px;
+  padding:5px 13px;background:rgba(255,255,255,.028);transition:border-color .3s var(--ease),color .3s var(--ease)}
+.mcp-chips li:hover{border-color:rgba(255,255,255,.24);color:var(--text)}
+.mcp-chips li.more{border-style:dashed;color:var(--text-3)}
 .mcp-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-bottom:22px}
 .mcp-card{position:relative;border:1px solid var(--line);border-radius:var(--radius);padding:26px 24px 28px;
   background:linear-gradient(165deg,rgba(255,255,255,.055),rgba(255,255,255,.012));overflow:hidden}
@@ -212,6 +223,23 @@ h1 em{font-style:normal;color:var(--brand-lit)}
 .mcp-tool span{font-size:13px;color:var(--text-3)}
 .mcp-clients{margin-left:auto;font-size:13px;color:var(--text-3);text-align:right;max-width:52%}
 @media(max-width:980px){.mcp-grid{grid-template-columns:1fr}.mcp-flow{grid-template-columns:1fr}.mcp-clients{max-width:100%;text-align:left;margin-left:0}}
+
+.mcp-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px;align-items:center}
+.mcp-cta .hint{font-size:13px;color:var(--text-3);margin-left:4px}
+/* 顶栏教程下拉 */
+.navdrop{position:relative}
+.navdrop>a{display:inline-flex;align-items:center;gap:5px}
+.navdrop>a::before{content:"";width:0;height:0;border-left:3.5px solid transparent;border-right:3.5px solid transparent;
+  border-top:4px solid currentColor;opacity:.55;order:2;margin-left:1px}
+.navdrop .menu{position:absolute;top:calc(100% + 12px);right:-10px;min-width:212px;padding:6px;
+  border:1px solid var(--line);border-radius:12px;background:rgba(16,21,28,.97);backdrop-filter:blur(16px);
+  box-shadow:0 24px 48px -24px #000;opacity:0;visibility:hidden;transform:translateY(-6px);
+  transition:opacity .22s var(--ease),transform .22s var(--ease),visibility .22s}
+.navdrop:hover .menu,.navdrop:focus-within .menu{opacity:1;visibility:visible;transform:none}
+.navdrop .menu a{display:block;padding:8px 12px;border-radius:7px;font-size:13.5px;color:var(--text-2);line-height:1.5}
+.navdrop .menu a:hover{background:rgba(255,255,255,.06);color:var(--text)}
+.navdrop .menu a small{display:block;font-size:11.5px;color:var(--text-3);margin-top:1px;line-height:1.4}
+@media(max-width:980px){.mcp-title{gap:14px}.mcp-lede{font-size:16px}}
 
 footer{border-top:1px solid var(--line);padding:40px 0 56px;color:var(--text-3);font-size:13.5px}
 .foot{display:flex;gap:28px;flex-wrap:wrap;align-items:center}
@@ -500,7 +528,14 @@ h1::after{content:"";position:absolute;inset:-12% -8%;pointer-events:none;mix-bl
     <nav class="links">
       <a href="#claim">主张</a>
       <a href="#abilities">能力</a>
-      <a href="#mcp">MCP</a>
+      <div class="navdrop">
+        <a href="#mcp">MCP</a>
+        <div class="menu">
+          <a href="mcp-general.html">MCP 教程 · 全学科版<small>23 个工具</small></a>
+          <a href="mcp-yuwen.html">MCP 教程 · 高中语文版<small>20 个工具</small></a>
+          <a href="#mcp">MCP 是什么<small>本页章节</small></a>
+        </div>
+      </div>
       <a href="#reels">课堂实录</a>
       <a href="#download">下载</a>
     </nav>
@@ -556,9 +591,27 @@ h1::after{content:"";position:absolute;inset:-12% -8%;pointer-events:none;mix-bl
   </section>
 
   <section class="sec wrap" id="mcp">
-    <div class="sec-head rv">
-      <h2>MCP<small>把你的 AI 客户端接到工作台上</small></h2>
-      <p>备题达内置一台 MCP 服务器。协议是开放的：Claude Desktop、Claude Code、Cursor、VS Code、Cline、Continue，或你自己写的 agent，都能直接读题库、查篇目、调记忆——不必再来回复制粘贴。</p>
+    <div class="mcp-head rv">
+      <div class="mcp-title">
+        <h2>MCP</h2>
+        <span class="sub">把你的 AI 客户端接到工作台上</span>
+      </div>
+      <p class="mcp-lede">备题达内置一台 MCP 服务器。你的 AI 客户端连上来，就能<b>直接读题库、查篇目、调记忆</b>，不必再复制粘贴。</p>
+      <ul class="mcp-chips">
+        <li>Claude Desktop</li>
+        <li>Claude Code</li>
+        <li>Cursor</li>
+        <li>VS Code</li>
+        <li>Cline</li>
+        <li>Continue</li>
+        <li>Cherry Studio</li>
+        <li class="more">你自己写的 agent</li>
+      </ul>
+      <div class="mcp-cta">
+        <a class="btn primary" href="mcp-general.html">读全学科版教程</a>
+        <a class="btn ghost" href="mcp-yuwen.html">读高中语文版教程</a>
+        <span class="hint">含 10 类客户端配置、工具速查与排错</span>
+      </div>
     </div>
 
     <div class="mcp-grid rv">
@@ -606,7 +659,7 @@ h1::after{content:"";position:absolute;inset:-12% -8%;pointer-events:none;mix-bl
     <div class="mcp-tools rv">
       <div class="mcp-tool"><b>23</b><span>全学科版工具</span></div>
       <div class="mcp-tool"><b>20</b><span>高中语文版工具</span></div>
-      <div class="mcp-clients">Claude Desktop · Claude Code · Cursor · VS Code · Cline · Continue · Cherry Studio · 自写 agent</div>
+      <div class="mcp-clients">安装包内附完整教程：安装目录 <code style="font-size:12px;background:rgba(255,255,255,.07);border:1px solid var(--line-2);border-radius:4px;padding:1px 5px">docs\MCP-使用教程.md</code></div>
     </div>
   </section>
 
