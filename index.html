@@ -411,7 +411,10 @@ h1::after{content:"";position:absolute;inset:-12% -8%;pointer-events:none;mix-bl
 .bg canvas.field{position:absolute;inset:0;width:100%;height:100%;opacity:.6}
 .side-sign{position:fixed;left:18px;top:50%;transform:translateY(-50%);writing-mode:vertical-rl;
   font-size:10.5px;letter-spacing:.34em;color:var(--text-3);z-index:34;pointer-events:none;
-  display:flex;align-items:center;gap:14px}
+  display:none;align-items:center;gap:14px}
+/* 只有视口够宽、wrap 左右各留出 100px 以上空白时才显示竖排字，
+   否则它会压到内容（窄屏下 wrap 左边距只剩 28-36px） */
+@media(min-width:1400px){.side-sign{display:flex}}
 .side-sign::before{content:"";width:1px;height:58px;background:linear-gradient(transparent,var(--blue-lit),transparent)}
 .corner{position:absolute;width:13px;height:13px;opacity:.45}
 .corner::before,.corner::after{content:"";position:absolute;background:var(--text-3)}
