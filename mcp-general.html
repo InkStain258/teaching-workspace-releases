@@ -1,0 +1,873 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="备题达（Petita）MCP 使用教程 · 全学科 · 全学段版：开启、鉴权、23 个工具、各类客户端配置与排错。">
+<title>MCP 使用教程 · 全学科 · 全学段版 · Petita 备题达</title>
+<style>:root{
+  --ink:#0a0d12; --ink-2:#10151c; --ink-3:#161c25;
+  --text:#ece9e2; --text-2:#b3b1aa; --text-3:#7c807d;
+  --brand:#c04b4f; --brand-lit:#dd6e70; --blue:#4d86c6; --blue-lit:#7aa9df; --gold:#c5a46b;
+  --line:rgba(255,255,255,.10); --line-2:rgba(255,255,255,.055);
+  --sans:"HarmonyOS Sans SC","PingFang SC","Microsoft YaHei UI",system-ui,sans-serif;
+  --serif:"Songti SC","Noto Serif CJK SC","Source Han Serif SC",SimSun,serif;
+  --mono:"JetBrains Mono","Cascadia Code",Consolas,"Courier New",monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ink);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.85;-webkit-font-smoothing:antialiased}
+.bg{position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(120% 70% at 85% -10%,rgba(77,134,198,.11),transparent 60%),
+             radial-gradient(80% 60% at -10% 15%,rgba(192,75,79,.09),transparent 60%),var(--ink)}
+.wrap{width:min(1240px,calc(100% - 56px));margin-inline:auto}
+a{color:var(--blue-lit);text-decoration:none}
+a:hover{color:#a8c8ee;text-decoration:underline;text-underline-offset:3px}
+header{position:sticky;top:0;z-index:20;background:rgba(10,13,18,.94);backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--line-2)}
+.nav{height:68px;display:flex;align-items:center;gap:16px;font-size:14px}
+.mark{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-family:var(--serif);
+  font-size:16px;color:#fff;text-decoration:none}
+.mark.y{background:var(--brand)}.mark.t{background:var(--blue)}
+.brand{font-weight:600;letter-spacing:.01em;color:var(--text);text-decoration:none}
+.nav .sub{color:var(--text-3);font-size:13px}
+.nav .back{margin-left:auto;font-size:13px;color:var(--text-2);border:1px solid var(--line);
+  border-radius:999px;padding:5px 14px}
+.nav .back:hover{color:var(--text);text-decoration:none;border-color:rgba(255,255,255,.24)}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:56px;padding:52px 0 90px;align-items:start}
+aside{position:sticky;top:100px;max-height:calc(100vh - 130px);overflow-y:auto;font-size:13px;
+  border-left:1px solid var(--line);padding-left:18px}
+aside .t{font-size:11.5px;letter-spacing:.16em;color:var(--text-3);margin-bottom:12px}
+aside ul{list-style:none;margin:0;padding:0}
+aside li{margin:0 0 3px}
+aside li.l3{padding-left:14px;font-size:12.5px}
+aside a{color:var(--text-2);display:block;padding:3px 0}
+aside a:hover{color:var(--text);text-decoration:none}
+aside::-webkit-scrollbar{width:5px}
+aside::-webkit-scrollbar-thumb{background:rgba(255,255,255,.14);border-radius:9px}
+article{min-width:0;max-width:none}
+article h1{font-family:var(--serif);font-size:clamp(30px,3.2vw,42px);font-weight:600;line-height:1.3;margin:0 0 26px}
+article h2{font-family:var(--serif);font-size:clamp(23px,2.2vw,29px);font-weight:600;line-height:1.4;
+  margin:58px 0 18px;padding-top:20px;border-top:1px solid var(--line);scroll-margin-top:96px}
+article h3{font-size:18px;font-weight:600;margin:38px 0 12px;color:#f2efe8;scroll-margin-top:96px}
+article h4{font-size:15.5px;font-weight:600;margin:26px 0 10px;color:var(--text-2)}
+article p{margin:0 0 16px;color:var(--text-2)}
+article strong{color:var(--text);font-weight:600}
+article ul,article ol{margin:0 0 18px;padding-left:1.4em;color:var(--text-2)}
+article li{margin:5px 0}
+article li::marker{color:var(--text-3)}
+article hr{border:0;border-top:1px solid var(--line-2);margin:40px 0}
+article blockquote{margin:20px 0;padding:14px 20px;border-left:2px solid var(--gold);
+  background:rgba(197,164,107,.06);color:var(--text-2);border-radius:0 8px 8px 0}
+article blockquote p:last-child{margin:0}
+article code{font-family:var(--mono);font-size:13px;background:rgba(255,255,255,.07);
+  border:1px solid var(--line-2);border-radius:5px;padding:1px 5px;color:#e6e2d8}
+article pre{background:#070a0e;border:1px solid var(--line);border-radius:12px;padding:16px 18px;
+  overflow-x:auto;margin:0 0 20px;line-height:1.75}
+article pre code{background:none;border:0;padding:0;font-size:12.5px;color:#c9cec6;white-space:pre}
+article table{width:100%;border-collapse:collapse;margin:0 0 22px;font-size:14px;display:block;overflow-x:auto}
+article th,article td{border:1px solid var(--line);padding:9px 13px;text-align:left;vertical-align:top}
+article th{background:rgba(255,255,255,.045);color:var(--text);font-weight:600;white-space:nowrap}
+article td{color:var(--text-2)}
+article table code{font-size:12px}
+footer{border-top:1px solid var(--line);padding:34px 0 50px;color:var(--text-3);font-size:13px}
+footer .f{display:flex;gap:22px;flex-wrap:wrap;align-items:center}
+footer a{color:var(--text-2)}
+@media(max-width:980px){
+  .layout{grid-template-columns:1fr;gap:26px;padding:34px 0 60px}
+  aside{position:static;max-height:290px;border-left:0;border:1px solid var(--line);
+    border-radius:12px;padding:16px 18px;background:rgba(255,255,255,.022)}
+  .wrap{width:calc(100% - 36px)}
+}</style>
+</head>
+<body>
+<div class="bg"></div>
+<header>
+  <div class="wrap nav">
+    <a class="mark t" href="./index.html" aria-label="返回官网">通</a>
+    <a class="brand" href="./index.html">Petita 备题达</a>
+    <span class="sub">MCP 使用教程 · 全学科 · 全学段版</span>
+    <a class="back" href="./index.html">← 返回官网</a>
+  </div>
+</header>
+<div class="wrap layout">
+  <aside>
+    <div class="t">目录</div>
+    <ul><li class="l2"><a href="#mcp-api-key">一、MCP 是什么，跟「配个 API Key」有什么不一样</a></li><li class="l3"><a href="#11">1.1 一句话</a></li><li class="l3"><a href="#12-api-key">1.2 为什么「不需要 API Key」</a></li><li class="l3"><a href="#13">1.3 一个关键前提</a></li><li class="l2"><a href="#mcp">二、开启 MCP</a></li><li class="l3"><a href="#21">2.1 三步</a></li><li class="l3"><a href="#211">2.1.1 看谁连着</a></li><li class="l3"><a href="#22">2.2 三个概念</a></li><li class="l3"><a href="#23">2.3 关于「写操作」这个开关</a></li><li class="l3"><a href="#24">2.4 端口被占用怎么办</a></li><li class="l2"><a href="#ai">三、接各种 AI 客户端</a></li><li class="l3"><a href="#31-claude-desktopwindows-macos">3.1 Claude Desktop（Windows / macOS）</a></li><li class="l3"><a href="#32-cursor">3.2 Cursor</a></li><li class="l3"><a href="#33-vs-codegithub-copilot-chat">3.3 VS Code（GitHub Copilot Chat）</a></li><li class="l3"><a href="#34-claude-code">3.4 Claude Code（命令行）</a></li><li class="l3"><a href="#35-cherry-studio">3.5 Cherry Studio</a></li><li class="l3"><a href="#36-clinevs-code">3.6 Cline（VS Code 扩展）</a></li><li class="l3"><a href="#37-continuevs-code-jetbrains">3.7 Continue（VS Code / JetBrains）</a></li><li class="l3"><a href="#38-open-webui-librechat">3.8 Open WebUI / LibreChat / 其他自建平台</a></li><li class="l3"><a href="#39">3.9 只支持命令行的客户端：用桥接</a></li><li class="l3"><a href="#310-agent-http">3.10 自己写 agent：直接打 HTTP</a></li><li class="l2"><a href="#23_1">四、23 个工具速查</a></li><li class="l3"><a href="#41">4.1 读工具（不受写开关影响）</a></li><li class="l3"><a href="#42">4.2 写工具（受开关控制）</a></li><li class="l3"><a href="#43-ima-ima">4.3 ima 知识库工具（需先在设置里配好 ima）</a></li><li class="l2"><a href="#4">五、能拿它做什么：4 个真实场景</a></li><li class="l3"><a href="#1-ai">场景 1：让 AI 出一套卷子</a></li><li class="l3"><a href="#2">场景 2：查漏补缺</a></li><li class="l3"><a href="#3">场景 3：批量整理背诵卡</a></li><li class="l3"><a href="#4_1">场景 4：排复习计划</a></li><li class="l2"><a href="#_1">六、安全说明（重要）</a></li><li class="l3"><a href="#61">6.1 数据不出本机</a></li><li class="l3"><a href="#62">6.2 令牌是干什么的</a></li><li class="l3"><a href="#63">6.3 写操作的边界</a></li><li class="l3"><a href="#64">6.4 应用关了就断了</a></li><li class="l2"><a href="#_2">七、排错</a></li><li class="l3"><a href="#71">7.1 连不上</a></li><li class="l3"><a href="#72">7.2 常见报错对照</a></li><li class="l3"><a href="#73">7.3 端口冲突</a></li><li class="l2"><a href="#_3">八、常见问题</a></li><li class="l2"><a href="#a">附录 A：协议细节（写自己的客户端时看）</a></li><li class="l2"><a href="#b-curl">附录 B：直接用 curl 试一遍</a></li></ul>
+  </aside>
+  <article>
+    <blockquote>
+<p>适用版本：备题达 1.3.0 及以上（桌面版）
+读完能做什么：让 Claude Desktop、Cursor、VS Code、Cherry Studio、Open WebUI、Continue、Cline、Codex CLI、Gemini CLI、Claude Code、你自己的 agent……直接读写你的题库、教案、记忆卡和校历。</p>
+</blockquote>
+<hr />
+<h2 id="mcp-api-key">一、MCP 是什么，跟「配个 API Key」有什么不一样</h2>
+<h3 id="11">1.1 一句话</h3>
+<p><strong>API Key 模式</strong>是「你把题目贴给 AI，AI 把结果贴回来」。
+<strong>MCP 模式</strong>是「AI 自己伸手进你的题库里翻、挑、改」。</p>
+<p>区别在于<strong>谁动手</strong>：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>API Key（现在的做法）</th>
+<th>MCP（本教程）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>谁知道你的题库有什么</td>
+<td>AI 只能看到你贴进对话框的那部分</td>
+<td>AI 可以自己检索全部</td>
+</tr>
+<tr>
+<td>找十道「二次函数·中等难度」的题</td>
+<td>你得先自己搜、再复制、再粘贴</td>
+<td>AI 自己调 <code>bank_search</code> 拿到</td>
+</tr>
+<tr>
+<td>改完的结果</td>
+<td>你手动复制回软件</td>
+<td>AI 直接写进去</td>
+</tr>
+<tr>
+<td>需要联网吗</td>
+<td>需要（要调云端接口）</td>
+<td><strong>不需要</strong>（AI 客户端在你本机，数据也在本机）</td>
+</tr>
+<tr>
+<td>需要 API Key 吗</td>
+<td>需要</td>
+<td><strong>不需要</strong>（省掉这笔钱）</td>
+</tr>
+<tr>
+<td>数据出本机吗</td>
+<td>出（发给模型厂商）</td>
+<td>只发给 AI 客户端，备题达本身不联网</td>
+</tr>
+</tbody>
+</table>
+<h3 id="12-api-key">1.2 为什么「不需要 API Key」</h3>
+<p>因为 MCP 用的是<strong>你电脑上已经登录好的 AI 客户端</strong>。Claude Desktop 用你订阅的额度，Cursor 用你自己的 key，本地跑的模型（Ollama、LM Studio）根本不花钱——备题达这边只是把数据递出去，不管计费。</p>
+<h3 id="13">1.3 一个关键前提</h3>
+<p><strong>备题达必须开着。</strong> 你的题库、教案、记忆卡都存在应用里，MCP 本身不存数据，它只是「转接台」。应用关着的时候，AI 调用工具会明确收到「请先打开备题达」，不会假装成功。</p>
+<hr />
+<h2 id="mcp">二、开启 MCP</h2>
+<h3 id="21">2.1 三步</h3>
+<ol>
+<li>打开备题达桌面版（<strong>应用会自动启动 MCP 服务</strong>，不需要手动开）</li>
+<li>进入「设置 → MCP」</li>
+<li>看到这样一排状态就说明开着：</li>
+</ol>
+<pre><code>[服务运行中] [页面已连上] [23 个工具]
+
+连接地址（含令牌）  http://127.0.0.1:47321/mcp?token=915eb38a…   [复制]
+仅地址              http://127.0.0.1:47321/mcp                  [复制]
+令牌                915eb38a3f7bac6d…                            [复制]
+</code></pre>
+<p><strong>点「复制」拿到带令牌的地址</strong>，粘到你的 AI 客户端里就行（各客户端的填法见第三章）。</p>
+<h3 id="211">2.1.1 看谁连着</h3>
+<p>面板顶部那一排标签就是实时状态，每 3 秒自动刷新：</p>
+<pre><code>[服务运行中] [页面已连上] [23 个工具] [2 个客户端在线]
+
+● claude-ai     12 次 · 刚刚
+● Cursor        刚刚
+最近调用：bank_stats（刚刚）
+</code></pre>
+<ul>
+<li><strong>服务运行中</strong> —— 本地端口在监听</li>
+<li><strong>页面已连上</strong> —— 应用窗口活着，能真的执行工具</li>
+<li><strong>N 个客户端在线</strong> —— 60 秒内有过请求的客户端数</li>
+<li>下面每行是<strong>一个客户端</strong>：名字、累计调用次数、最后活动时间。名字来自客户端握手时上报的 <code>clientInfo.name</code>，拿不到时退回它的 User-Agent</li>
+<li><strong>最近调用</strong> —— 上一次被调用的工具名和时间</li>
+</ul>
+<p>这排状态是判断「到底通没通」最快的地方：客户端连上后，这里应该多出一行它的名字。如果客户端显示已连接但这里没有记录，说明它连的是别的端口。</p>
+<p>面板下方还有三块：</p>
+<table>
+<thead>
+<tr>
+<th>区块</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>端口</td>
+<td>改监听端口，保存后<strong>重启应用</strong>生效</td>
+</tr>
+<tr>
+<td>写操作</td>
+<td>「允许 AI 直接写入」开关，见 §2.3</td>
+</tr>
+<tr>
+<td>安全 / 自检</td>
+<td>重新生成令牌、一键测试连接是否正常</td>
+</tr>
+</tbody>
+</table>
+<h3 id="22">2.2 三个概念</h3>
+<table>
+<thead>
+<tr>
+<th>名词</th>
+<th>含义</th>
+<th>要改吗</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>地址</strong></td>
+<td>本地端口，默认 <code>47321</code>。AI 客户端往这里发请求</td>
+<td>一般不用</td>
+</tr>
+<tr>
+<td><strong>令牌</strong></td>
+<td>32 位随机串。相当于密码，防止你电脑上别的程序乱调</td>
+<td>不用改，但要复制</td>
+</tr>
+<tr>
+<td><strong>写操作</strong></td>
+<td>开关。关着时 AI 只能「提案」，你点执行才生效</td>
+<td>建议先关着</td>
+</tr>
+</tbody>
+</table>
+<h3 id="23">2.3 关于「写操作」这个开关</h3>
+<p><strong>关着（默认）</strong> —— AI 想加题、加日程、加卡片时，备题达会弹出一张卡片：</p>
+<pre><code>┌────────────────────────────────────┐
+│ 把 10 道题加进组卷篮          共 45 分 │
+│ · 选择题 5分  已知函数 f(x)=...      │
+│ · 选择题 5分  若 a&gt;b&gt;0，则...        │
+│                          [执行] [取消] │
+└────────────────────────────────────┘
+</code></pre>
+<p>你点「执行」才真的写进去。<strong>推荐先用这个</strong>，用熟了再考虑打开。</p>
+<p><strong>打开</strong> —— AI 调什么就执行什么（仍然会记撤销，可以 <code>Ctrl+Z</code> 回退）。适合你在旁边盯着、批量处理的时候。</p>
+<blockquote>
+<p>读操作（搜题、看教案、查进度）<strong>不受这个开关影响</strong>，永远是直接执行。</p>
+</blockquote>
+<h3 id="24">2.4 端口被占用怎么办</h3>
+<p>如果 <code>47321</code> 被别的程序占了，应用会自动换一个端口。以设置页显示的为准。要固定成别的端口：设置 → MCP → 端口，改完<strong>重启应用</strong>生效。</p>
+<hr />
+<h2 id="ai">三、接各种 AI 客户端</h2>
+<p>先说明两类接法，看到配置项再对号入座：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>长什么样</th>
+<th>怎么填</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A. 支持 HTTP 的客户端</strong></td>
+<td>有「Remote MCP」「HTTP」「SSE」「URL」字样</td>
+<td>直接填 <code>http://127.0.0.1:47321/mcp?token=你的令牌</code></td>
+</tr>
+<tr>
+<td><strong>B. 只支持命令行的客户端</strong></td>
+<td>只能填 <code>command</code> + <code>args</code></td>
+<td>见 §3.9 的桥接方案</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>令牌怎么传</strong>：<code>?token=xxx</code> 放在地址里最省事。有些客户端支持自定义请求头，那就用 <code>Authorization: Bearer 你的令牌</code>。</p>
+</blockquote>
+<hr />
+<h3 id="31-claude-desktopwindows-macos">3.1 Claude Desktop（Windows / macOS）</h3>
+<p>配置文件位置：</p>
+<ul>
+<li>Windows：<code>%APPDATA%\Claude\claude_desktop_config.json</code></li>
+<li>macOS：<code>~/Library/Application Support/Claude/claude_desktop_config.json</code></li>
+</ul>
+<p><strong>如果文件不存在就新建</strong>，内容：</p>
+<pre><code class="language-json">{
+  &quot;mcpServers&quot;: {
+    &quot;petita&quot;: {
+      &quot;url&quot;: &quot;http://127.0.0.1:47321/mcp?token=你的令牌&quot;
+    }
+  }
+}
+</code></pre>
+<p>改完<strong>完全退出 Claude Desktop</strong>（右键托盘图标 → Quit，不是关窗口），再打开。</p>
+<p>验证：对话里问「用 petita 看看我的题库有多少题」。它应该会调 <code>bank_stats</code>。</p>
+<blockquote>
+<p>旧版 Claude Desktop 不支持 <code>url</code> 字段，只认 <code>command</code>。那就用 §3.9 的桥接。</p>
+</blockquote>
+<hr />
+<h3 id="32-cursor">3.2 Cursor</h3>
+<p><code>Ctrl+Shift+P</code> → 输入 <code>MCP</code> → 选 <strong>Cursor Settings: MCP</strong> → <strong>Add new global MCP server</strong>。</p>
+<p>它打开 <code>~/.cursor/mcp.json</code>，填：</p>
+<pre><code class="language-json">{
+  &quot;mcpServers&quot;: {
+    &quot;petita&quot;: {
+      &quot;url&quot;: &quot;http://127.0.0.1:47321/mcp?token=你的令牌&quot;
+    }
+  }
+}
+</code></pre>
+<p>保存后 Cursor 会自动连。MCP 面板里 <code>petita</code> 应该亮绿点，显示 23 个工具。</p>
+<hr />
+<h3 id="33-vs-codegithub-copilot-chat">3.3 VS Code（GitHub Copilot Chat）</h3>
+<p>要求：VS Code 1.102+，装了 Copilot 扩展并登录。</p>
+<p><code>Ctrl+Shift+P</code> → <strong>MCP: Add Server</strong> → 选 <strong>HTTP</strong> → 粘贴：</p>
+<pre><code>http://127.0.0.1:47321/mcp?token=你的令牌
+</code></pre>
+<p>名字填 <code>petita</code>，作用域选 <strong>Global</strong>。</p>
+<p>或者直接编辑 <code>settings.json</code>：</p>
+<pre><code class="language-json">{
+  &quot;mcp&quot;: {
+    &quot;servers&quot;: {
+      &quot;petita&quot;: {
+        &quot;type&quot;: &quot;http&quot;,
+        &quot;url&quot;: &quot;http://127.0.0.1:47321/mcp?token=你的令牌&quot;
+      }
+    }
+  }
+}
+</code></pre>
+<p>用的时候：Copilot Chat 里切到 <strong>Agent</strong> 模式，点输入框下的工具图标，勾上 petita。</p>
+<hr />
+<h3 id="34-claude-code">3.4 Claude Code（命令行）</h3>
+<pre><code class="language-bash">claude mcp add --transport http petita &quot;http://127.0.0.1:47321/mcp?token=你的令牌&quot;
+</code></pre>
+<p>加 <code>--scope user</code> 让它对所有项目生效：</p>
+<pre><code class="language-bash">claude mcp add --transport http --scope user petita &quot;http://127.0.0.1:47321/mcp?token=你的令牌&quot;
+</code></pre>
+<p>验证：</p>
+<pre><code class="language-bash">claude mcp list
+</code></pre>
+<p>应该看到 <code>petita: ... ✓ Connected</code>。</p>
+<hr />
+<h3 id="35-cherry-studio">3.5 Cherry Studio</h3>
+<p>设置 → <strong>MCP 服务器</strong> → <strong>添加</strong> → 类型选 <strong>可流式传输的 HTTP（streamableHttp）</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>填什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>名称</td>
+<td><code>petita</code></td>
+</tr>
+<tr>
+<td>URL</td>
+<td><code>http://127.0.0.1:47321/mcp?token=你的令牌</code></td>
+</tr>
+</tbody>
+</table>
+<p>保存后点「检测」，看到 23 个工具就对了。</p>
+<hr />
+<h3 id="36-clinevs-code">3.6 Cline（VS Code 扩展）</h3>
+<p>侧边栏 Cline → 右上角 ⚙️ → <strong>MCP Servers</strong> → <strong>Configure MCP Servers</strong>，打开 <code>cline_mcp_settings.json</code>：</p>
+<pre><code class="language-json">{
+  &quot;mcpServers&quot;: {
+    &quot;petita&quot;: {
+      &quot;type&quot;: &quot;streamableHttp&quot;,
+      &quot;url&quot;: &quot;http://127.0.0.1:47321/mcp?token=你的令牌&quot;,
+      &quot;autoApprove&quot;: [&quot;bank_search&quot;, &quot;question_get&quot;, &quot;bank_stats&quot;]
+    }
+  }
+}
+</code></pre>
+<p><code>autoApprove</code> 可以只放<strong>读</strong>工具，写工具留着手动批。</p>
+<hr />
+<h3 id="37-continuevs-code-jetbrains">3.7 Continue（VS Code / JetBrains）</h3>
+<p><code>~/.continue/config.yaml</code> 里加：</p>
+<pre><code class="language-yaml">mcpServers:
+  - name: petita
+    type: streamable-http
+    url: http://127.0.0.1:47321/mcp?token=你的令牌
+</code></pre>
+<hr />
+<h3 id="38-open-webui-librechat">3.8 Open WebUI / LibreChat / 其他自建平台</h3>
+<p>这类平台多半支持「OpenAPI 工具」或「MCP 服务地址」，填上面那个 URL 即可。如果它只认 header，就用：</p>
+<pre><code>Authorization: Bearer 你的令牌
+</code></pre>
+<hr />
+<h3 id="39">3.9 只支持命令行的客户端：用桥接</h3>
+<p>有些客户端（旧版 Claude Desktop、某些 agent 框架）<strong>只能填 command</strong>，不能填 URL。这时用一个转发脚本。</p>
+<p><strong>第 1 步</strong>：确认装了 Node.js</p>
+<pre><code class="language-bash">node --version
+</code></pre>
+<p>没有就去 <a href="https://nodejs.org">https://nodejs.org</a> 装 LTS 版。</p>
+<p><strong>第 2 步</strong>：把下面的脚本存成 <code>petita-mcp-bridge.js</code>，放在你顺手的位置（比如 <code>C:\Users\你的用户名\petita-mcp-bridge.js</code>）：</p>
+<pre><code class="language-javascript">#!/usr/bin/env node
+// 把 stdio 上的 MCP 请求转发给备题达的本地 HTTP 服务
+const URL_BASE = process.env.PETITA_MCP_URL || &quot;http://127.0.0.1:47321/mcp&quot;;
+const TOKEN = process.env.PETITA_MCP_TOKEN || &quot;&quot;;
+
+const url = TOKEN ? `${URL_BASE}?token=${TOKEN}` : URL_BASE;
+let buf = &quot;&quot;;
+
+process.stdin.setEncoding(&quot;utf8&quot;);
+process.stdin.on(&quot;data&quot;, (chunk) =&gt; {
+  buf += chunk;
+  let idx;
+  while ((idx = buf.indexOf(&quot;\n&quot;)) &gt;= 0) {
+    const line = buf.slice(0, idx).trim();
+    buf = buf.slice(idx + 1);
+    if (!line) continue;
+    forward(line);
+  }
+});
+
+async function forward(line) {
+  try {
+    const res = await fetch(url, {
+      method: &quot;POST&quot;,
+      headers: {
+        &quot;Content-Type&quot;: &quot;application/json&quot;,
+        &quot;Accept&quot;: &quot;application/json, text/event-stream&quot;,
+      },
+      body: line,
+    });
+    const text = await res.text();
+    // MCP 的 stdio 传输是一行一个 JSON
+    const payload = text.trim();
+    if (payload) process.stdout.write(payload + &quot;\n&quot;);
+  } catch (e) {
+    // 通知类消息没有 id，不能回错误帧
+    let id = null;
+    try { id = JSON.parse(line).id ?? null; } catch (_) {}
+    if (id !== null) {
+      process.stdout.write(JSON.stringify({
+        jsonrpc: &quot;2.0&quot;, id,
+        error: { code: -32000, message: &quot;连不上备题达：&quot; + String(e) }
+      }) + &quot;\n&quot;);
+    }
+  }
+}
+</code></pre>
+<p><strong>第 3 步</strong>：客户端配置里这么填</p>
+<pre><code class="language-json">{
+  &quot;mcpServers&quot;: {
+    &quot;petita&quot;: {
+      &quot;command&quot;: &quot;node&quot;,
+      &quot;args&quot;: [&quot;C:\\Users\\你的用户名\\petita-mcp-bridge.js&quot;],
+      &quot;env&quot;: {
+        &quot;PETITA_MCP_URL&quot;: &quot;http://127.0.0.1:47321/mcp&quot;,
+        &quot;PETITA_MCP_TOKEN&quot;: &quot;你的令牌&quot;
+      }
+    }
+  }
+}
+</code></pre>
+<hr />
+<h3 id="310-agent-http">3.10 自己写 agent：直接打 HTTP</h3>
+<p>协议是标准 JSON-RPC 2.0 over HTTP POST。<strong>不用任何 SDK</strong>：</p>
+<pre><code class="language-bash"># 1) 握手
+curl -s -X POST &quot;http://127.0.0.1:47321/mcp?token=你的令牌&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{&quot;jsonrpc&quot;:&quot;2.0&quot;,&quot;id&quot;:1,&quot;method&quot;:&quot;initialize&quot;,&quot;params&quot;:{&quot;protocolVersion&quot;:&quot;2025-06-18&quot;,&quot;capabilities&quot;:{},&quot;clientInfo&quot;:{&quot;name&quot;:&quot;my-agent&quot;,&quot;version&quot;:&quot;1.0&quot;}}}'
+
+# 2) 看有哪些工具
+curl -s -X POST &quot;http://127.0.0.1:47321/mcp?token=你的令牌&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{&quot;jsonrpc&quot;:&quot;2.0&quot;,&quot;id&quot;:2,&quot;method&quot;:&quot;tools/list&quot;}'
+
+# 3) 调一个工具
+curl -s -X POST &quot;http://127.0.0.1:47321/mcp?token=你的令牌&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{&quot;jsonrpc&quot;:&quot;2.0&quot;,&quot;id&quot;:3,&quot;method&quot;:&quot;tools/call&quot;,&quot;params&quot;:{&quot;name&quot;:&quot;bank_stats&quot;,&quot;arguments&quot;:{}}}'
+</code></pre>
+<p>Python 版：</p>
+<pre><code class="language-python">import json, urllib.request
+
+URL = &quot;http://127.0.0.1:47321/mcp?token=你的令牌&quot;
+_id = 0
+
+def rpc(method, params=None):
+    global _id
+    _id += 1
+    body = {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;id&quot;: _id, &quot;method&quot;: method}
+    if params is not None:
+        body[&quot;params&quot;] = params
+    req = urllib.request.Request(
+        URL, data=json.dumps(body).encode(),
+        headers={&quot;Content-Type&quot;: &quot;application/json&quot;},
+    )
+    with urllib.request.urlopen(req, timeout=40) as r:
+        return json.loads(r.read())
+
+rpc(&quot;initialize&quot;, {&quot;protocolVersion&quot;: &quot;2025-06-18&quot;, &quot;capabilities&quot;: {},
+                   &quot;clientInfo&quot;: {&quot;name&quot;: &quot;demo&quot;, &quot;version&quot;: &quot;1&quot;}})
+print(rpc(&quot;tools/list&quot;)[&quot;result&quot;][&quot;tools&quot;][0][&quot;name&quot;])
+
+res = rpc(&quot;tools/call&quot;, {&quot;name&quot;: &quot;bank_search&quot;,
+                         &quot;arguments&quot;: {&quot;points&quot;: [&quot;二次函数&quot;], &quot;limit&quot;: 5}})
+print(res[&quot;result&quot;][&quot;content&quot;][0][&quot;text&quot;])
+</code></pre>
+<p>Node 版：</p>
+<pre><code class="language-javascript">const URL = &quot;http://127.0.0.1:47321/mcp?token=你的令牌&quot;;
+let id = 0;
+
+async function rpc(method, params) {
+  const body = { jsonrpc: &quot;2.0&quot;, id: ++id, method };
+  if (params !== undefined) body.params = params;
+  const res = await fetch(URL, {
+    method: &quot;POST&quot;,
+    headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+    body: JSON.stringify(body),
+  });
+  return res.json();
+}
+
+await rpc(&quot;initialize&quot;, { protocolVersion: &quot;2025-06-18&quot;, capabilities: {},
+                          clientInfo: { name: &quot;demo&quot;, version: &quot;1&quot; } });
+const tools = await rpc(&quot;tools/list&quot;);
+console.log(tools.result.tools.length, &quot;个工具&quot;);
+</code></pre>
+<blockquote>
+<p>注意 <code>initialize</code> 之后按规范客户端应发一条 <code>notifications/initialized</code> 通知。备题达不做强制校验，但严格的框架可能会要求，发一下更保险。</p>
+</blockquote>
+<hr />
+<h2 id="23_1">四、23 个工具速查</h2>
+<h3 id="41">4.1 读工具（不受写开关影响）</h3>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>干什么</th>
+<th>常用参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bank_stats</code></td>
+<td>题库总览：总量、题型分布、知识点分布</td>
+<td>无</td>
+</tr>
+<tr>
+<td><code>bank_search</code></td>
+<td>按条件搜题，返回 ref 和摘要</td>
+<td><code>points</code> <code>qtype</code> <code>difficulty</code> <code>lesson</code> <code>limit</code>(≤24)</td>
+</tr>
+<tr>
+<td><code>question_get</code></td>
+<td>取一道题的完整内容</td>
+<td><code>ref</code></td>
+</tr>
+<tr>
+<td><code>paper_list</code></td>
+<td>列试卷</td>
+<td><code>keyword</code> <code>limit</code></td>
+</tr>
+<tr>
+<td><code>lesson_get</code></td>
+<td>取一课的教参信息</td>
+<td><code>title</code></td>
+</tr>
+<tr>
+<td><code>unit_get</code></td>
+<td>取单元结构</td>
+<td><code>volume</code> <code>keyword</code></td>
+</tr>
+<tr>
+<td><code>points_list</code></td>
+<td>知识点及题量分布</td>
+<td><code>kw</code></td>
+</tr>
+<tr>
+<td><code>memory_list</code></td>
+<td>背诵卡片（可按分类、可只看到期）</td>
+<td><code>group</code> <code>due</code></td>
+</tr>
+<tr>
+<td><code>guide_list</code></td>
+<td>导学案列表</td>
+<td><code>topic</code></td>
+</tr>
+<tr>
+<td><code>calendar_get</code></td>
+<td>校历：班级、节次、课表、日程</td>
+<td><code>from</code> <code>to</code></td>
+</tr>
+<tr>
+<td><code>progress_get</code></td>
+<td>教学进度</td>
+<td><code>class</code></td>
+</tr>
+<tr>
+<td><code>profile_get</code></td>
+<td>卷头信息：学校、年级、学期、偏好</td>
+<td>无</td>
+</tr>
+<tr>
+<td><code>subjects_list</code></td>
+<td>学科及其题型、卷面结构</td>
+<td>无</td>
+</tr>
+<tr>
+<td><code>cart_get</code></td>
+<td>组卷篮里现在有什么</td>
+<td>无</td>
+</tr>
+</tbody>
+</table>
+<h3 id="42">4.2 写工具（受开关控制）</h3>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>干什么</th>
+<th>常用参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cart_add</code></td>
+<td>把题加进组卷篮（≤12 道）</td>
+<td><code>refs</code> <code>why</code></td>
+</tr>
+<tr>
+<td><code>cart_remove</code></td>
+<td>从篮里移除</td>
+<td><code>refs</code></td>
+</tr>
+<tr>
+<td><code>event_add</code></td>
+<td>校历加日程</td>
+<td><code>title</code> <code>date</code> <code>type</code> <code>note</code></td>
+</tr>
+<tr>
+<td><code>memory_add</code></td>
+<td>加背诵卡片</td>
+<td><code>front</code> <code>back</code> <code>group</code></td>
+</tr>
+<tr>
+<td><code>pref_append</code></td>
+<td>记住一条教学偏好</td>
+<td><code>text</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="43-ima-ima">4.3 ima 知识库工具（需先在设置里配好 ima）</h3>
+<p><code>ima_search</code> <code>ima_list</code> <code>ima_read</code> <code>ima_import_paper</code></p>
+<hr />
+<h2 id="4">五、能拿它做什么：4 个真实场景</h2>
+<h3 id="1-ai">场景 1：让 AI 出一套卷子</h3>
+<pre><code>你：用 petita 帮我组一套「二次函数」的单元卷，选择题 10 道、填空题 5 道，
+    难度以中为主，把选好的题放进组卷篮。
+
+AI：（调 bank_search 三次，分别检索三种题型）
+    （调 cart_add 把 15 道题放进去）
+    已经放进去了 15 道，共 75 分。你在备题达里点「组卷」就能导出。
+</code></pre>
+<h3 id="2">场景 2：查漏补缺</h3>
+<pre><code>你：我们班「文言虚词」这块一直考不好，帮我看看题库里这个考点有多少题、难度分布怎样。
+
+AI：（调 points_list 查「文言虚词」）
+    （调 bank_search 带 lesson 过滤）
+    题库里「文言虚词」共 23 道，其中易 8 道、中 11 道、难 4 道。
+    难度的梯度是够的，但题目集中在《劝学》《师说》两篇，
+    其他篇目几乎没有——建议补充。
+</code></pre>
+<h3 id="3">场景 3：批量整理背诵卡</h3>
+<pre><code>你：把《赤壁赋》里的名句做成背诵卡片，正面给上句，背面给下句，放到「必背原文」分类。
+
+AI：（调 memory_add 12 次）
+    做了 12 张。你在「记忆」模块能看到，可以直接开始自测。
+</code></pre>
+<h3 id="4_1">场景 4：排复习计划</h3>
+<pre><code>你：下周有期中考试，帮我看看校历这周还有什么安排，然后排一下复习重点。
+
+AI：（调 calendar_get 拿到本周日程）
+    （调 progress_get 看进度）
+    这周三有调课、周五下午有一节课空着。按进度你现在到第三单元，
+    建议把「二次函数图像」和「根与系数关系」放在周四……
+</code></pre>
+<hr />
+<h2 id="_1">六、安全说明（重要）</h2>
+<h3 id="61">6.1 数据不出本机</h3>
+<p>MCP 监听的是 <code>127.0.0.1</code>，<strong>只有本机能连</strong>，公网访问不到。备题达本身不往任何服务器发数据。</p>
+<p>但要说清楚：<strong>你调的 AI 客户端会把工具返回的内容发给他自己的模型</strong>。如果那个模型在云端（Claude、GPT），题目内容就上了云。想完全不出去，就用本地模型（Ollama / LM Studio）。</p>
+<h3 id="62">6.2 令牌是干什么的</h3>
+<p>你电脑上任何程序都能连 <code>127.0.0.1:47321</code>。令牌的作用是让<strong>没拿到令牌的程序调不动</strong>。</p>
+<ul>
+<li>令牌在首次启动时随机生成，存 <code>%LOCALAPPDATA%\top.inkstain.petita.general\config\mcp.json</code></li>
+<li>泄露了就点设置里的「重新生成」，旧的立刻失效</li>
+<li><strong>别把带令牌的地址贴到公开的地方</strong>（论坛、GitHub issue）</li>
+</ul>
+<h3 id="63">6.3 写操作的边界</h3>
+<ul>
+<li>关着开关时：AI 只能提案，必须你点「执行」</li>
+<li>打开开关时：AI 直接写，但<strong>每次写都留撤销记录</strong>，<code>Ctrl+Z</code> 能回退</li>
+<li><strong>没有任何工具能删除数据</strong>：<code>cart_remove</code> 只从组卷篮里移除（题目本身还在），其他工具只增不减</li>
+<li><strong>没有任何文件、命令、网络类工具</strong>：AI 碰不到你的磁盘和终端</li>
+</ul>
+<h3 id="64">6.4 应用关了就断了</h3>
+<p>MCP 不是常驻服务。关掉备题达，端口就没了，AI 会收到「请先打开备题达」。这是设计如此——数据在应用里，应用不在就没有数据可给。</p>
+<hr />
+<h2 id="_2">七、排错</h2>
+<h3 id="71">7.1 连不上</h3>
+<p>先自查这三条：</p>
+<pre><code class="language-bash"># 1) 应用开着吗？服务在跑吗？
+curl http://127.0.0.1:47321/health
+</code></pre>
+<p>正常返回：</p>
+<pre><code class="language-json">{&quot;ok&quot;:true,&quot;app&quot;:&quot;petita&quot;,&quot;running&quot;:true,&quot;page_alive&quot;:true,&quot;tool_count&quot;:23,&quot;auth_required&quot;:true}
+</code></pre>
+<ul>
+<li><code>running: false</code> → 端口没起来。看设置页是不是显示「未运行」</li>
+<li><code>page_alive: false</code> → 应用开着但页面没加载完，等两秒再试</li>
+<li>连 <code>curl</code> 都失败 → 端口被占或应用没开</li>
+</ul>
+<pre><code class="language-bash"># 2) 令牌对不对？
+curl -X POST &quot;http://127.0.0.1:47321/mcp?token=你的令牌&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{&quot;jsonrpc&quot;:&quot;2.0&quot;,&quot;id&quot;:1,&quot;method&quot;:&quot;tools/list&quot;}'
+</code></pre>
+<p>返回 <code>401</code> → 令牌错了，去设置页重新复制。</p>
+<pre><code class="language-bash"># 3) 工具调得通吗？
+curl -X POST &quot;http://127.0.0.1:47321/mcp?token=你的令牌&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{&quot;jsonrpc&quot;:&quot;2.0&quot;,&quot;id&quot;:2,&quot;method&quot;:&quot;tools/call&quot;,&quot;params&quot;:{&quot;name&quot;:&quot;profile_get&quot;,&quot;arguments&quot;:{}}}'
+</code></pre>
+<h3 id="72">7.2 常见报错对照</h3>
+<table>
+<thead>
+<tr>
+<th>报错</th>
+<th>原因</th>
+<th>怎么办</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>401 缺少或错误的访问令牌</code></td>
+<td>令牌没填 / 填错 / 客户端不支持 URL 带参数</td>
+<td>用 §3.9 桥接，令牌走环境变量</td>
+</tr>
+<tr>
+<td><code>备题达没有在运行</code></td>
+<td>应用关着</td>
+<td>打开它</td>
+</tr>
+<tr>
+<td><code>工具执行超时（30 秒）</code></td>
+<td>应用卡住 / 窗口被挂起</td>
+<td>切到应用窗口点一下，再重试</td>
+</tr>
+<tr>
+<td><code>没有这个工具：xxx</code></td>
+<td>客户端缓存了旧工具列表</td>
+<td>重启 AI 客户端</td>
+</tr>
+<tr>
+<td><code>ima 知识库还没配置</code></td>
+<td>用了 ima 工具但没配</td>
+<td>设置 → AI 接口 → ima 知识库</td>
+</tr>
+<tr>
+<td>客户端显示 0 个工具</td>
+<td>握手失败</td>
+<td>检查是不是把 <code>?token=</code> 弄丢了</td>
+</tr>
+</tbody>
+</table>
+<h3 id="73">7.3 端口冲突</h3>
+<pre><code class="language-bash"># 看谁占了 47321
+netstat -ano | findstr :47321
+</code></pre>
+<p>如果被别的程序占了，改用别的端口：设置 → MCP → 端口，改完重启应用。</p>
+<hr />
+<h2 id="_3">八、常见问题</h2>
+<p><strong>Q：MCP 要不要额外付费？</strong>
+不要。用的是你 AI 客户端自己的额度。备题达这边不收钱、不联网。</p>
+<p><strong>Q：能不能同时接好几个客户端？</strong>
+能。多个客户端可以同时连同一个端口，互不影响。</p>
+<p><strong>Q：网页版（双击 index.html）能用吗？</strong>
+不能。网页版没有进程权限，起不了本地服务。只有桌面版支持。</p>
+<p><strong>Q：语文线和通用线能同时开吗？</strong>
+能，但端口会冲突。后开的那个会自动换端口，以各自设置页显示的为准。</p>
+<p><strong>Q：换电脑了要重新配吗？</strong>
+要。令牌是每台机器独立生成的。</p>
+<p><strong>Q：AI 会不会把我的题库删了？</strong>
+不会。没有删除工具。<code>cart_remove</code> 只动组卷篮，不动题库。</p>
+<p><strong>Q：能读我的教案全文吗？</strong>
+<code>lesson_get</code> 和 <code>guide_list</code> 会返回篇目、要点、目标等结构，但<strong>不返回整篇教参正文</strong>——只给摘要级别的信息，避免整库内容一次性流出去。</p>
+<p><strong>Q：怎么关掉 MCP？</strong>
+设置 → MCP → 关闭开关。或者直接把应用退了。</p>
+<hr />
+<h2 id="a">附录 A：协议细节（写自己的客户端时看）</h2>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>协议</td>
+<td>JSON-RPC 2.0 over HTTP POST</td>
+</tr>
+<tr>
+<td>端点</td>
+<td><code>POST /mcp</code></td>
+</tr>
+<tr>
+<td>传输</td>
+<td>streamable-http 的请求/响应模式（<strong>不做 SSE 流</strong>）</td>
+</tr>
+<tr>
+<td>认证</td>
+<td><code>Authorization: Bearer &lt;token&gt;</code> 或 <code>?token=&lt;token&gt;</code></td>
+</tr>
+<tr>
+<td>协议版本</td>
+<td><code>2025-06-18</code></td>
+</tr>
+<tr>
+<td>支持方法</td>
+<td><code>initialize</code> <code>tools/list</code> <code>tools/call</code> <code>ping</code></td>
+</tr>
+<tr>
+<td>通知</td>
+<td><code>notifications/initialized</code> 等无需响应，返回 202</td>
+</tr>
+<tr>
+<td>健康检查</td>
+<td><code>GET /health</code>（免令牌）</td>
+</tr>
+<tr>
+<td>超时</td>
+<td>单次工具调用上限 30 秒</td>
+</tr>
+</tbody>
+</table>
+<p>因为不返回 SSE 流，响应一定是<strong>单个完整 JSON</strong>，不用处理分块。</p>
+<h2 id="b-curl">附录 B：直接用 curl 试一遍</h2>
+<pre><code class="language-bash">TOKEN=&quot;你的令牌&quot;
+BASE=&quot;http://127.0.0.1:47321/mcp?token=$TOKEN&quot;
+
+curl -s -X POST &quot;$BASE&quot; -H &quot;Content-Type: application/json&quot; -d '{
+  &quot;jsonrpc&quot;:&quot;2.0&quot;,&quot;id&quot;:1,&quot;method&quot;:&quot;initialize&quot;,
+  &quot;params&quot;:{&quot;protocolVersion&quot;:&quot;2025-06-18&quot;,&quot;capabilities&quot;:{},
+            &quot;clientInfo&quot;:{&quot;name&quot;:&quot;curl&quot;,&quot;version&quot;:&quot;1&quot;}}}'
+
+curl -s -X POST &quot;$BASE&quot; -H &quot;Content-Type: application/json&quot; -d '{
+  &quot;jsonrpc&quot;:&quot;2.0&quot;,&quot;id&quot;:2,&quot;method&quot;:&quot;tools/list&quot;}'
+
+curl -s -X POST &quot;$BASE&quot; -H &quot;Content-Type: application/json&quot; -d '{
+  &quot;jsonrpc&quot;:&quot;2.0&quot;,&quot;id&quot;:3,&quot;method&quot;:&quot;tools/call&quot;,
+  &quot;params&quot;:{&quot;name&quot;:&quot;bank_stats&quot;,&quot;arguments&quot;:{}}}'
+</code></pre>
+  </article>
+</div>
+<footer>
+  <div class="wrap f">
+    <span>备题达 · 全学科 · 全学段版</span>
+    <span>版本 1.3.1</span>
+    <span>共 23 个 MCP 工具</span>
+    <a href="./index.html">官网</a>
+    <a href="https://github.com/InkStain258/teaching-workspace-releases" target="_blank" rel="noreferrer">版本清单</a>
+  </div>
+</footer>
+</body>
+</html>
