@@ -30,7 +30,7 @@ a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit;cursor:pointer}
 :focus-visible{outline:2px solid var(--blue-lit);outline-offset:4px}
 .wrap{width:min(var(--wrap),calc(100% - 56px));margin-inline:auto}
-#claim,#abilities,#reels,#download{scroll-margin-top:90px}
+#claim,#abilities,#mcp,#reels,#download{scroll-margin-top:90px}
 .serif{font-family:var(--serif)}
 .rule{height:1px;background:var(--line);border:0;margin:0}
 
@@ -173,6 +173,43 @@ h1 em{font-style:normal;color:var(--brand-lit)}
 .line-tag{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--text-3);border:1px solid var(--line);border-radius:999px;padding:4px 12px;margin-left:10px;vertical-align:2px}
 .line-tag i{width:6px;height:6px;border-radius:50%;background:var(--text-3);display:inline-block}
 .line-tag.ok i{background:var(--blue-lit)}.line-tag.bad i{background:var(--brand-lit)}
+
+/* MCP */
+.mcp-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-bottom:22px}
+.mcp-card{position:relative;border:1px solid var(--line);border-radius:var(--radius);padding:26px 24px 28px;
+  background:linear-gradient(165deg,rgba(255,255,255,.055),rgba(255,255,255,.012));overflow:hidden}
+.mcp-card::before{content:"";position:absolute;top:-90px;right:-70px;width:220px;height:220px;border-radius:50%;
+  background:var(--blue);filter:blur(60px);opacity:.15;pointer-events:none}
+.mcp-card .k{font-family:var(--serif);font-size:13px;color:var(--gold);letter-spacing:.12em}
+.mcp-card h3{font-family:var(--serif);font-size:21px;font-weight:600;margin:10px 0 10px}
+.mcp-card p{margin:0;font-size:14px;line-height:1.9;color:var(--text-2)}
+.mcp-flow{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:22px;align-items:start}
+.mcp-steps{border:1px solid var(--line);border-radius:var(--radius);padding:26px 24px 20px;background:rgba(255,255,255,.022)}
+.mcp-steps h3{font-family:var(--serif);font-size:19px;font-weight:600;margin:0 0 18px}
+.mcp-steps ol{list-style:none;counter-reset:s;margin:0;padding:0}
+.mcp-steps li{counter-increment:s;position:relative;padding:0 0 15px 38px;margin-bottom:14px;border-bottom:1px solid var(--line-2)}
+.mcp-steps li:last-child{border-bottom:0;margin-bottom:0;padding-bottom:0}
+.mcp-steps li::before{content:counter(s);position:absolute;left:0;top:2px;width:24px;height:24px;border-radius:7px;
+  display:grid;place-items:center;font-size:12px;color:var(--text);background:rgba(255,255,255,.07);border:1px solid var(--line)}
+.mcp-steps li b{display:block;font-size:15px;font-weight:600}
+.mcp-steps li span{display:block;font-size:13px;color:var(--text-3);margin-top:3px;line-height:1.8}
+.mcp-code{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:#070a0e}
+.mcp-code-head{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--line-2);
+  font-size:12px;color:var(--text-3);background:rgba(255,255,255,.03);font-family:var(--sans)}
+.mcp-code-head i{font-style:normal;letter-spacing:.14em;font-size:10.5px;color:var(--gold)}
+.mcp-code pre{margin:0;padding:18px 16px;overflow-x:auto;font-size:12.5px;line-height:1.9;
+  font-family:"JetBrains Mono","Cascadia Code",Consolas,monospace;color:#c9cec6;tab-size:2}
+.mcp-code pre .kk{color:var(--blue-lit)}
+.mcp-code pre .ss{color:#a8c98a}
+.mcp-code pre .tt{color:var(--gold)}
+.mcp-note{margin:0;padding:12px 16px 15px;font-size:12.5px;color:var(--text-3);border-top:1px solid var(--line-2);line-height:1.8}
+.mcp-note b{color:var(--text-2);font-weight:600}
+.mcp-tools{display:flex;align-items:center;gap:26px;flex-wrap:wrap;margin-top:24px;padding-top:22px;border-top:1px solid var(--line)}
+.mcp-tool{display:flex;align-items:baseline;gap:8px}
+.mcp-tool b{font-family:var(--serif);font-size:30px;font-weight:600;line-height:1}
+.mcp-tool span{font-size:13px;color:var(--text-3)}
+.mcp-clients{margin-left:auto;font-size:13px;color:var(--text-3);text-align:right;max-width:52%}
+@media(max-width:980px){.mcp-grid{grid-template-columns:1fr}.mcp-flow{grid-template-columns:1fr}.mcp-clients{max-width:100%;text-align:left;margin-left:0}}
 
 footer{border-top:1px solid var(--line);padding:40px 0 56px;color:var(--text-3);font-size:13.5px}
 .foot{display:flex;gap:28px;flex-wrap:wrap;align-items:center}
@@ -446,6 +483,7 @@ h1::after{content:"";position:absolute;inset:-12% -8%;pointer-events:none;mix-bl
   <div class="chapters">
     <a href="#claim" data-sec="claim"><i></i><span>主张</span></a>
     <a href="#abilities" data-sec="abilities"><i></i><span>能力</span></a>
+    <a href="#mcp" data-sec="mcp"><i></i><span>MCP</span></a>
     <a href="#reels" data-sec="reels"><i></i><span>实录</span></a>
     <a href="#download" data-sec="download"><i></i><span>下载</span></a>
   </div>
@@ -460,6 +498,7 @@ h1::after{content:"";position:absolute;inset:-12% -8%;pointer-events:none;mix-bl
     <nav class="links">
       <a href="#claim">主张</a>
       <a href="#abilities">能力</a>
+      <a href="#mcp">MCP</a>
       <a href="#reels">课堂实录</a>
       <a href="#download">下载</a>
     </nav>
@@ -514,6 +553,61 @@ h1::after{content:"";position:absolute;inset:-12% -8%;pointer-events:none;mix-bl
     <div class="rows" id="rows"></div>
   </section>
 
+  <section class="sec wrap" id="mcp">
+    <div class="sec-head rv">
+      <h2>MCP<small>把你的 AI 客户端接到工作台上</small></h2>
+      <p>备题达内置一台 MCP 服务器。协议是开放的：Claude Desktop、Claude Code、Cursor、VS Code、Cline、Continue，或你自己写的 agent，都能直接读题库、查篇目、调记忆——不必再来回复制粘贴。</p>
+    </div>
+
+    <div class="mcp-grid rv">
+      <div class="mcp-card">
+        <span class="k">01</span>
+        <h3>令牌鉴权</h3>
+        <p>每次安装生成一串随机令牌，客户端必须带上才能连。令牌只存在本机配置里，可随时重置，旧的立即失效。</p>
+      </div>
+      <div class="mcp-card">
+        <span class="k">02</span>
+        <h3>写操作你说了算</h3>
+        <p>默认只读。AI 想往记忆里加卡片、往题库里落题，先在窗口里出一张待确认卡片，你点了「执行」才真正写入。</p>
+      </div>
+      <div class="mcp-card">
+        <span class="k">03</span>
+        <h3>不出本机</h3>
+        <p>只监听 127.0.0.1，局域网和外网都连不进来。没有云端中转，没有账号体系，断网也能用。</p>
+      </div>
+    </div>
+
+    <div class="mcp-flow rv">
+      <div class="mcp-steps">
+        <h3>四步接通</h3>
+        <ol>
+          <li><b>打开「设置 → MCP」</b><span>服务随应用启动，状态标签显示「服务运行中」。</span></li>
+          <li><b>复制带令牌的地址</b><span>形如 http://127.0.0.1:47321/mcp?token=…，面板上一键复制。</span></li>
+          <li><b>粘进你客户端的配置</b><span>Claude Desktop 改 claude_desktop_config.json，Cursor 改 ~/.cursor/mcp.json，其余见教程。</span></li>
+          <li><b>回面板看「N 个客户端在线」</b><span>连上后会列出客户端名字、调用次数和最近调用的工具。</span></li>
+        </ol>
+      </div>
+      <div class="mcp-code">
+        <div class="mcp-code-head"><span>claude_desktop_config.json</span><i>JSON</i></div>
+        <pre><code>{
+  <span class="kk">"mcpServers"</span>: {
+    <span class="kk">"petita"</span>: {
+      <span class="kk">"type"</span>: <span class="ss">"http"</span>,
+      <span class="kk">"url"</span>: <span class="ss">"http://127.0.0.1:47321/mcp?token=<span class="tt">你的令牌</span>"</span>
+    }
+  }
+}</code></pre>
+        <p class="mcp-note">命令行自检、其他客户端、自己写 agent 的三种接法，都在随包的 <b>docs/MCP-使用教程.md</b> 里。</p>
+      </div>
+    </div>
+
+    <div class="mcp-tools rv">
+      <div class="mcp-tool"><b>23</b><span>全学科版工具</span></div>
+      <div class="mcp-tool"><b>20</b><span>高中语文版工具</span></div>
+      <div class="mcp-clients">Claude Desktop · Claude Code · Cursor · VS Code · Cline · Continue · Cherry Studio · 自写 agent</div>
+    </div>
+  </section>
+
   <section class="sec wrap" id="reels" style="padding-top:20px">
     <div class="sec-head rv">
       <h2>课堂实录<small>画面来自两套产品的真实操作</small></h2>
@@ -534,7 +628,7 @@ h1::after{content:"";position:absolute;inset:-12% -8%;pointer-events:none;mix-bl
     </div>
     <div class="dl">
       <div class="card yuwen rv">
-        <div class="top"><i class="sealmark y"><svg viewBox="0 0 1000 1000" aria-hidden="true"><use href="#seal-yu"/></svg></i><span class="tag">高中语文 · 5.2</span></div>
+        <div class="top"><i class="sealmark y"><svg viewBox="0 0 1000 1000" aria-hidden="true"><use href="#seal-yu"/></svg></i><span class="tag">高中语文 · 5.3</span></div>
         <h3>备题达</h3>
         <p class="sub">五册篇目、教参原文、默写与整本书阅读，按高中语文的节奏排。</p>
         <ul class="notes" id="notes-yuwen"></ul>
@@ -546,7 +640,7 @@ h1::after{content:"";position:absolute;inset:-12% -8%;pointer-events:none;mix-bl
         </div>
       </div>
       <div class="card general rv">
-        <div class="top"><i class="sealmark t"><svg viewBox="0 0 1000 1000" aria-hidden="true"><use href="#seal-tong"/></svg></i><span class="tag">全学科 · 全学段 · 1.2</span></div>
+        <div class="top"><i class="sealmark t"><svg viewBox="0 0 1000 1000" aria-hidden="true"><use href="#seal-tong"/></svg></i><span class="tag">全学科 · 全学段 · 1.3</span></div>
         <h3>备题达</h3>
         <p class="sub">不绑定学科与学段：单元、教学内容、题库、记忆模块都按通用词铺。</p>
         <ul class="notes" id="notes-general"></ul>
