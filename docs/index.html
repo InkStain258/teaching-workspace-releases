@@ -442,7 +442,9 @@ h1::after{content:"";position:absolute;inset:-12% -8%;pointer-events:none;mix-bl
 .btn,.dlbtn{--bx:0px;--by:0px}
 .btn:hover{transform:translate(var(--bx),var(--by)) translateY(-2px)}
 .dlbtn:hover{transform:translate(var(--bx),var(--by)) translateY(-2px)}
-@media(max-width:980px){.side-sign,.corner,.trail{display:none}}
+/* 竖排装饰字会压住 wrap 左边缘的内容（窄屏下 wrap 左边距只剩 36px），把它提高到 1360px 断点隐藏 */
+@media(max-width:1360px){.side-sign{display:none}}
+@media(max-width:980px){.corner,.trail{display:none}}
 @media(prefers-reduced-motion:reduce){
   .bg canvas.field,.trail,.side-sign,.corner,.edge{display:none}
   .outro .big.two .l{opacity:1;transform:none;animation:none}
@@ -723,6 +725,8 @@ h1::after{content:"";position:absolute;inset:-12% -8%;pointer-events:none;mix-bl
     <span>高中语文</span>
     <span>全学科 · 全学段</span>
     <a href="https://github.com/InkStain258/teaching-workspace-releases" target="_blank" rel="noreferrer">分发仓库</a>
+    <a href="mcp-general.html">MCP 教程 · 全学科版</a>
+    <a href="mcp-yuwen.html">MCP 教程 · 高中语文版</a>
     <span>本地优先 · 离线可用 · 数据不出本机</span>
     <span style="margin-left:auto">State the need get the design</span>
     <span class="colophon">印章篆字：敬峰中山王篆（SIL OFL 1.1）</span>
