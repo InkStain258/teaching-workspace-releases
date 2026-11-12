@@ -514,7 +514,8 @@ h1::after{content:"";position:absolute;inset:-12% -8%;pointer-events:none;mix-bl
   html{-webkit-text-size-adjust:100%}
   .wrap{width:calc(100% - 32px)}
 
-  /* 顶栏：品牌一行，章节条横向滑动 */
+  /* 顶栏：品牌一行，章节条横向滑动；不吸顶以让出屏幕 */
+  header{position:static}
   .nav{height:auto;flex-wrap:wrap;padding:9px 0 0;gap:8px 10px}
   .brand{flex:0 1 auto;min-width:0}
   .brand-cn{font-size:15px}
@@ -524,7 +525,7 @@ h1::after{content:"";position:absolute;inset:-12% -8%;pointer-events:none;mix-bl
     border-top:1px solid var(--line);padding:2px 0 7px;-webkit-overflow-scrolling:touch}
   .links::-webkit-scrollbar{display:none}
   .links>a,.links .navdrop>a{flex:0 0 auto;padding:11px 14px;font-size:13.5px;white-space:nowrap;min-height:42px;display:inline-flex;align-items:center}
-  .links .navdrop>a::after{display:none}
+  .links .navdrop>a::after,.links .navdrop>a::before{display:none}
   .links a::after{display:none}
   .links .navdrop{flex:0 0 auto}
   .navdrop .menu{display:none!important}
