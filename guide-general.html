@@ -1,0 +1,1215 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="备题达（Petita）产品文档 · 全学科 · 全学段版：各模块的位置、作用、页面构成、数据来源与操作路径。">
+<title>产品文档 · 全学科 · 全学段版 · Petita 备题达</title>
+<style>:root{
+  --ink:#0a0d12; --text:#ece9e2; --text-2:#b3b1aa; --text-3:#7c807d;
+  --brand:#c04b4f; --brand-lit:#dd6e70; --blue:#4d86c6; --blue-lit:#7aa9df; --gold:#c5a46b;
+  --line:rgba(255,255,255,.10); --line-2:rgba(255,255,255,.055);
+  --sans:"HarmonyOS Sans SC","PingFang SC","Microsoft YaHei UI",system-ui,sans-serif;
+  --serif:"Songti SC","Noto Serif CJK SC","Source Han Serif SC",SimSun,serif;
+  --mono:"JetBrains Mono","Cascadia Code",Consolas,"Courier New",monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ink);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.85;-webkit-font-smoothing:antialiased}
+.bg{position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(120% 70% at 85% -10%,rgba(77,134,198,.11),transparent 60%),
+             radial-gradient(80% 60% at -10% 15%,rgba(192,75,79,.09),transparent 60%),var(--ink)}
+.wrap{width:min(1240px,calc(100% - 56px));margin-inline:auto}
+a{color:var(--blue-lit);text-decoration:none}
+a:hover{color:#a8c8ee;text-decoration:underline;text-underline-offset:3px}
+header{position:sticky;top:0;z-index:20;background:rgba(10,13,18,.94);backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--line-2)}
+.nav{height:68px;display:flex;align-items:center;gap:16px;font-size:14px}
+.mark{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-family:var(--serif);
+  font-size:16px;color:#fff;text-decoration:none}
+.mark.y{background:var(--brand)}.mark.t{background:var(--blue)}
+.brand{font-weight:600;letter-spacing:.01em;color:var(--text);text-decoration:none}
+.nav .sub{color:var(--text-3);font-size:13px}
+.nav .back{margin-left:auto;font-size:13px;color:var(--text-2);border:1px solid var(--line);
+  border-radius:999px;padding:5px 14px}
+.nav .back:hover{color:var(--text);text-decoration:none;border-color:rgba(255,255,255,.24)}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:56px;padding:52px 0 90px;align-items:start}
+aside{position:sticky;top:100px;max-height:calc(100vh - 130px);overflow-y:auto;font-size:13px;
+  border-left:1px solid var(--line);padding-left:18px}
+aside .t{font-size:11.5px;letter-spacing:.16em;color:var(--text-3);margin-bottom:12px}
+aside ul{list-style:none;margin:0;padding:0}
+aside li{margin:0 0 3px}
+aside li.l3{padding-left:14px;font-size:12.5px}
+aside a{color:var(--text-2);display:block;padding:3px 0}
+aside a:hover{color:var(--text);text-decoration:none}
+aside::-webkit-scrollbar{width:5px}
+aside::-webkit-scrollbar-thumb{background:rgba(255,255,255,.14);border-radius:9px}
+article{min-width:0}
+article h1{font-family:var(--serif);font-size:clamp(30px,3.2vw,42px);font-weight:600;line-height:1.3;margin:0 0 26px}
+article h2{font-family:var(--serif);font-size:clamp(23px,2.2vw,29px);font-weight:600;line-height:1.4;
+  margin:58px 0 18px;padding-top:20px;border-top:1px solid var(--line);scroll-margin-top:96px}
+article h3{font-size:18px;font-weight:600;margin:38px 0 12px;color:#f2efe8;scroll-margin-top:96px}
+article p{margin:0 0 16px;color:var(--text-2)}
+article strong{color:var(--text);font-weight:600}
+article ul,article ol{margin:0 0 18px;padding-left:1.4em;color:var(--text-2)}
+article li{margin:5px 0}
+article li::marker{color:var(--text-3)}
+article hr{border:0;border-top:1px solid var(--line-2);margin:40px 0}
+article blockquote{margin:20px 0;padding:14px 20px;border-left:2px solid var(--gold);
+  background:rgba(197,164,107,.06);color:var(--text-2);border-radius:0 8px 8px 0}
+article blockquote p:last-child{margin:0}
+article code{font-family:var(--mono);font-size:13px;background:rgba(255,255,255,.07);
+  border:1px solid var(--line-2);border-radius:5px;padding:1px 5px;color:#e6e2d8}
+article pre{background:#070a0e;border:1px solid var(--line);border-radius:12px;padding:16px 18px;
+  overflow-x:auto;margin:0 0 20px;line-height:1.75}
+article pre code{background:none;border:0;padding:0;font-size:12.5px;color:#c9cec6;white-space:pre}
+article table{width:100%;border-collapse:collapse;margin:0 0 22px;font-size:14px;table-layout:auto}
+article th,article td{border:1px solid var(--line);padding:9px 13px;text-align:left;vertical-align:top}
+article th{background:rgba(255,255,255,.045);color:var(--text);font-weight:600;white-space:nowrap}
+article td{color:var(--text-2)}
+article table code{white-space:nowrap}
+footer{border-top:1px solid var(--line);padding:34px 0 50px;color:var(--text-3);font-size:13px}
+footer .f{display:flex;gap:22px;flex-wrap:wrap;align-items:center}
+footer a{color:var(--text-2)}
+@media(max-width:980px){
+  .layout{grid-template-columns:1fr;gap:26px;padding:34px 0 60px}
+  aside{position:static;max-height:290px;border-left:0;border:1px solid var(--line);
+    border-radius:12px;padding:16px 18px;background:rgba(255,255,255,.022)}
+  .wrap{width:calc(100% - 36px)}
+}</style>
+</head>
+<body>
+<div class="bg"></div>
+<header>
+  <div class="wrap nav">
+    <a class="mark t" href="./index.html" aria-label="返回官网">通</a>
+    <a class="brand" href="./index.html">Petita 备题达</a>
+    <span class="sub">产品文档 · 全学科 · 全学段版</span>
+    <a class="back" href="./index.html">← 返回官网</a>
+  </div>
+</header>
+<div class="wrap layout">
+  <aside>
+    <div class="t">目录</div>
+    <ul><li class="l2"><a href="#_1">一、产品是什么</a></li><li class="l3"><a href="#11">1.1 一句话</a></li><li class="l3"><a href="#12">1.2 日常三类活，分别落在哪几个模块</a></li><li class="l3"><a href="#13">1.3 界面骨架</a></li><li class="l3"><a href="#14">1.4 侧栏结构</a></li><li class="l3"><a href="#15">1.5 全局能力</a></li><li class="l2"><a href="#_2">二、模块参考 · 备课</a></li><li class="l3"><a href="#21">2.1 工作台</a></li><li class="l3"><a href="#22">2.2 备课中心</a></li><li class="l3"><a href="#23">2.3 单元结构导入</a></li><li class="l3"><a href="#24">2.4 单元教学</a></li><li class="l3"><a href="#25">2.5 教材教参</a></li><li class="l3"><a href="#26">2.6 导学案</a></li><li class="l3"><a href="#27">2.7 校历</a></li><li class="l3"><a href="#28">2.8 知识点</a></li><li class="l2"><a href="#_3">三、模块参考 · 题库与出题</a></li><li class="l3"><a href="#31">3.1 题库</a></li><li class="l3"><a href="#32">3.2 组卷台</a></li><li class="l3"><a href="#33">3.3 专项训练</a></li><li class="l3"><a href="#34">3.4 记忆模块</a></li><li class="l3"><a href="#35">3.5 学情与讲评</a></li><li class="l2"><a href="#_4">四、模块参考 · 资料与帮助</a></li><li class="l3"><a href="#41">4.1 素材库</a></li><li class="l3"><a href="#42">4.2 数据与备份</a></li><li class="l3"><a href="#43">4.3 使用说明</a></li><li class="l3"><a href="#44">4.4 插件与外观 / 更新日志</a></li><li class="l2"><a href="#_5">五、设置</a></li><li class="l3"><a href="#51">5.1 卷头信息</a></li><li class="l3"><a href="#52-ai">5.2 AI 接口</a></li><li class="l3"><a href="#53">5.3 外观</a></li><li class="l3"><a href="#54-ima">5.4 ima 知识库</a></li><li class="l3"><a href="#55-mcp">5.5 MCP</a></li><li class="l2"><a href="#ai">六、AI 助手</a></li><li class="l2"><a href="#mcp">七、MCP 服务器（对外接口）</a></li><li class="l3"><a href="#71">7.1 定位与边界</a></li><li class="l3"><a href="#72">7.2 开启、端口与令牌</a></li><li class="l3"><a href="#73">7.3 写操作开关</a></li><li class="l3"><a href="#74">7.4 客户端配置</a></li><li class="l3"><a href="#75-ai">7.5 不想手动配：把这份文档发给 AI</a></li><li class="l3"><a href="#76">7.6 工具清单</a></li><li class="l3"><a href="#77">7.7 报错与排查</a></li><li class="l2"><a href="#_6">八、数据、备份与迁移</a></li><li class="l2"><a href="#_7">九、快捷键与托盘</a></li><li class="l2"><a href="#_8">十、已知限制</a></li><li class="l2"><a href="#a">附录 A：目录与文件位置</a></li><li class="l2"><a href="#b">附录 B：导入与导出格式</a></li></ul>
+  </aside>
+  <article>
+    <blockquote>
+<p><strong>版本</strong> 1.3.3　|　<strong>平台</strong> Windows 10 / 11 桌面版</p>
+<p>本文是按模块组织的产品文档：每个模块讲清它的位置、作用、页面构成、数据来源、操作路径和输出，再补全局能力与设置项。查具体功能看第二章起，想先了解整体看第一章。</p>
+</blockquote>
+<h2 id="_1">一、产品是什么</h2>
+<h3 id="11">1.1 一句话</h3>
+<p>备题达是一个本地优先的全学科教学工作台：把备课、出题、讲评、记忆管理放在一处，数据存在本机，离线可用。</p>
+<p>它做的四件事：<strong>备课</strong>（教参 → 教案）、<strong>出题</strong>（题库 → 卷子）、<strong>讲评</strong>（成绩 → 薄弱点）、<strong>记忆</strong>（卡片 → 间隔复习）。</p>
+<p>它不做的事，写在第十章。</p>
+<h3 id="12">1.2 日常三类活，分别落在哪几个模块</h3>
+<table>
+<thead>
+<tr>
+<th>你要做的事</th>
+<th>主要模块</th>
+<th>配套模块</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>备一节课</td>
+<td>备课中心</td>
+<td>教材教参、题库（课内对接）、单元教学</td>
+</tr>
+<tr>
+<td>出一份卷</td>
+<td>题库 → 组卷台</td>
+<td>专项训练、学情与讲评</td>
+</tr>
+<tr>
+<td>考完讲评</td>
+<td>学情与讲评</td>
+<td>题库（原题回看）、组卷台（投影）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="13">1.3 界面骨架</h3>
+<table>
+<thead>
+<tr>
+<th>区域</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>顶栏</td>
+<td>左侧产品名与版本，右上角「设置」</td>
+</tr>
+<tr>
+<td>侧栏</td>
+<td>三组导航，见 1.4</td>
+</tr>
+<tr>
+<td>内容区</td>
+<td>当前模块的页面</td>
+</tr>
+<tr>
+<td>组卷篮抽屉</td>
+<td>右侧滑出（Ctrl + B），跨页面累积选题</td>
+</tr>
+<tr>
+<td>助手面板</td>
+<td>右下角，AI 对话，能读当前页面的上下文</td>
+</tr>
+<tr>
+<td>托盘</td>
+<td>关窗不退出，程序留在任务栏托盘</td>
+</tr>
+</tbody>
+</table>
+<h3 id="14">1.4 侧栏结构</h3>
+<table>
+<thead>
+<tr>
+<th>分组</th>
+<th>模块</th>
+<th>用在什么时候</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>备课</td>
+<td>工作台、备课中心、单元结构导入、单元教学、教材教参、导学案、校历</td>
+<td>上课之前：找内容、写教案、排课时</td>
+</tr>
+<tr>
+<td>题库与出题</td>
+<td>题库、学情与讲评、组卷台、专项训练、记忆模块</td>
+<td>出卷、练卷、考后讲评</td>
+</tr>
+<tr>
+<td>资料与帮助</td>
+<td>数据与备份、素材库、使用说明</td>
+<td>导入素材、备份数据、查说明</td>
+</tr>
+</tbody>
+</table>
+<p>这一版不绑定学科与学段：册次、单元、题型的叫法都用通用词（「教学内容」而不是「课文」）。<strong>零预置数据</strong>——第一次用需要自己导入内容。</p>
+<h3 id="15">1.5 全局能力</h3>
+<table>
+<thead>
+<tr>
+<th>能力</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>命令面板</td>
+<td><code>Ctrl + K</code> 或 <code>/</code>，搜页面名、教学内容、题目、考点，Enter 打开</td>
+</tr>
+<tr>
+<td>组卷篮</td>
+<td><code>Ctrl + B</code> 开关抽屉，跨页面保留，题以「ref」标识</td>
+</tr>
+<tr>
+<td>投影讲评模式</td>
+<td>全屏逐题，<code>←</code> <code>→</code> 翻题，<code>空格</code> 揭示答案与解析</td>
+</tr>
+<tr>
+<td>导出</td>
+<td>试卷与教案导出 <code>.docx</code>，版式已排好，Word 里微调即可</td>
+</tr>
+<tr>
+<td>撤销</td>
+<td>普通写操作 <code>Ctrl + Z</code> 撤销</td>
+</tr>
+<tr>
+<td>更新检查</td>
+<td>启动时检查，有新版提示；「更新日志」看历次改动</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_2">二、模块参考 · 备课</h2>
+<h3 id="21">2.1 工作台</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>位置</td>
+<td>侧栏 → 备课 → 工作台</td>
+</tr>
+<tr>
+<td>作用</td>
+<td>打开应用后的第一屏：进度、待办、最近改动</td>
+</tr>
+<tr>
+<td>页面构成</td>
+<td>概览卡片组 + 快捷入口</td>
+</tr>
+</tbody>
+</table>
+<p><strong>数据来源</strong>：教学进度（校历与单元安排）、最近打开记录、组卷篮状态。</p>
+<h3 id="22">2.2 备课中心</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>位置</td>
+<td>侧栏 → 备课 → 备课中心</td>
+</tr>
+<tr>
+<td>作用</td>
+<td>一次课从看要点到教案成稿，全在这一页</td>
+</tr>
+<tr>
+<td>页面构成</td>
+<td>顶部册次/内容选择器 + 左「教参要点」/ 中「展·探·练教案」/ 右「课内对接题目」</td>
+</tr>
+</tbody>
+</table>
+<p><strong>数据来源</strong>：教材教参（你自己导入的课时条目）+ 题库（课内对接的题）。</p>
+<p><strong>操作路径</strong>：选择教学内容 → 改教案骨架 → 课内对接/当堂检测 → 导出 <code>.docx</code></p>
+<p><strong>三栏各自干什么</strong>：</p>
+<ul>
+<li>左：这次课的要点，用来判断重点落在哪。</li>
+<li>中：教案骨架按「导入 — 展开 — 探究 — 练习」四段排。</li>
+<li>右：把题库里对得上的题挂进对应环节。</li>
+</ul>
+<p><strong>输出</strong>：教案 <code>.docx</code>；课内对接部分可进「投影讲评模式」当堂讲。</p>
+<p><strong>注意</strong>：选择器里选不到东西，说明内容库还是空的，先去 2.3 导入。</p>
+<h3 id="23">2.3 单元结构导入</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>位置</td>
+<td>侧栏 → 备课 → 单元结构导入</td>
+</tr>
+<tr>
+<td>作用</td>
+<td>批量建立课程结构（单元 → 教学内容）</td>
+</tr>
+<tr>
+<td>页面构成</td>
+<td>粘贴区 + 预览 + 导入</td>
+</tr>
+</tbody>
+</table>
+<p><strong>输入格式</strong>：一行一条。单元名单独一行，条目写成「1 集合的含义与表示」，序号自动识别。</p>
+<p><strong>册次命名由你定</strong>：「上册」「必修一」「模块一」都行，后续筛选按这个走。建议一套命名从头用到尾，中途换会分裂成两组。</p>
+<p><strong>注意</strong>：导入是新建，不覆盖。重复导入同一册会出现两份结构。</p>
+<h3 id="24">2.4 单元教学</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>位置</td>
+<td>侧栏 → 备课 → 单元教学</td>
+</tr>
+<tr>
+<td>作用</td>
+<td>以单元为单位看整体安排</td>
+</tr>
+<tr>
+<td>页面构成</td>
+<td>单元目标、课时分配、读写任务、作业配置</td>
+</tr>
+</tbody>
+</table>
+<p><strong>操作路径</strong>：看单元目标与课时 → 逐课备课 → 单元检测组卷 → 导出单元设计</p>
+<h3 id="25">2.5 教材教参</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>位置</td>
+<td>侧栏 → 备课 → 教材教参</td>
+</tr>
+<tr>
+<td>作用</td>
+<td>自己导入的课时条目 + 教参解读，可关联题目</td>
+</tr>
+<tr>
+<td>页面构成</td>
+<td>检索栏（名称/册次/单元）+ 条目列表 + 详情</td>
+</tr>
+</tbody>
+</table>
+<p><strong>数据来源</strong>：你自己导入的内容，<strong>无预置数据</strong>。所以这一页的价值取决于导入了多少——建议一次导一个学期，不要零散加。</p>
+<p><strong>用法</strong>：备课时查这次课有什么现成材料；或按册次、单元批量看。</p>
+<h3 id="26">2.6 导学案</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>位置</td>
+<td>侧栏 → 备课 → 导学案</td>
+</tr>
+<tr>
+<td>作用</td>
+<td>用一套模板走完一次课：预学、探究、当堂检测、作业</td>
+</tr>
+<tr>
+<td>页面构成</td>
+<td>四段式编辑区 + 选题入口</td>
+</tr>
+</tbody>
+</table>
+<p><strong>两种用法</strong>：</p>
+<ul>
+<li>从零写：选教学内容，按四段填。</li>
+<li>挂现成题：当堂检测与作业两段直接从题库选题。</li>
+</ul>
+<p><strong>输出</strong>：<code>.docx</code>，版式已排好。</p>
+<p><strong>关联</strong>：题来自 3.1；内容来自 2.5。</p>
+<h3 id="27">2.7 校历</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>位置</td>
+<td>侧栏 → 备课 → 校历</td>
+</tr>
+<tr>
+<td>作用</td>
+<td>课表与日程</td>
+</tr>
+<tr>
+<td>页面构成</td>
+<td>月 / 周 / 日三种视图 + 日程编辑</td>
+</tr>
+</tbody>
+</table>
+<p><strong>数据来源</strong>：先在设置里定学期起止，再按周排。</p>
+<p><strong>能记什么</strong>：课表、公开课、考试、调课、教研活动。</p>
+<p><strong>关联</strong>：MCP 的 <code>calendar_get</code> / <code>event_add</code> 读写这份数据。</p>
+<h3 id="28">2.8 知识点</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>位置</td>
+<td>侧栏 → 备课 → 知识点</td>
+</tr>
+<tr>
+<td>作用</td>
+<td>知识点的分类视图与题量分布</td>
+</tr>
+<tr>
+<td>页面构成</td>
+<td>知识点树 + 题量统计 + 双向细目</td>
+</tr>
+</tbody>
+</table>
+<p><strong>数据来源</strong>：题库里的题按知识点归类。</p>
+<p><strong>与题库的分工</strong>：题库是检索视图（按条件找题），知识点是分类视图（看结构、看分布）。两边同源。</p>
+<p><strong>用法</strong>：出卷前看主干考点分布，或做双向细目表。</p>
+<hr />
+<h2 id="_3">三、模块参考 · 题库与出题</h2>
+<h3 id="31">3.1 题库</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>位置</td>
+<td>侧栏 → 题库与出题 → 题库</td>
+</tr>
+<tr>
+<td>作用</td>
+<td>全库检索与选题入口</td>
+</tr>
+<tr>
+<td>页面构成</td>
+<td>筛选区 + 结果列表 + 单题详情</td>
+</tr>
+</tbody>
+</table>
+<p><strong>数据来源</strong>：<strong>初始为空</strong>。两条进数据的路：</p>
+<ol>
+<li>素材库导入：上传 Word、PDF、图片，或粘贴文本，系统自动切分成题。</li>
+<li>JSON 导入：结构化数据用，模板见「素材库 → 接口设置」。</li>
+</ol>
+<p><strong>筛选维度</strong>：年份、卷别、地区、考点、题型、难度、关键词。</p>
+<p><strong>操作路径</strong>：筛选题目 → 加入组卷篮（本页） → 组卷台 → 导出 <code>.docx</code></p>
+<p><strong>单题能看</strong>：题干、选项、答案、解析。可单题投影。</p>
+<h3 id="32">3.2 组卷台</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>位置</td>
+<td>侧栏 → 题库与出题 → 组卷台</td>
+</tr>
+<tr>
+<td>作用</td>
+<td>把组卷篮里的题排成一份可导出的卷子</td>
+</tr>
+<tr>
+<td>页面构成</td>
+<td>卷头设置 + 题目列表（可排序调分）+ 导出选项</td>
+</tr>
+</tbody>
+</table>
+<p><strong>操作路径</strong>：选题 → 组卷（本页） → 导出 Word → 打印/投影</p>
+<p><strong>自动完成的三件事</strong>：题号编号、分值统计、双向细目表。</p>
+<p><strong>可调项</strong>：题序、每题分值、是否附答案、是否附细目表、卷头字段。</p>
+<p><strong>输出</strong>：<code>.docx</code>；或直接进「投影讲评模式」。</p>
+<h3 id="33">3.3 专项训练</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>位置</td>
+<td>侧栏 → 题库与出题 → 专项训练</td>
+</tr>
+<tr>
+<td>作用</td>
+<td>单考点抽题，生成小练卷</td>
+</tr>
+<tr>
+<td>页面构成</td>
+<td>考点选择 + 题量 + 预览</td>
+</tr>
+</tbody>
+</table>
+<p><strong>操作路径</strong>：选考点（本页） → 抽题 → 导出 <code>.docx</code> / 投影 → 送组卷台</p>
+<p><strong>与组卷台的区别</strong>：组卷台做整卷，专项训练做单点突破。</p>
+<h3 id="34">3.4 记忆模块</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>位置</td>
+<td>侧栏 → 题库与出题 → 记忆模块</td>
+</tr>
+<tr>
+<td>作用</td>
+<td>自建卡片 + 间隔复习</td>
+</tr>
+<tr>
+<td>页面构成</td>
+<td>分类列表 + 卡片列表 + 复习界面</td>
+</tr>
+</tbody>
+</table>
+<p><strong>复习节奏</strong>：答对升一级（0 → 1 → 3 → 7 天），答错退回第一天。</p>
+<p><strong>默认分类</strong>：概念、公式、必背原文（可增删）。</p>
+<p><strong>建卡两种方式</strong>：单张录入；批量粘贴（一段文本一次切多张）。</p>
+<p><strong>关联</strong>：MCP 的 <code>memory_list</code> / <code>memory_add</code> 读写这份数据。</p>
+<h3 id="35">3.5 学情与讲评</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>位置</td>
+<td>侧栏 → 题库与出题 → 学情与讲评</td>
+</tr>
+<tr>
+<td>作用</td>
+<td>考后看数据，定讲评重点</td>
+</tr>
+<tr>
+<td>页面构成</td>
+<td>成绩录入 + 得分率 + 错题清单 + 薄弱考点</td>
+</tr>
+</tbody>
+</table>
+<p><strong>数据来源</strong>：你录入的考试成绩 + 题目与考点的对应关系。</p>
+<p><strong>错题回看</strong>：错题能回挂到题库原题，讲评时点开就是原题与解析。</p>
+<hr />
+<h2 id="_4">四、模块参考 · 资料与帮助</h2>
+<h3 id="41">4.1 素材库</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>位置</td>
+<td>侧栏 → 资料与帮助 → 素材库</td>
+</tr>
+<tr>
+<td>作用</td>
+<td>零门槛导入外部材料，并为导入接口提供设置入口</td>
+</tr>
+<tr>
+<td>页面构成</td>
+<td>上传区、分类归档列表、接口设置</td>
+</tr>
+</tbody>
+</table>
+<p><strong>数据来源</strong>：你自己上传的文件。存储在本地 IndexedDB，不受 localStorage 5 MB 限制，图片量大也放得下。</p>
+<p><strong>能导入什么</strong>：文字（直接粘贴）、Word、图片、PDF。系统按内容自动归类。</p>
+<p><strong>接口设置</strong>：篇目与试卷的批量导入入口也在这里，含 JSON 模板。格式见附录 B。</p>
+<p><strong>关联</strong>：导入的教学内容进教材教参，导入的题进题库。</p>
+<h3 id="42">4.2 数据与备份</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>位置</td>
+<td>侧栏 → 资料与帮助 → 数据与备份</td>
+</tr>
+<tr>
+<td>作用</td>
+<td>导出/导入全量数据，换机与防丢</td>
+</tr>
+<tr>
+<td>页面构成</td>
+<td>导出备份、导入恢复、缓存位置</td>
+</tr>
+</tbody>
+</table>
+<p><strong>数据在哪</strong>：全部存在本机。localStorage 存配置与结构化数据，IndexedDB 存素材与题索引。都不上传服务器。</p>
+<p><strong>三个动作</strong>：</p>
+<ul>
+<li><strong>导出备份</strong>：打包成 JSON。建议每周一次，或大改题库之前一次。</li>
+<li><strong>导入恢复</strong>：选备份文件覆盖当前数据，导入前有提示。</li>
+<li><strong>缓存位置</strong>：显示实际磁盘路径，可直接复制到资源管理器。</li>
+</ul>
+<p><strong>注意</strong>：备份不含 AI 接口 Key 与 ima 凭据，换机后要重填。</p>
+<h3 id="43">4.3 使用说明</h3>
+<p>应用内的简版说明：五分钟上手、功能一览、快捷键、数据来源。适合刚装好时看一遍。</p>
+<h3 id="44">4.4 插件与外观 / 更新日志</h3>
+<ul>
+<li><strong>插件与外观</strong>：装插件、调外观。插件可往侧栏加页面、往命令面板加命令。</li>
+<li><strong>更新日志</strong>：按版本倒序，每个版本改了什么。装新版后首次打开会弹一次本次更新。</li>
+</ul>
+<hr />
+<h2 id="_5">五、设置</h2>
+<p>「设置」有五个分页，都存在本机。</p>
+<h3 id="51">5.1 卷头信息</h3>
+<p>学校、学科、年级、班级、学期、姓名。</p>
+<p>导出的试卷与教案自动带上这几行。某项留空，那一行不打印——不需要的项直接空着，比事后在 Word 里删省事。</p>
+<h3 id="52-ai">5.2 AI 接口</h3>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>接口地址</td>
+<td>以 <code>/v1</code> 结尾，如 <code>https://api.deepseek.com/v1</code> 或本机网关 <code>http://127.0.0.1:3425/v1</code></td>
+</tr>
+<tr>
+<td>Key</td>
+<td>只存本机，不进备份、不上传</td>
+</tr>
+<tr>
+<td>模型</td>
+<td>接口支持的模型名</td>
+</tr>
+<tr>
+<td>协议</td>
+<td><code>chat/completions</code>（多数服务）或 <code>responses</code>（新接口/网关）</td>
+</tr>
+<tr>
+<td>推理强度</td>
+<td>推理型模型选「不推理」，否则输出额度常被思考过程吃掉</td>
+</tr>
+</tbody>
+</table>
+<p>填完点「测试」，能返回一句话即为连通。</p>
+<h3 id="53">5.3 外观</h3>
+<p>浅色 / 纸本 / 深色 / 跟随系统。即时生效，不改数据。</p>
+<h3 id="54-ima">5.4 ima 知识库</h3>
+<p>填 ima 的连接凭据。配好之后：应用内的 ima 检索可用，MCP 的 <code>ima_*</code> 四个工具也可用。不配不影响其他功能。</p>
+<h3 id="55-mcp">5.5 MCP</h3>
+<p>端口、令牌、写操作开关、连接状态。详见第七章。</p>
+<hr />
+<h2 id="ai">六、AI 助手</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>位置</td>
+<td>右下角助手面板</td>
+</tr>
+<tr>
+<td>作用</td>
+<td>在页面上下文里做加工：整理、改写、出题、分析</td>
+</tr>
+<tr>
+<td>数据来源</td>
+<td>当前页面的状态（正在看哪一课、筛了什么、组卷篮几道题）+ 你的提问</td>
+</tr>
+</tbody>
+</table>
+<p><strong>能读到的上下文</strong>：当前模块、选中的教学内容、题库筛选条件、组卷篮内容、记忆分类。所以直接说「按这个考点补两道题」它就知道「这个」指什么。</p>
+<p><strong>四类典型用法</strong>：</p>
+<ul>
+<li>备课：把教参要点压成三段、按展探练写教案骨架</li>
+<li>出题：按 45 分出卷、补一道 6 分主观题、把这题改成选择题</li>
+<li>讲评：按得分率分析薄弱考点、生成讲评提纲</li>
+<li>记忆：把一段文本整理成卡片</li>
+</ul>
+<p><strong>写操作要确认</strong>：AI 要往题库、组卷篮、记忆模块写东西时，先出待确认卡片，写明改什么，你点「执行」才落盘。写完可 <code>Ctrl + Z</code> 撤销。</p>
+<hr />
+<h2 id="mcp">七、MCP 服务器（对外接口）</h2>
+<p>前六章讲应用内的模块。这一章讲对外接口：让应用外的 AI 客户端直接读写库里的数据。</p>
+<h3 id="71">7.1 定位与边界</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>它是什么</td>
+<td>内置在本地的 MCP 服务器，把工作台的能力暴露成 23 个工具</td>
+</tr>
+<tr>
+<td>监听</td>
+<td>只监听 <code>127.0.0.1</code>，局域网与公网都连不进来</td>
+</tr>
+<tr>
+<td>依赖</td>
+<td>应用必须开着。数据在窗口里，窗口不在服务就没有意义</td>
+</tr>
+<tr>
+<td>与 AI 接口的区别</td>
+<td>AI 接口是「应用内调模型」，MCP 是「外部客户端调应用」</td>
+</tr>
+</tbody>
+</table>
+<h3 id="72">7.2 开启、端口与令牌</h3>
+<ol>
+<li>「设置 → MCP」，确认顶部显示<strong>服务运行中</strong>（默认随应用启动）。</li>
+<li>复制「带令牌的地址」。</li>
+<li>粘进客户端。</li>
+</ol>
+<p>地址形如：</p>
+<pre><code>http://127.0.0.1:47321/mcp?token=你的令牌
+</code></pre>
+<p>端口可在面板改，改完保存。令牌是 32 位十六进制随机串，只存本机。可点「重新生成令牌」，旧令牌立刻失效。</p>
+<p>令牌两种传法都认：URL 里的 <code>?token=</code>，或请求头 <code>Authorization: Bearer 你的令牌</code>。<code>/health</code> 免令牌，用来确认服务活着。</p>
+<h3 id="73">7.3 写操作开关</h3>
+<p>面板上「允许 AI 直接写入（跳过确认）」勾选框，<strong>默认关</strong>。</p>
+<ul>
+<li>关：写请求不落库，只在窗口出待确认卡片，你点了才写。</li>
+<li>开：直接执行，可 <code>Ctrl + Z</code> 撤销。</li>
+</ul>
+<p>写工具只有 6 个，其余都是读；读不受开关影响。</p>
+<h3 id="74">7.4 客户端配置</h3>
+<p>要填的只有两样：地址、令牌。格式各家不同。</p>
+<p><strong>Claude Desktop</strong> — <code>%APPDATA%\Claude\claude_desktop_config.json</code>：</p>
+<pre><code class="language-json">{
+  &quot;mcpServers&quot;: {
+    &quot;petita&quot;: {
+      &quot;type&quot;: &quot;http&quot;,
+      &quot;url&quot;: &quot;http://127.0.0.1:47321/mcp?token=你的令牌&quot;
+    }
+  }
+}
+</code></pre>
+<p>保存后完全退出（含托盘），再启动。</p>
+<p><strong>Cursor</strong> — 项目级 <code>&lt;项目&gt;/.cursor/mcp.json</code>，全局 <code>~/.cursor/mcp.json</code>，格式同上。</p>
+<p><strong>VS Code（GitHub Copilot Chat）</strong> — <code>.vscode/mcp.json</code>，键名从 <code>mcpServers</code> 换成 <code>servers</code>：</p>
+<pre><code class="language-json">{
+  &quot;servers&quot;: {
+    &quot;petita&quot;: { &quot;type&quot;: &quot;http&quot;, &quot;url&quot;: &quot;http://127.0.0.1:47321/mcp?token=你的令牌&quot; }
+  }
+}
+</code></pre>
+<p><strong>Claude Code</strong>：</p>
+<pre><code class="language-bash">claude mcp add --transport http petita &quot;http://127.0.0.1:47321/mcp?token=你的令牌&quot;
+claude mcp list
+</code></pre>
+<p><strong>WorkBuddy</strong> — <code>C:\Users\&lt;用户名&gt;\.workbuddy\mcp.json</code>。该文件里通常已有其他服务器，往 <code>mcpServers</code> 里加一段：</p>
+<pre><code class="language-json">{
+  &quot;mcpServers&quot;: {
+    &quot;petita&quot;: {
+      &quot;type&quot;: &quot;http&quot;,
+      &quot;url&quot;: &quot;http://127.0.0.1:47321/mcp&quot;,
+      &quot;headers&quot;: { &quot;Authorization&quot;: &quot;Bearer 你的令牌&quot; },
+      &quot;timeout&quot;: 30000
+    }
+  }
+}
+</code></pre>
+<p>三点：</p>
+<ul>
+<li><code>type</code> 写 <code>http</code>；若不认，改 <code>streamable-http</code> 再试。</li>
+<li>WorkBuddy 的条目习惯把令牌放 <code>headers</code> 而不是 URL，上面这样写是为与你已有条目一致。</li>
+<li>改完重启 WorkBuddy，它在启动时读一次配置。</li>
+</ul>
+<p><strong>Cherry Studio</strong> — 设置 → MCP 服务器 → 添加，类型 <code>streamableHttp</code>，URL 填带令牌地址。</p>
+<p><strong>Cline</strong> — 设置 → MCP Servers → Remote Servers，填名称与 URL，只认 http 类型。</p>
+<p><strong>Continue</strong> — <code>~/.continue/config.json</code>：</p>
+<pre><code class="language-json">{
+  &quot;mcpServers&quot;: [
+    { &quot;name&quot;: &quot;petita&quot;,
+      &quot;transport&quot;: { &quot;type&quot;: &quot;http&quot;, &quot;url&quot;: &quot;http://127.0.0.1:47321/mcp?token=你的令牌&quot; } }
+  ]
+}
+</code></pre>
+<p><strong>自建平台（Open WebUI、LibreChat 等）</strong> — 配置项名称各异，核心是 URL。要求单独填 Header 的，填 <code>Authorization: Bearer 你的令牌</code>，URL 里的 <code>?token=</code> 去掉。</p>
+<p><strong>只支持命令行的客户端</strong> — 需要一个 stdio → HTTP 的桥：</p>
+<pre><code class="language-javascript">#!/usr/bin/env node
+// stdio → HTTP 桥：把客户端 stdin 的每行转发给备题达
+const readline = require(&quot;readline&quot;);
+const URL = process.env.PETITA_URL || &quot;http://127.0.0.1:47321/mcp?token=你的令牌&quot;;
+
+readline.createInterface({ input: process.stdin }).on(&quot;line&quot;, async (line) =&gt; {
+  if (!line.trim()) return;
+  try {
+    const res = await fetch(URL, {
+      method: &quot;POST&quot;,
+      headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+      body: line,
+    });
+    process.stdout.write((await res.text()).trim() + &quot;\n&quot;);
+  } catch (e) {
+    process.stdout.write(JSON.stringify({
+      jsonrpc: &quot;2.0&quot;, id: null, error: { code: -32000, message: String(e) }
+    }) + &quot;\n&quot;);
+  }
+});
+</code></pre>
+<p>存成 <code>petita-bridge.js</code>，客户端里 command 填 <code>node</code>，参数填文件路径。</p>
+<p><strong>自己写 agent</strong> — 不需要 SDK：</p>
+<pre><code class="language-bash">BASE=&quot;http://127.0.0.1:47321/mcp?token=你的令牌&quot;
+
+curl -s &quot;$BASE&quot; -H &quot;Content-Type: application/json&quot; \
+  -d '{&quot;jsonrpc&quot;:&quot;2.0&quot;,&quot;id&quot;:1,&quot;method&quot;:&quot;initialize&quot;,&quot;params&quot;:{&quot;protocolVersion&quot;:&quot;2025-06-18&quot;,&quot;capabilities&quot;:{},&quot;clientInfo&quot;:{&quot;name&quot;:&quot;my-agent&quot;,&quot;version&quot;:&quot;0.1&quot;}}}'
+
+curl -s &quot;$BASE&quot; -H &quot;Content-Type: application/json&quot; \
+  -d '{&quot;jsonrpc&quot;:&quot;2.0&quot;,&quot;id&quot;:2,&quot;method&quot;:&quot;tools/list&quot;}'
+
+curl -s &quot;$BASE&quot; -H &quot;Content-Type: application/json&quot; \
+  -d '{&quot;jsonrpc&quot;:&quot;2.0&quot;,&quot;id&quot;:3,&quot;method&quot;:&quot;tools/call&quot;,&quot;params&quot;:{&quot;name&quot;:&quot;bank_stats&quot;,&quot;arguments&quot;:{}}}'
+</code></pre>
+<p><code>initialize</code> 必须第一个发；之后每次请求都是独立 POST，无会话 cookie。</p>
+<h3 id="75-ai">7.5 不想手动配：把这份文档发给 AI</h3>
+<p>配 JSON 对不熟悉的人来说是个坎。更省事的办法是让 AI 替你配。</p>
+<p>把这份文档（安装目录 <code>docs\产品文档.md</code>，或官网这一页）整段发给任意一个能改文件的 AI 助手，附一句话：</p>
+<blockquote>
+<p>按这份文档，帮我把备题达接到 WorkBuddy。令牌是 xxx，端口 47321。</p>
+</blockquote>
+<p>文档里路径、字段、JSON 结构都写全了，它照着做即可。要它直接动手，把文件路径一起给它：</p>
+<blockquote>
+<p>改 <code>C:\Users\&lt;用户名&gt;\.workbuddy\mcp.json</code>，按文档 7.4 的 WorkBuddy 那节加 petita。</p>
+</blockquote>
+<p>改完自己确认三件事：</p>
+<ol>
+<li>备题达「设置 → MCP」里出现「1 个客户端在线」</li>
+<li>客户端那边能看到 petita 的工具列表</li>
+<li>让它跑一次 <code>bank_stats</code>，能返回题库数字</li>
+</ol>
+<p>三件都成就算通了，不成看 7.7。</p>
+<h3 id="76">7.6 工具清单</h3>
+<p>共 23 个，17 读 + 6 写。</p>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>做什么</th>
+<th>读/写</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bank_search</code></td>
+<td>按关键词、考点、题型、难度检索题目</td>
+<td>读</td>
+</tr>
+<tr>
+<td><code>question_get</code></td>
+<td>取单题完整内容：题干、选项、答案、解析</td>
+<td>读</td>
+</tr>
+<tr>
+<td><code>lesson_get</code></td>
+<td>按名称取教学内容的原文、注释、要点</td>
+<td>读</td>
+</tr>
+<tr>
+<td><code>unit_get</code></td>
+<td>按册次与关键词取单元结构</td>
+<td>读</td>
+</tr>
+<tr>
+<td><code>paper_list</code></td>
+<td>列出已有试卷</td>
+<td>读</td>
+</tr>
+<tr>
+<td><code>bank_stats</code></td>
+<td>题库统计：总量、题型、考点分布</td>
+<td>读</td>
+</tr>
+<tr>
+<td><code>cart_get</code></td>
+<td>取当前组卷篮里的题</td>
+<td>读</td>
+</tr>
+<tr>
+<td><code>progress_get</code></td>
+<td>取教学进度与课时安排</td>
+<td>读</td>
+</tr>
+<tr>
+<td><code>profile_get</code></td>
+<td>取卷头信息</td>
+<td>读</td>
+</tr>
+<tr>
+<td><code>calendar_get</code></td>
+<td>取校历与日程</td>
+<td>读</td>
+</tr>
+<tr>
+<td><code>memory_list</code></td>
+<td>列出记忆卡片，可按分类、只看待复习</td>
+<td>读</td>
+</tr>
+<tr>
+<td><code>guide_list</code></td>
+<td>列出导学案，可按主题过滤</td>
+<td>读</td>
+</tr>
+<tr>
+<td><code>points_list</code></td>
+<td>列出知识点及其题量分布</td>
+<td>读</td>
+</tr>
+<tr>
+<td><code>subjects_list</code></td>
+<td>列出学科及其题型、卷面结构、记忆分类默认值</td>
+<td>读</td>
+</tr>
+<tr>
+<td><code>ima_search</code></td>
+<td>检索 ima 知识库</td>
+<td>读</td>
+</tr>
+<tr>
+<td><code>ima_list</code></td>
+<td>列出 ima 条目</td>
+<td>读</td>
+</tr>
+<tr>
+<td><code>ima_read</code></td>
+<td>读 ima 条目全文</td>
+<td>读</td>
+</tr>
+<tr>
+<td><code>cart_add</code></td>
+<td>加题到组卷篮</td>
+<td>写</td>
+</tr>
+<tr>
+<td><code>cart_remove</code></td>
+<td>从组卷篮移除</td>
+<td>写</td>
+</tr>
+<tr>
+<td><code>event_add</code></td>
+<td>加校历日程</td>
+<td>写</td>
+</tr>
+<tr>
+<td><code>memory_add</code></td>
+<td>新增记忆卡片</td>
+<td>写</td>
+</tr>
+<tr>
+<td><code>pref_append</code></td>
+<td>追加一条教学偏好</td>
+<td>写</td>
+</tr>
+<tr>
+<td><code>ima_import_paper</code></td>
+<td>从 ima 导入试卷到题库</td>
+<td>写</td>
+</tr>
+</tbody>
+</table>
+<p>不必记工具名，把意图说清楚，客户端自己挑。</p>
+<h3 id="77">7.7 报错与排查</h3>
+<p>按顺序查五项：应用是否在跑 → 端口是否一致 → 令牌是否完整 → 传输类型是否为 http → 面板里是否出现该客户端。</p>
+<p>面板上的「测试连接」会实跑一次工具列表，返回「连接正常，返回 23 个工具」说明服务侧无问题。</p>
+<table>
+<thead>
+<tr>
+<th>现象</th>
+<th>原因</th>
+<th>处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>401</code> 缺少或错误的访问令牌</td>
+<td>令牌没带或不对</td>
+<td>复制面板上的完整地址</td>
+</tr>
+<tr>
+<td><code>404</code></td>
+<td>路径写错</td>
+<td>结尾应为 <code>/mcp</code></td>
+</tr>
+<tr>
+<td>「备题达没有在运行」</td>
+<td>应用或窗口关了</td>
+<td>打开应用</td>
+</tr>
+<tr>
+<td>「工具执行超时（30 秒）」</td>
+<td>页面卡住</td>
+<td>切到应用窗口，等界面恢复</td>
+</tr>
+<tr>
+<td>工具列表为空</td>
+<td>握手未完成</td>
+<td>重启客户端</td>
+</tr>
+<tr>
+<td>只有部分工具</td>
+<td>客户端缓存旧列表</td>
+<td>断开重连</td>
+</tr>
+</tbody>
+</table>
+<p>端口冲突：<code>netstat -ano | findstr :47321</code> 查占用，面板换端口后重启客户端。</p>
+<hr />
+<h2 id="_6">八、数据、备份与迁移</h2>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>存储位置</td>
+<td>本机 WebView2 用户目录，localStorage + IndexedDB</td>
+</tr>
+<tr>
+<td>备份</td>
+<td>数据与备份 → 导出备份，得到 JSON</td>
+</tr>
+<tr>
+<td>迁移</td>
+<td>旧机导出、新机导入；AI Key 与 ima 凭据需重填</td>
+</tr>
+<tr>
+<td>清理缓存的风险</td>
+<td>清浏览器/WebView2 缓存会丢数据，清之前先备份</td>
+</tr>
+<tr>
+<td>多机共用</td>
+<td>不支持。数据在本机，MCP 也只监听本机</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_7">九、快捷键与托盘</h2>
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Ctrl + K</code> 或 <code>/</code></td>
+<td>命令面板</td>
+</tr>
+<tr>
+<td><code>Ctrl + B</code></td>
+<td>开关组卷篮抽屉</td>
+</tr>
+<tr>
+<td><code>Esc</code></td>
+<td>依次关闭 命令面板 → 组卷篮 → 侧栏</td>
+</tr>
+<tr>
+<td><code>←</code> <code>→</code></td>
+<td>投影讲评模式翻题</td>
+</tr>
+<tr>
+<td><code>空格</code></td>
+<td>投影讲评模式显示/隐藏答案</td>
+</tr>
+</tbody>
+</table>
+<p><strong>托盘</strong>：点右上角 × 不退出，收进任务栏托盘继续后台运行。要真正退出，从托盘图标右键退出。</p>
+<p>托盘驻留的意义：MCP 服务跟随程序进程，托盘还在，客户端就能连上。</p>
+<hr />
+<h2 id="_8">十、已知限制</h2>
+<ul>
+<li>仅 Windows 桌面版。移动端、网页版未提供。</li>
+<li>数据只在本机，不支持多设备同步或共享题库。</li>
+<li>单一数据库：一次只能打开一个数据目录，不做多库切换。</li>
+<li>通用版零预置数据，题库与教学内容需自行导入。</li>
+<li>无代码签名，首次运行 Windows 可能提示「未知发布者」。</li>
+<li>AI 输出质量取决于所接模型，工具只负责把上下文喂准。</li>
+</ul>
+<hr />
+<h2 id="a">附录 A：目录与文件位置</h2>
+<pre><code>%LOCALAPPDATA%\top.inkstain.petita.general\
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>位置</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>data\</code></td>
+<td>便携数据根，备份导出默认落这里</td>
+</tr>
+<tr>
+<td><code>mcp.json</code></td>
+<td>MCP 配置：端口、令牌、写开关</td>
+</tr>
+<tr>
+<td><code>docs\产品文档.md</code></td>
+<td>本文档</td>
+</tr>
+<tr>
+<td>WebView2 用户目录</td>
+<td>localStorage 与 IndexedDB 实际存储位置</td>
+</tr>
+</tbody>
+</table>
+<p>「设置 → 数据与备份 → 缓存位置」会显示实际磁盘路径。</p>
+<h2 id="b">附录 B：导入与导出格式</h2>
+<p><strong>导入</strong>：</p>
+<ol>
+<li>零门槛导入：素材库 → 导入教学内容 / 导入试卷，粘贴文本或上传 Word、PDF、图片，系统自动切分。</li>
+<li>JSON 导入：结构化数据用，模板见「素材库 → 接口设置」。</li>
+</ol>
+<p><strong>导出</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>格式</th>
+<th>自带内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>试卷</td>
+<td><code>.docx</code></td>
+<td>自动编号、分值统计、双向细目表</td>
+</tr>
+<tr>
+<td>教案</td>
+<td><code>.docx</code></td>
+<td>展·探·练骨架</td>
+</tr>
+<tr>
+<td>检测单</td>
+<td><code>.docx</code></td>
+<td>篇目与来源标注</td>
+</tr>
+<tr>
+<td>备份</td>
+<td><code>.json</code></td>
+<td>全量数据（不含 Key 与凭据）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>本文档随安装包放在安装目录 <code>docs\</code> 下，官网「MCP」章节提供在线版。</em></p>
+  </article>
+</div>
+<footer>
+  <div class="wrap f">
+    <span>备题达 · 全学科 · 全学段版</span>
+    <span>版本 1.3.3</span>
+    <span>23 个 MCP 工具</span>
+    <a href="./index.html">官网</a>
+    <a href="https://github.com/InkStain258/teaching-workspace-releases" target="_blank" rel="noreferrer">版本清单</a>
+  </div>
+</footer>
+</body>
+</html>
