@@ -1,0 +1,15 @@
+{
+  "product": "yuwen",
+  "branch": "yuwen",
+  "label": "备题达（语）",
+  "version": "6.2.1",
+  "published_at": "2026-11-14T21:40:14+08:00",
+  "file": "petita-yuwen-setup-6.2.1.exe",
+  "url": "https://raw.githubusercontent.com/InkStain258/teaching-workspace-releases/yuwen/petita-yuwen-setup-6.2.1.exe",
+  "size": 42249021,
+  "sha256": "513d37dd2f7f8c224ec5a4b2cbed8ecc2426d4b2d40499a9776ed798dd7eeb99",
+  "notes": [
+    "修两处字号越档；界面一致性检查扩展到内联样式"
+  ],
+  "min_version": ""
+}
