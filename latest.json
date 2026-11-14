@@ -1,0 +1,15 @@
+{
+  "product": "general",
+  "branch": "general",
+  "label": "备题达（通）",
+  "version": "2.2.1",
+  "published_at": "2026-11-14T21:44:31+08:00",
+  "file": "petita-general-setup-2.2.1.exe",
+  "url": "https://raw.githubusercontent.com/InkStain258/teaching-workspace-releases/general/petita-general-setup-2.2.1.exe",
+  "size": 41182050,
+  "sha256": "8660519a458c7d6b50d3997edaa12e89b690e094bdeda6084da4d1d367404aaa",
+  "notes": [
+    "修两处字号越档；界面一致性检查扩展到内联样式"
+  ],
+  "min_version": ""
+}
