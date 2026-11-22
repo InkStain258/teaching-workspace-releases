@@ -1,0 +1,18 @@
+{
+  "product": "yuwen",
+  "branch": "yuwen",
+  "label": "备题达（语）",
+  "version": "6.3.0",
+  "published_at": "2026-11-22T11:27:32+08:00",
+  "file": "petita-yuwen-setup-6.3.0.exe",
+  "url": "https://raw.githubusercontent.com/InkStain258/teaching-workspace-releases/yuwen/petita-yuwen-setup-6.3.0.exe",
+  "size": 42276781,
+  "sha256": "b2b8990d1aa88df43b81c014953d0e8092e5fccd9b2a7dc1c01ca51d57ee9a72",
+  "notes": [
+    "联网检索与审核台",
+    "按考点配卷与变式",
+    "设置页暗色可读性",
+    "外部 agent 协作增强"
+  ],
+  "min_version": ""
+}
