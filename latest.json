@@ -1,0 +1,18 @@
+{
+  "product": "general",
+  "branch": "general",
+  "label": "备题达（通）",
+  "version": "2.3.0",
+  "published_at": "2026-11-22T11:27:52+08:00",
+  "file": "petita-general-setup-2.3.0.exe",
+  "url": "https://raw.githubusercontent.com/InkStain258/teaching-workspace-releases/general/petita-general-setup-2.3.0.exe",
+  "size": 41209752,
+  "sha256": "9bbab79e745a62b53d4b9e09f3722c8969f0d816de1236c9103aacf24fb150ea",
+  "notes": [
+    "联网检索与审核台",
+    "按考点配卷与变式",
+    "设置页暗色可读性",
+    "外部 agent 协作增强"
+  ],
+  "min_version": ""
+}
