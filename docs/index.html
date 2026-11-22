@@ -784,7 +784,7 @@ h1::after{content:"";position:absolute;inset:-12% -8%;pointer-events:none;mix-bl
         <div class="meta"><span>版本 <b id="v-yuwen">读取中…</b></span><span>体积 <b id="s-yuwen">—</b></span><span>更新 <b id="d-yuwen">—</b></span></div>
         <div class="dlrow">
           <a class="dlbtn" id="dl-yuwen" href="https://github.com/InkStain258/teaching-workspace-releases/raw/yuwen/petita-yuwen-setup-6.3.0.exe">下载安装程序</a>
-          <a class="ghost" id="mir-yuwen" href="https://xingtong.inkstain.top/static/teaching/dl/petita-yuwen-setup-6.3.0.exe">国内加速下载</a>
+          <a class="ghost" id="mir-yuwen" href="https://github.com/InkStain258/teaching-workspace-releases/raw/yuwen/petita-yuwen-setup-6.3.0.exe" title="镜像同步中，暂时走官方直链">国内下载</a>
           <a class="ghost" href="https://github.com/InkStain258/teaching-workspace-releases/blob/yuwen/latest.json" target="_blank" rel="noreferrer">版本清单</a>
           <a class="ghost" href="verify.html">校验下载文件</a>
           <a class="ghost" href="terms-yuwen.html">安装须接受的协议</a>
@@ -798,7 +798,7 @@ h1::after{content:"";position:absolute;inset:-12% -8%;pointer-events:none;mix-bl
         <div class="meta"><span>版本 <b id="v-general">读取中…</b></span><span>体积 <b id="s-general">—</b></span><span>更新 <b id="d-general">—</b></span></div>
         <div class="dlrow">
           <a class="dlbtn" id="dl-general" href="https://github.com/InkStain258/teaching-workspace-releases/raw/general/petita-general-setup-2.3.0.exe">下载安装程序</a>
-          <a class="ghost" id="mir-general" href="https://xingtong.inkstain.top/static/teaching/dl/petita-general-setup-2.3.0.exe">国内加速下载</a>
+          <a class="ghost" id="mir-general" href="https://github.com/InkStain258/teaching-workspace-releases/raw/general/petita-general-setup-2.3.0.exe" title="镜像同步中，暂时走官方直链">国内下载</a>
           <a class="ghost" href="https://github.com/InkStain258/teaching-workspace-releases/blob/general/latest.json" target="_blank" rel="noreferrer">版本清单</a>
           <a class="ghost" href="verify.html">校验下载文件</a>
           <a class="ghost" href="terms-general.html">安装须接受的协议</a>
@@ -837,6 +837,8 @@ h1::after{content:"";position:absolute;inset:-12% -8%;pointer-events:none;mix-bl
   var RAW = "https://raw.githubusercontent.com/InkStain258/teaching-workspace-releases/";
   var MIRROR = "https://xingtong.inkstain.top/static/teaching/";
   var MIRROR_OK = null, MAN = {};
+  /* 镜像上实际存在的版本：与线上版本不一致时，链接一律走 GitHub 直链，避免 404 */
+  var MIRROR_VER = { yuwen: "6.2.1", general: "2.2.1" };
 
   /* —— 能力清单：按开发记录归纳，不取影片字幕（字幕是配图案例） —— */
   var GROUPS = [
@@ -942,8 +944,11 @@ h1::after{content:"";position:absolute;inset:-12% -8%;pointer-events:none;mix-bl
         .catch(function(e){ g.done(); reject(e); });
     });
   }
+  function mirrorHas(ch, m){
+    return MIRROR_OK === true && MIRROR_VER[ch] === m.version;
+  }
   function urlOf(ch, m){
-    return MIRROR_OK === false ? m.url : MIRROR + "dl/petita-" + ch + "-setup-" + m.version + ".exe";
+    return mirrorHas(ch, m) ? MIRROR + "dl/petita-" + ch + "-setup-" + m.version + ".exe" : m.url;
   }
   function applyLinks(){
     ["yuwen","general"].forEach(function(ch){
@@ -952,17 +957,24 @@ h1::after{content:"";position:absolute;inset:-12% -8%;pointer-events:none;mix-bl
       if(a){ a.href = urlOf(ch, m); }
       var mir = document.getElementById("mir-"+ch);
       if(mir){
-        mir.href = MIRROR + "dl/petita-" + ch + "-setup-" + m.version + ".exe";
-        mir.style.opacity = MIRROR_OK === false ? ".45" : "1";
-        mir.title = MIRROR_OK === false ? "镜像暂不可用" : "国内加速线路";
+        var has = mirrorHas(ch, m);
+        /* 镜像没有这个版本时，按钮退化为官方直链，不放死链 */
+        mir.href = has ? MIRROR + "dl/petita-" + ch + "-setup-" + m.version + ".exe" : m.url;
+        mir.style.opacity = has ? "1" : ".55";
+        mir.title = has ? "国内加速线路" : "镜像同步中，暂走 GitHub 直链";
       }
     });
+    paintLine();   // 清单到位后重画线路标签，避免显示与实际不符
   }
   function paintLine(){
     var tag = document.getElementById("line"); if(!tag) return;
-    var ok = MIRROR_OK === true, bad = MIRROR_OK === false;
+    var pend = (MAN.yuwen && MIRROR_VER.yuwen !== MAN.yuwen.version) ||
+               (MAN.general && MIRROR_VER.general !== MAN.general.version);
+    var ok = MIRROR_OK === true && !pend, bad = MIRROR_OK === false || pend;
     tag.className = "line-tag" + (ok ? " ok" : bad ? " bad" : "");
-    tag.querySelector("b").textContent = ok ? "已切到国内加速线路" : bad ? "镜像不可用 · 走 GitHub 直连" : "检测线路…";
+    tag.querySelector("b").textContent = ok ? "已切到国内加速线路"
+      : MIRROR_OK === false ? "镜像不可用 · 走 GitHub 直连"
+      : pend ? "镜像同步中 · 暂走 GitHub 直连" : "检测线路…";
   }
   function paint(ch, m){
     var v = document.getElementById("v-"+ch), s = document.getElementById("s-"+ch), d = document.getElementById("d-"+ch);
